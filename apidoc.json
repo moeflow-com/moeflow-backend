@@ -1,0 +1,11 @@
+{
+  "name": "萌翻 API 文档",
+  "version": "1.0.0",
+  "description": "",
+  "header": {
+    "title": "API约定",
+    "filename": "apidoc_header.md"
+  },
+  "title": "MoeFlow API Docs",
+  "url": "http://localhost:8000"
+}

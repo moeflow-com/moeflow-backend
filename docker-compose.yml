@@ -1,0 +1,89 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:4.4.1
+    container_name: moeflow-mongo
+    restart: always
+    ports:
+      - '127.0.0.1:27017:27017'
+    volumes:
+      - ${DATA_DIR}/mongo/db:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASS}
+    networks: 
+      - default
+
+  rabbitmq:
+    image: rabbitmq:3.8.9-management
+    container_name: moeflow-rabbitmq
+    restart: always
+    ports:
+      - '127.0.0.1:5672:5672'
+      - '127.0.0.1:15672:15672'
+    volumes:
+      - ${DATA_DIR}/rabbitmq:/var/lib/rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
+    hostname: rabbitmq-1
+    networks: 
+      - default
+
+  moeflow-backend:
+    image: moeflow-com/moeflow-backend:${TAG_NAME}
+    container_name: moeflow-backend
+    restart: always
+    ports:
+      - '127.0.0.1:5000:5000'
+    links:
+      - 'mongo'
+      - 'rabbitmq'
+    volumes:
+      - ${WORKSPACE_DIR}/env_files:/app/env_files
+    environment:
+      CONFIG_PATH: '/app/config.py'
+    env_file:
+      - .env
+    networks: 
+      - default
+    command: gunicorn -t 120 -w 4 -b 0.0.0.0:5000 "app:create_app()"
+
+  moeflow-celery-default:
+    image: moeflow-com/moeflow-backend:${TAG_NAME}
+    container_name: moeflow-celery-default
+    restart: always
+    links:
+      - 'mongo'
+      - 'rabbitmq'
+    volumes:
+      - ${WORKSPACE_DIR}/env_files:/app/env_files
+    environment:
+      CONFIG_PATH: '/app/config.py'
+    env_file:
+      - .env
+    networks: 
+      - default
+    command: celery -A app.celery worker -n default --loglevel=info
+
+  moeflow-celery-output:
+    image: moeflow-com/moeflow-backend:${TAG_NAME}
+    container_name: moeflow-celery-output
+    restart: always
+    links:
+      - 'mongo'
+      - 'rabbitmq'
+    volumes:
+      - ${WORKSPACE_DIR}/env_files:/app/env_files
+    environment:
+      CONFIG_PATH: '/app/config.py'
+    env_file:
+      - .env
+    networks: 
+      - default
+    command: celery -A app.celery worker -Q output -n output --loglevel=info
+
+networks:
+  default:
+    name: moeflow-backend

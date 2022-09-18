@@ -1,0 +1,25 @@
+Flask==1.1.0
+Jinja2==3.0.3
+itsdangerous==2.0.1
+werkzeug==2.0.2
+flask-apikit==0.0.6
+gunicorn==20.0.4  # 生产环境服务器
+pytest==6.1.1  # 测试框架
+pytest-cov==2.7.1  # 测试覆盖率
+pytest-xdist==1.29.0  # 并发测试支持
+flake8==3.8.4  # 代码质量检测
+black==19.10b0  # 代码格式化
+flask-babel==1.0.0  # i18n
+mongoengine==0.20.0  # Mongo数据库
+Pillow==8.0.1  # 图片处理
+marshmallow==3.0.0b8  # 字段验证
+requests==2.22.0  # HTTP请求
+oss2==2.7.0  # 阿里云OSS
+celery==5.0.1  # 任务调度
+flower==0.9.5  # Celery监控
+redis==3.2.1  # Redis数据库
+chardet==3.0.4  # 文件编码预测
+aliyun-python-sdk-core-v3==2.13.3  # 用于签发阿里云pip
+click==7.0  # 命令行工具
+# aliyun-python-sdk-green==3.2.0  # 阿里云内容检测（暂时用不到）
+google-cloud-storage==1.33.0
