@@ -75,6 +75,7 @@ var I18n;
     I18n.ERROR_HAVE_NO_MATCH_IMG = "存在无法匹配的图源文件，请重新检查！";
     I18n.ERROR_PRESET_TEMPLATE_NOT_FOUND = "无法自动匹配模板文件，请确认脚本所在目录是否存在ps_script_res目录";
     I18n.ERROR_TEXT_REPLACE_EXPRESSION = "文本替换表达式解析错误，请检查！";
+    I18n.ERROR_OPT_FONT_NOT_FOUND = "找不到配置中保存的字体";
     if (!(app.locale in { "zh_CN": 1, "zh_TW": 1, "zh_HK": 1 })) {
         I18n.BUTTON_RUN = "Run";
         I18n.BUTTON_CANCEL = "Cancel";
@@ -131,11 +132,12 @@ var I18n;
         I18n.ERROR_HAVE_NO_MATCH_IMG = "Some image files did not match, please check again.";
         I18n.ERROR_PRESET_TEMPLATE_NOT_FOUND = "Cannot match template file, please make sure \"ps_script_res\" folder exsit.";
         I18n.ERROR_TEXT_REPLACE_EXPRESSION = "Expression of text replacing is wrong, please check again.";
+        I18n.ERROR_OPT_FONT_NOT_FOUND = "Cannot found the font";
     }
 })(I18n || (I18n = {}));
 var LabelPlus;
 (function (LabelPlus) {
-    LabelPlus.VERSION = "1.7.2";
+    LabelPlus.VERSION = "1.7.3";
 })(LabelPlus || (LabelPlus = {}));
 var LabelPlus;
 (function (LabelPlus) {
@@ -14303,8 +14305,12 @@ var LabelPlus;
                     }
                     else {
                         pnl.setFontCheckBox.value = true;
-                        pnl.font.family.selection = pnl.font.family.find(opts.font);
-                        pnl.font.fontSize.text = opts.fontSize;
+                        try {
+                            pnl.font.setFont(opts.font, opts.fontSize);
+                        }
+                        catch (e) {
+                            alert(I18n.ERROR_OPT_FONT_NOT_FOUND + ' ' + opts.font);
+                        }
                     }
                     LabelPlus.Emit(pnl.setFontCheckBox.onClick);
                 }
