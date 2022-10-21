@@ -8,7 +8,7 @@ from os import environ as env
 # 基础设置
 # -----------
 APP_NAME = "moeflow"
-APP_VERSION = "1.0.1010"
+APP_VERSION = "1.0.1"
 APP_SITE_NAME = env.get("APP_SITE_NAME", "萌翻")
 APP_SITE_URL = env.get("APP_SITE_URL") # 配置前端域名（邮件和首页跳转会用到）
 SECRET_KEY = env["SECRET_KEY"] # 必填 - 密钥

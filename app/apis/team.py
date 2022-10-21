@@ -27,7 +27,6 @@ from app.validators.project import ProjectSetsSchema
 
 def getLanguageByCode(code):
     lang = Language.by_code(code)
-    print(lang)
     return lang.id
 
 

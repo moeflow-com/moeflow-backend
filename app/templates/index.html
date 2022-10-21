@@ -11,9 +11,9 @@
     <noscript>
       <strong>很抱歉，如果没有 JavaScript 支持， {{ site_name }} 将不能正常工作。请启用浏览器的 JavaScript 然后继续。</strong>
     </noscript>
-    <div id="app">
+    <div id="root">
       <style>
-        #app {
+        #root {
           position: absolute;
           top: 0;
           left: 0;
@@ -33,6 +33,7 @@
         <h1>{{ site_name }}</h1>
         <p>没有找到首页文件！</p>
       </div>
+      <!-- 这个页面是前后端合并部署保留的首页文件，用前端编译过的index.html文件直接覆盖即可。 -->
     </div>
   </body>
 </html>
