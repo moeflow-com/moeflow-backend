@@ -2,6 +2,7 @@ from app.exceptions.auth import UserNotExistError
 from app.exceptions.project import ProjectNotExistError
 from typing import List
 from app.models.user import User
+from app.models.language import Language
 from flask import request, current_app
 from flask_babel import gettext
 
@@ -23,6 +24,11 @@ from app.validators.team import CreateTeamSchema, EditTeamSchema
 from flask_apikit.utils import QueryParser
 from app.models.project import ProjectRole, ProjectSet, ProjectUserRelation
 from app.validators.project import ProjectSetsSchema
+
+def getLanguageByCode(code):
+    lang = Language.by_code(code)
+    print(lang)
+    return lang.id
 
 
 class TeamListAPI(MoeAPIView):

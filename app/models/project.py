@@ -936,7 +936,7 @@ class Project(GroupMixin, Document):
             + gettext("框外")
             + "\r\n"
             + "-\r\n"
-            + gettext("由 MoeFlow.com 导出")
+            + gettext("由 {sitename} 导出").format(sitename=current_app.config.get("APP_SITE_NAME"))
             + "\r\n"  # 注释
         )
         # 遍历所有图片

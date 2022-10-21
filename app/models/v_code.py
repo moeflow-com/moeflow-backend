@@ -5,7 +5,7 @@ import random
 from io import BytesIO
 from typing import Literal, NoReturn, Union
 
-from flask import current_app
+from flask import current_app, url_for
 from flask_babel import gettext
 from mongoengine import DateTimeField, Document, IntField, StringField
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
@@ -312,6 +312,9 @@ class VCode(Document):
         }
         if self.type not in email_subject_dict or self.type not in email_template_dict:
             raise RuntimeError("VCode({}) don't have email template".format(self.type))
+        site_url = current_app.config.get("APP_SITE_URL")
+        if (site_url is None):
+            site_url = url_for('.index', _external=True)
         if current_app.config["DEBUG"] or current_app.config["TESTING"]:
             self.to_log("email", address)
         else:
@@ -319,7 +322,11 @@ class VCode(Document):
                 to_address=address,
                 subject=email_subject_dict[self.type],
                 template=email_template_dict[self.type],
-                template_data={"code": self.content},
+                template_data={
+                    'code': self.content,
+                    'site_name': current_app.config.get("APP_SITE_NAME"),
+                    'site_url': site_url
+                },
             )
         self.send_time = datetime.datetime.utcnow()
         self.save()

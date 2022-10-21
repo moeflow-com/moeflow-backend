@@ -50,6 +50,12 @@ def create_app():
     # 初始化插件
     babel.init_app(app)
     apikit.init_app(app)
+    # 在返回的头部信息中添加"Api-Version"头
+    @app.after_request
+    def after_request(resp):
+        resp.headers["X-Api-Version"] = '{} Version:{}'.format(app.config['APP_NAME'], app.config['APP_VERSION'])
+        return resp
+    
     logger.info("-" * 50)
     logger.info("站点支持语言: " + str([str(i) for i in babel.list_translations()]))
     oss.init(app.config)  # 文件储存

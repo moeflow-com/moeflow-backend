@@ -53,6 +53,7 @@ class OSS:
         self.bucket = oss2.Bucket(
             self.auth, config["OSS_ENDPOINT"], config["OSS_BUCKET_NAME"],
         )
+        
         self.oss_domain = config["OSS_DOMAIN"]
         self.oss_via_cdn = config["OSS_VIA_CDN"]
         self.cdn_url_key = config["CDN_URL_KEY_A"]
@@ -120,6 +121,7 @@ class OSS:
         params=None,
         method="GET",
         oss_domain=None,
+        download=False
     ):
         """
         通过 OSS 的 URL 签名生成可以访问的 URL，默认使用配置中用户自定义的 OSS 域名
@@ -131,6 +133,10 @@ class OSS:
         # 如果没有指定oss_domain，则使用配置中的OSS_DOMAIN
         if oss_domain is None:
             oss_domain = self.oss_domain
+        if params is None:
+            params = {}
+        if download:
+            params['response-content-disposition']='attachment'
         key = to_string(path + filename)
         req = oss2.http.Request(
             method, oss_domain + key, headers=headers, params=params

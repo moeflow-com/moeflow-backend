@@ -3,7 +3,8 @@
 {{_('2、如果是您申请的，您的解除安全邮箱验证码如下：')}}
 {{code}}
 {{_('敬礼')}}
-{{_('萌翻保洁部')}}
-MoeFlow.com
+{{ _('{site_name}').format(site_name=site_name) }}
+{{ _('本站地址：') }}
+{{ site_url }}
 
 

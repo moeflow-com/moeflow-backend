@@ -2,6 +2,7 @@ from marshmallow import Schema, fields, post_load, validates_schema
 
 from app.exceptions import ProjectSetNotExistError, LanguageNotExistError
 from app.models.project import Project, ProjectSet
+from app.models.language import Language
 from app.constants.project import ProjectStatus
 from app.constants.role import RoleType
 from app.constants.output import OutputTypes
@@ -86,11 +87,11 @@ class CreateProjectSchema(Schema):
         required=True, validate=[object_id], error_messages={**required_message},
     )
     source_language = fields.Str(
-        required=True, validate=[object_id], error_messages={**required_message},
+        required=True, validate=[need_in(Language.codes())], error_messages={**required_message},
     )
     target_languages = fields.List(
         fields.Str(
-            required=True, validate=[object_id], error_messages={**required_message},
+            required=True, validate=[need_in(Language.codes())], error_messages={**required_message}
         ),
         required=True,
     )
@@ -123,12 +124,12 @@ class CreateProjectSchema(Schema):
         in_data["project_set"] = project_set
         # 获取源语言
         try:
-            in_data["source_language"] = Language.by_id(in_data["source_language"])
+            in_data["source_language"] = Language.by_code(in_data["source_language"])
         except LanguageNotExistError as e:
             raise ValidationError(e.message, field_names="source_language")
         # 获取目标语言
         try:
-            in_data["target_languages"] = Language.by_ids(in_data["target_languages"])
+            in_data["target_languages"] = Language.by_codes(in_data["target_languages"])
         except LanguageNotExistError as e:
             raise ValidationError(e.message, field_names="target_languages")
         return in_data
@@ -197,13 +198,13 @@ class CreateProjectTargetSchema(Schema):
     """创建项目目标验证器"""
 
     language = fields.Str(
-        required=True, validate=[object_id], error_messages={**required_message},
+        required=True, validate=[need_in(Language.codes())], error_messages={**required_message},
     )
 
     @post_load
     def to_model(self, in_data):
         """通过id获取模型，以供直接使用"""
-        in_data["language"] = Language.by_id(in_data["language"])
+        in_data["language"] = Language.by_code(in_data["language"])
         return in_data
 
 
