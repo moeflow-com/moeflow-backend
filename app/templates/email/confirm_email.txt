@@ -1,7 +1,8 @@
-{{ _('欢迎来到萌翻！') }}
+{{ _('欢迎来到{site_name}！').format(site_name=site_name) }}
 {{ _('以下是核验您安全邮箱的验证码：') }}
 {{ code }}
-{{ _('如您没有注册萌翻账号，请忽略此邮件。') }}
+{{ _('如您没有注册{site_name}账号，请忽略此邮件。').format(site_name=site_name) }}
 {{ _('敬礼') }}
-{{ _('萌翻保洁部') }}
-MoeFlow.com
+{{ _('{site_name}').format(site_name=site_name) }}
+{{ _('本站地址：') }}
+{{ site_url }}

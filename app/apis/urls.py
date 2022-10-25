@@ -1,4 +1,5 @@
 from flask import Blueprint
+import os
 
 from app.apis.application import ApplicationAPI, ApplicationListAPI
 from app.apis.file import (
@@ -60,7 +61,7 @@ from app.apis.target import TargetAPI
 
 v1_prefix = "/v1"
 # api主页
-index = Blueprint("index", __name__)
+index = Blueprint("index", __name__, static_folder="static")
 index.add_url_rule("/", methods=["GET", "OPTIONS"], view_func=IndexAPI.as_view("index"))
 index.add_url_rule(
     "/ping", methods=["GET", "OPTIONS"], view_func=PingAPI.as_view("ping")

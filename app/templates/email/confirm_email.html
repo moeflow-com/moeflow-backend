@@ -1,6 +1,6 @@
 <div style="width: 100%;">
     <div style="max-width: 600px;margin: 0 auto;text-align: center;">
-        <h2>{{ _('欢迎来到萌翻！') }}</h2>
+        <h2>{{ _('欢迎来到{site_name}！').format(site_name=site_name) }}</h2>
 
         <p>
             {{ _('以下是核验您安全邮箱的验证码：') }}
@@ -8,14 +8,12 @@
             {{ code }}
             <br>
         </p>
-        {{ _('如您没有注册萌翻账号，请忽略此邮件。') }}
+        {{ _('如您没有注册{site_name}账号，请忽略此邮件。').format(site_name=site_name) }}
         <p>{{ _('敬礼') }}</p>
 
         <p>
-            <br>
-            {{ _('萌翻保洁部') }}
-            <br>
-            MoeFlow.com
+            <hr />
+            <a href="{{site_url}}" target="_blank">{{ _('{site_name}').format(site_name=site_name) }}</a>
         </p>
     </div>
 </div>

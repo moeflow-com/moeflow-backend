@@ -93,7 +93,7 @@ def output_project_task(output_id):
             file_ids_include=file_ids_include,
             file_ids_exclude=file_ids_exclude,
         )
-        with open(zip_translations_txt_path, "w") as txt:
+        with open(zip_translations_txt_path, "w", encoding='utf-8') as txt:
             txt.write(labelplus)
         if type == OutputTypes.ONLY_TEXT:
             # 上传txt到oss

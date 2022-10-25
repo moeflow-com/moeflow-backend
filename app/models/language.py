@@ -861,6 +861,18 @@ class Language(Document):
         return language
 
     @classmethod
+    def by_codes(cls, codes: List[str]) -> List["Language"]:
+        # codes 去重
+        codes = list(set(codes))
+        languages = cls.objects(code__in=codes)
+        languages_count = languages.count()
+        # 未找到语言 或 缺少语言
+        if languages_count == 0 or languages_count != len(codes):
+            raise LanguageNotExistError
+        return languages
+
+
+    @classmethod
     def get(cls) -> QuerySet:
         """返回所有语言"""
         return cls.objects(code__ne="").order_by("sort")
@@ -868,6 +880,10 @@ class Language(Document):
     @classmethod
     def ids(cls) -> List[str]:
         return [str(id) for id in cls.get().scalar("id")]
+
+    @classmethod
+    def codes(cls) -> List[str]:
+        return [str(code) for code in cls.get().scalar("code")]
 
     def clear(self) -> None:
         """禁止删除语言"""

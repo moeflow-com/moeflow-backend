@@ -2,7 +2,7 @@ import os
 
 from celery import Celery
 from celery.signals import worker_shutting_down
-from flask import Flask, g, request
+from flask import Flask, g, request, render_template
 from flask_apikit import APIKit
 from flask_babel import Babel
 
@@ -50,6 +50,19 @@ def create_app():
     # 初始化插件
     babel.init_app(app)
     apikit.init_app(app)
+    # 在返回的头部信息中添加"Api-Version"头
+    @app.after_request
+    def after_request(resp):
+        resp.headers["X-Api-Version"] = '{} Version:{}'.format(app.config['APP_NAME'], app.config['APP_VERSION'])
+        return resp
+    # 增加404重定向到首页写法，保证合并版本的前端History路由能正常使用。
+    @app.errorhandler(404)
+    def page_not_found(error):
+        tpl_data = {
+            'site_name': app.config.get("APP_SITE_NAME")
+        }
+        return render_template("index.html", **tpl_data)
+    
     logger.info("-" * 50)
     logger.info("站点支持语言: " + str([str(i) for i in babel.list_translations()]))
     oss.init(app.config)  # 文件储存

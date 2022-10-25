@@ -98,11 +98,11 @@ class Output(Document):
         if self.status == OutputStatus.SUCCEEDED:
             data["link"] = (
                 oss.sign_url(
-                    current_app.config["OSS_OUTPUT_PREFIX"], str(self.id) + ".zip"
+                    current_app.config["OSS_OUTPUT_PREFIX"], str(self.id) + ".zip", download=True
                 )
                 if self.type == OutputTypes.ALL
                 else oss.sign_url(
-                    current_app.config["OSS_OUTPUT_PREFIX"], str(self.id) + ".txt"
+                    current_app.config["OSS_OUTPUT_PREFIX"], str(self.id) + ".txt", download=True
                 )
             )
         return data

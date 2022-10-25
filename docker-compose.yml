@@ -44,6 +44,8 @@ services:
       - ${WORKSPACE_DIR}/env_files:/app/env_files
     environment:
       CONFIG_PATH: '/app/config.py'
+      RABBITMQ_URL: amqp://${RABBITMQ_USER}:${RABBITMQ_PASS}@rabbitmq:5672
+      MONGODB_URL: mongodb://${MONGO_USER}:${MONGO_PASS}@mongo:27017
     env_file:
       - .env
     networks: 
@@ -61,6 +63,8 @@ services:
       - ${WORKSPACE_DIR}/env_files:/app/env_files
     environment:
       CONFIG_PATH: '/app/config.py'
+      RABBITMQ_URL: amqp://${RABBITMQ_USER}:${RABBITMQ_PASS}@rabbitmq:5672
+      MONGODB_URL: mongodb://${MONGO_USER}:${MONGO_PASS}@mongo:27017
     env_file:
       - .env
     networks: 
@@ -78,6 +82,8 @@ services:
       - ${WORKSPACE_DIR}/env_files:/app/env_files
     environment:
       CONFIG_PATH: '/app/config.py'
+      RABBITMQ_URL: amqp://${RABBITMQ_USER}:${RABBITMQ_PASS}@rabbitmq:5672
+      MONGODB_URL: mongodb://${MONGO_USER}:${MONGO_PASS}@mongo:27017
     env_file:
       - .env
     networks: 
