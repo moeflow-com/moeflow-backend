@@ -50,29 +50,10 @@ def create_app():
     # 初始化插件
     babel.init_app(app)
     apikit.init_app(app)
-    # 在返回的头部信息中添加"Api-Version"头
-    @app.after_request
-    def after_request(resp):
-        resp.headers["X-Api-Version"] = '{} Version:{}'.format(app.config['APP_NAME'], app.config['APP_VERSION'])
-        return resp
-    # 增加404重定向到首页写法，保证合并版本的前端History路由能正常使用。
-    @app.errorhandler(404)
-    def page_not_found(error):
-        tpl_data = {
-            'site_name': app.config.get("APP_SITE_NAME")
-        }
-        return render_template("index.html", **tpl_data)
-    
+
     logger.info("-" * 50)
     logger.info("站点支持语言: " + str([str(i) for i in babel.list_translations()]))
     oss.init(app.config)  # 文件储存
-
-    # 检测 env_files 是否挂载成功
-    logger.info("-" * 50)
-    json_exists = os.path.exists(
-        app.config["GOOGLE_STORAGE_MOEFLOW_VISION_TMP"]["JSON"]
-    )
-    logger.info(f"挂载 env_files：{json_exists}")
 
     # from app.tasks.ocr import recover_ocr_tasks
 
@@ -109,7 +90,7 @@ def create_celery():
             "app.tasks.file_parse",
             "app.tasks.output_project",
             "app.tasks.ocr",
-            "app.tasks.import_from_labelplus"
+            "app.tasks.import_from_labelplus",
         ],
         related_name=None,
     )

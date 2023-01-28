@@ -112,7 +112,6 @@ gen
 
 # 配置文件
 /configs/
-/env_files/
 
 # 临时文件夹
 /files/tmp/

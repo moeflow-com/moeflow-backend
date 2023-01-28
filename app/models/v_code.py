@@ -312,9 +312,6 @@ class VCode(Document):
         }
         if self.type not in email_subject_dict or self.type not in email_template_dict:
             raise RuntimeError("VCode({}) don't have email template".format(self.type))
-        site_url = current_app.config.get("APP_SITE_URL")
-        if (site_url is None):
-            site_url = url_for('.index', _external=True)
         if current_app.config["DEBUG"] or current_app.config["TESTING"]:
             self.to_log("email", address)
         else:
@@ -323,9 +320,9 @@ class VCode(Document):
                 subject=email_subject_dict[self.type],
                 template=email_template_dict[self.type],
                 template_data={
-                    'code': self.content,
-                    'site_name': current_app.config.get("APP_SITE_NAME"),
-                    'site_url': site_url
+                    "code": self.content,
+                    "site_name": current_app.config.get("SITE_NAME"),
+                    "site_url": f'https://{current_app.config.get("DOMAIN")}',
                 },
             )
         self.send_time = datetime.datetime.utcnow()
@@ -362,7 +359,7 @@ class Captcha(VCode):
         content_type: VCodeContentTypes = VCodeContentType.NUMBER,
         content_len: int = 4,
         expires: int = 600,
-        **kwargs
+        **kwargs,
     ) -> "Captcha":
         """
         生成人机验证码（默认四位纯数字，过期时间10分钟）

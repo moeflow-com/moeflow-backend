@@ -343,7 +343,9 @@ class Project(GroupMixin, Document):
 
     # == 术语库 ==
     _term_banks = ListField(
-        ReferenceField(TermBank, reverse_delete_rule=PULL), db_field="tb", default=list,
+        ReferenceField(TermBank, reverse_delete_rule=PULL),
+        db_field="tb",
+        default=list,
     )
     need_find_terms = BooleanField(db_field="nft", default=False)
 
@@ -791,7 +793,8 @@ class Project(GroupMixin, Document):
             raise ProjectNoFinishPlanError
         # 恢复到工作状态，并删除计划完结时间
         self.update(
-            status=ProjectStatus.WORKING, unset__plan_finish_time=1,
+            status=ProjectStatus.WORKING,
+            unset__plan_finish_time=1,
         )
         self.reload()
 
@@ -809,7 +812,8 @@ class Project(GroupMixin, Document):
             if file.type != FileType.FOLDER:
                 # 删除对象源文件
                 file.delete_real_file(
-                    update_cache=False, file_not_exist_reason=FileNotExistReason.FINISH,
+                    update_cache=False,
+                    file_not_exist_reason=FileNotExistReason.FINISH,
                 )
             file.save()
         # 物理删除所有导出的output
@@ -936,7 +940,9 @@ class Project(GroupMixin, Document):
             + gettext("框外")
             + "\r\n"
             + "-\r\n"
-            + gettext("由 {sitename} 导出").format(sitename=current_app.config.get("APP_SITE_NAME"))
+            + gettext("由 {sitename} 导出").format(
+                sitename=current_app.config.get("SITE_NAME")
+            )
             + "\r\n"  # 注释
         )
         # 遍历所有图片
