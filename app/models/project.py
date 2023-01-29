@@ -940,9 +940,7 @@ class Project(GroupMixin, Document):
             + gettext("框外")
             + "\r\n"
             + "-\r\n"
-            + gettext("由 {sitename} 导出").format(
-                sitename=current_app.config.get("SITE_NAME")
-            )
+            + gettext("可使用 LabelPlus Photoshop 脚本导入 psd 中")
             + "\r\n"  # 注释
         )
         # 遍历所有图片

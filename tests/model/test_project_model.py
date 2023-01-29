@@ -577,7 +577,7 @@ class ProjectModelTestCase(MoeTestCase):
                 + "框内\r\n"
                 + "框外\r\n"
                 + "-\r\n"
-                + "由 MoeFlow.com 导出\r\n"
+                + "可使用 LabelPlus Photoshop 脚本导入 psd 中\r\n"
                 + ">>>>>>>>[file0.png]<<<<<<<<\r\n"
                 + ">>>>>>>>[file1.png]<<<<<<<<\r\n"
                 + "----------------[1]----------------[0.11111,0.22222,1]\r\n"
