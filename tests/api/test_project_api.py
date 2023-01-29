@@ -2,7 +2,6 @@ from app.constants.project import ProjectStatus
 from app.constants.source import SourcePositionType
 from app.exceptions import (
     CreatorCanNotLeaveError,
-    InvalidObjectIdError,
     NeedTokenError,
     NoPermissionError,
     ProjectFinishedError,
@@ -122,7 +121,9 @@ class ProjectAPITestCase(MoeAPITestCase):
         self.assertErrorEqual(data, ValidateError)
         # 缺少参数不能创建
         data = self.post(
-            f"/v1/teams/{str(team1.id)}/projects", token=token1, json={"name": "p1"},
+            f"/v1/teams/{str(team1.id)}/projects",
+            token=token1,
+            json={"name": "p1"},
         )
         self.assertErrorEqual(data, ValidateError)
         # 源语言缺少不能创建
@@ -136,26 +137,10 @@ class ProjectAPITestCase(MoeAPITestCase):
                 "allow_apply_type": Project.allow_apply_type_cls.TEAM_USER,
                 "application_check_type": Project.application_check_type_cls.ADMIN_CHECK,  # noqa: E501
                 "default_role": str(Project.role_cls.by_system_code("translator").id),
-                "target_languages": [str(Language.by_code("zh-CN").id)],
+                "target_languages": ["zh-CN"],
             },
         )
         self.assertErrorEqual(data, ValidateError)
-        # 源语言不是objectid不能创建
-        data = self.post(
-            f"/v1/teams/{str(team1.id)}/projects",
-            token=token1,
-            json={
-                "name": "p1",
-                "intro": "pi1",
-                "project_set": str(set1.id),
-                "allow_apply_type": Project.allow_apply_type_cls.TEAM_USER,
-                "application_check_type": Project.application_check_type_cls.ADMIN_CHECK,  # noqa: E501
-                "default_role": str(Project.role_cls.by_system_code("translator").id),
-                "source_language": "404",
-                "target_languages": [str(Language.by_code("zh-CN").id)],
-            },
-        )
-        self.assertErrorEqual(data, InvalidObjectIdError)
         # 源语言不存在不能创建
         data = self.post(
             f"/v1/teams/{str(team1.id)}/projects",
@@ -168,7 +153,7 @@ class ProjectAPITestCase(MoeAPITestCase):
                 "application_check_type": Project.application_check_type_cls.ADMIN_CHECK,  # noqa: E501
                 "default_role": str(Project.role_cls.by_system_code("translator").id),
                 "source_language": "400440044004400440044004",
-                "target_languages": [str(Language.by_code("zh-CN").id)],
+                "target_languages": ["zh-CN"],
             },
         )
         self.assertErrorEqual(data, ValidateError)
@@ -183,7 +168,7 @@ class ProjectAPITestCase(MoeAPITestCase):
                 "allow_apply_type": Project.allow_apply_type_cls.TEAM_USER,
                 "application_check_type": Project.application_check_type_cls.ADMIN_CHECK,  # noqa: E501
                 "default_role": str(Project.role_cls.by_system_code("translator").id),
-                "source_language": str(Language.by_code("ja").id),
+                "source_language": "ja",
             },
         )
         self.assertErrorEqual(data, ValidateError)
@@ -198,7 +183,7 @@ class ProjectAPITestCase(MoeAPITestCase):
                 "allow_apply_type": Project.allow_apply_type_cls.TEAM_USER,
                 "application_check_type": Project.application_check_type_cls.ADMIN_CHECK,  # noqa: E501
                 "default_role": str(Project.role_cls.by_system_code("translator").id),
-                "source_language": str(Language.by_code("ja").id),
+                "source_language": "ja",
                 "target_languages": [],
             },
         )
@@ -214,7 +199,7 @@ class ProjectAPITestCase(MoeAPITestCase):
                 "allow_apply_type": Project.allow_apply_type_cls.TEAM_USER,
                 "application_check_type": Project.application_check_type_cls.ADMIN_CHECK,  # noqa: E501
                 "default_role": str(Project.role_cls.by_system_code("translator").id),
-                "source_language": str(Language.by_code("ja").id),
+                "source_language": "ja",
                 "target_languages": [
                     "400440044004400440044004",
                     "500440044004400440044004",
@@ -233,9 +218,9 @@ class ProjectAPITestCase(MoeAPITestCase):
                 "allow_apply_type": Project.allow_apply_type_cls.TEAM_USER,
                 "application_check_type": Project.application_check_type_cls.ADMIN_CHECK,  # noqa: E501
                 "default_role": str(Project.role_cls.by_system_code("translator").id),
-                "source_language": str(Language.by_code("ja").id),
+                "source_language": "ja",
                 "target_languages": [
-                    str(Language.by_code("zh-CN").id),
+                    "zh-CN",
                     "404404404404404404404404",
                 ],
             },
@@ -252,8 +237,8 @@ class ProjectAPITestCase(MoeAPITestCase):
                 "allow_apply_type": 999,
                 "application_check_type": Project.application_check_type_cls.ADMIN_CHECK,  # noqa: E501
                 "default_role": str(Project.role_cls.by_system_code("creator").id),
-                "source_language": str(Language.by_code("ja").id),
-                "target_languages": [str(Language.by_code("zh-CN").id)],
+                "source_language": "ja",
+                "target_languages": ["zh-CN"],
             },
         )
         self.assertErrorEqual(data, ValidateError)
@@ -268,8 +253,8 @@ class ProjectAPITestCase(MoeAPITestCase):
                 "allow_apply_type": Project.allow_apply_type_cls.TEAM_USER,
                 "application_check_type": Project.application_check_type_cls.ADMIN_CHECK,  # noqa: E501
                 "default_role": str(Project.role_cls.by_system_code("creator").id),
-                "source_language": str(Language.by_code("ja").id),
-                "target_languages": [str(Language.by_code("zh-CN").id)],
+                "source_language": "ja",
+                "target_languages": ["zh-CN"],
             },
         )
         self.assertErrorEqual(data, ValidateError)
@@ -284,8 +269,8 @@ class ProjectAPITestCase(MoeAPITestCase):
                 "allow_apply_type": Project.allow_apply_type_cls.TEAM_USER,
                 "application_check_type": Project.application_check_type_cls.ADMIN_CHECK,  # noqa: E501
                 "default_role": str(Team.role_cls.by_system_code("beginner").id),
-                "source_language": str(Language.by_code("ja").id),
-                "target_languages": [str(Language.by_code("zh-CN").id)],
+                "source_language": "ja",
+                "target_languages": ["zh-CN"],
             },
         )
         self.assertErrorEqual(data, ValidateError)
@@ -300,8 +285,8 @@ class ProjectAPITestCase(MoeAPITestCase):
                 "allow_apply_type": Project.allow_apply_type_cls.TEAM_USER,
                 "application_check_type": Project.application_check_type_cls.ADMIN_CHECK,  # noqa: E501
                 "default_role": str(Project.role_cls.by_system_code("translator").id),
-                "source_language": str(Language.by_code("ja").id),
-                "target_languages": [str(Language.by_code("zh-CN").id)],
+                "source_language": "ja",
+                "target_languages": ["zh-CN"],
             },
         )
         self.assertErrorEqual(data, ProjectSetNotExistError)
@@ -317,8 +302,8 @@ class ProjectAPITestCase(MoeAPITestCase):
                 "allow_apply_type": Project.allow_apply_type_cls.TEAM_USER,
                 "application_check_type": Project.application_check_type_cls.ADMIN_CHECK,  # noqa: E501
                 "default_role": str(Project.role_cls.by_system_code("translator").id),
-                "source_language": str(Language.by_code("ja").id),
-                "target_languages": [str(Language.by_code("zh-CN").id)],
+                "source_language": "ja",
+                "target_languages": ["zh-CN"],
             },
         )
         self.assertErrorEqual(data)
@@ -335,7 +320,8 @@ class ProjectAPITestCase(MoeAPITestCase):
             project1.application_check_type,
         )
         self.assertEqual(
-            Project.role_cls.by_system_code("translator"), project1.default_role,
+            Project.role_cls.by_system_code("translator"),
+            project1.default_role,
         )
 
     def test_edit_project(self):
@@ -361,8 +347,8 @@ class ProjectAPITestCase(MoeAPITestCase):
                 "allow_apply_type": Project.allow_apply_type_cls.TEAM_USER,
                 "application_check_type": Project.application_check_type_cls.ADMIN_CHECK,  # noqa: E501
                 "default_role": str(Project.role_cls.by_system_code("translator").id),
-                "source_language": str(Language.by_code("ja").id),
-                "target_languages": [str(Language.by_code("zh-CN").id)],
+                "source_language": "ja",
+                "target_languages": ["zh-CN"],
             },
         )
         self.assertErrorEqual(data)
@@ -380,7 +366,8 @@ class ProjectAPITestCase(MoeAPITestCase):
             project1.application_check_type,
         )
         self.assertEqual(
-            Project.role_cls.by_system_code("translator"), project1.default_role,
+            Project.role_cls.by_system_code("translator"),
+            project1.default_role,
         )
         # ===== 开始测试 =====
         # 没有登录不能修改
@@ -490,8 +477,8 @@ class ProjectAPITestCase(MoeAPITestCase):
                 "allow_apply_type": Project.allow_apply_type_cls.TEAM_USER,
                 "application_check_type": Project.application_check_type_cls.ADMIN_CHECK,  # noqa: E501
                 "default_role": str(Project.role_cls.by_system_code("translator").id),
-                "source_language": str(Language.by_code("ja").id),
-                "target_languages": [str(Language.by_code("zh-CN").id)],
+                "source_language": "ja",
+                "target_languages": ["zh-CN"],
             },
         )
         self.assertErrorEqual(data)
@@ -508,12 +495,15 @@ class ProjectAPITestCase(MoeAPITestCase):
             project1.application_check_type,
         )
         self.assertEqual(
-            Project.role_cls.by_system_code("translator"), project1.default_role,
+            Project.role_cls.by_system_code("translator"),
+            project1.default_role,
         )
         # ===== 开始测试 =====
         # 未登录不能计划完结
         self.assertEqual(ProjectStatus.WORKING, project1.status)
-        data = self.post(f"/v1/projects/{str(project1.id)}/finish-plan",)
+        data = self.post(
+            f"/v1/projects/{str(project1.id)}/finish-plan",
+        )
         self.assertErrorEqual(data, NeedTokenError)
         # 没有权限不能计划完结
         data = self.post(f"/v1/projects/{str(project1.id)}/finish-plan", token=token2)
@@ -561,8 +551,8 @@ class ProjectAPITestCase(MoeAPITestCase):
                 "allow_apply_type": Project.allow_apply_type_cls.TEAM_USER,
                 "application_check_type": Project.application_check_type_cls.ADMIN_CHECK,  # noqa: E501
                 "default_role": str(Project.role_cls.by_system_code("translator").id),
-                "source_language": str(Language.by_code("ja").id),
-                "target_languages": [str(Language.by_code("zh-CN").id)],
+                "source_language": "ja",
+                "target_languages": ["zh-CN"],
             },
         )
         self.assertErrorEqual(data)
@@ -579,7 +569,8 @@ class ProjectAPITestCase(MoeAPITestCase):
             project1.application_check_type,
         )
         self.assertEqual(
-            Project.role_cls.by_system_code("translator"), project1.default_role,
+            Project.role_cls.by_system_code("translator"),
+            project1.default_role,
         )
         # 计划销毁
         data = self.post(f"/v1/projects/{str(project1.id)}/delete-plan", token=token1)
@@ -616,8 +607,8 @@ class ProjectAPITestCase(MoeAPITestCase):
                 "allow_apply_type": Project.allow_apply_type_cls.TEAM_USER,
                 "application_check_type": Project.application_check_type_cls.ADMIN_CHECK,  # noqa: E501
                 "default_role": str(Project.role_cls.by_system_code("translator").id),
-                "source_language": str(Language.by_code("ja").id),
-                "target_languages": [str(Language.by_code("zh-CN").id)],
+                "source_language": "ja",
+                "target_languages": ["zh-CN"],
             },
         )
         self.assertErrorEqual(data)
@@ -634,7 +625,8 @@ class ProjectAPITestCase(MoeAPITestCase):
             project1.application_check_type,
         )
         self.assertEqual(
-            Project.role_cls.by_system_code("translator"), project1.default_role,
+            Project.role_cls.by_system_code("translator"),
+            project1.default_role,
         )
         # ===== 开始测试 =====
         # 计划销毁
@@ -685,8 +677,8 @@ class ProjectAPITestCase(MoeAPITestCase):
                 "allow_apply_type": Project.allow_apply_type_cls.TEAM_USER,
                 "application_check_type": Project.application_check_type_cls.ADMIN_CHECK,  # noqa: E501
                 "default_role": str(Project.role_cls.by_system_code("translator").id),
-                "source_language": str(Language.by_code("ja").id),
-                "target_languages": [str(Language.by_code("zh-CN").id)],
+                "source_language": "ja",
+                "target_languages": ["zh-CN"],
             },
         )
         self.assertErrorEqual(data)
@@ -703,7 +695,8 @@ class ProjectAPITestCase(MoeAPITestCase):
             project1.application_check_type,
         )
         self.assertEqual(
-            Project.role_cls.by_system_code("translator"), project1.default_role,
+            Project.role_cls.by_system_code("translator"),
+            project1.default_role,
         )
         # ===== 开始测试 =====
         # 未登录不能计划销毁
@@ -748,8 +741,8 @@ class ProjectAPITestCase(MoeAPITestCase):
                 "allow_apply_type": Project.allow_apply_type_cls.TEAM_USER,
                 "application_check_type": Project.application_check_type_cls.ADMIN_CHECK,  # noqa: E501
                 "default_role": str(Project.role_cls.by_system_code("translator").id),
-                "source_language": str(Language.by_code("ja").id),
-                "target_languages": [str(Language.by_code("zh-CN").id)],
+                "source_language": "ja",
+                "target_languages": ["zh-CN"],
             },
         )
         self.assertErrorEqual(data)
@@ -766,7 +759,8 @@ class ProjectAPITestCase(MoeAPITestCase):
             project1.application_check_type,
         )
         self.assertEqual(
-            Project.role_cls.by_system_code("translator"), project1.default_role,
+            Project.role_cls.by_system_code("translator"),
+            project1.default_role,
         )
         # 将项目计划完结
         data = self.post(f"/v1/projects/{str(project1.id)}/finish-plan", token=token1)
@@ -820,8 +814,8 @@ class ProjectAPITestCase(MoeAPITestCase):
                 "allow_apply_type": Project.allow_apply_type_cls.TEAM_USER,
                 "application_check_type": Project.application_check_type_cls.ADMIN_CHECK,  # noqa: E501
                 "default_role": str(Project.role_cls.by_system_code("translator").id),
-                "source_language": str(Language.by_code("ja").id),
-                "target_languages": [str(Language.by_code("zh-CN").id)],
+                "source_language": "ja",
+                "target_languages": ["zh-CN"],
             },
         )
         self.assertErrorEqual(data)
@@ -838,7 +832,8 @@ class ProjectAPITestCase(MoeAPITestCase):
             project1.application_check_type,
         )
         self.assertEqual(
-            Project.role_cls.by_system_code("translator"), project1.default_role,
+            Project.role_cls.by_system_code("translator"),
+            project1.default_role,
         )
         # 将项目计划完结
         data = self.post(f"/v1/projects/{str(project1.id)}/finish-plan", token=token1)
@@ -889,8 +884,8 @@ class ProjectAPITestCase(MoeAPITestCase):
                 "allow_apply_type": Project.allow_apply_type_cls.TEAM_USER,
                 "application_check_type": Project.application_check_type_cls.ADMIN_CHECK,  # noqa: E501
                 "default_role": str(Project.role_cls.by_system_code("translator").id),
-                "source_language": str(Language.by_code("ja").id),
-                "target_languages": [str(Language.by_code("zh-CN").id)],
+                "source_language": "ja",
+                "target_languages": ["zh-CN"],
             },
         )
         self.assertErrorEqual(data)
@@ -907,7 +902,8 @@ class ProjectAPITestCase(MoeAPITestCase):
             project1.application_check_type,
         )
         self.assertEqual(
-            Project.role_cls.by_system_code("translator"), project1.default_role,
+            Project.role_cls.by_system_code("translator"),
+            project1.default_role,
         )
         # ===== 开始测试 =====
         # WORKING的项目不能取消
@@ -976,8 +972,8 @@ class ProjectAPITestCase(MoeAPITestCase):
                 "allow_apply_type": Project.allow_apply_type_cls.TEAM_USER,
                 "application_check_type": Project.application_check_type_cls.ADMIN_CHECK,  # noqa: E501
                 "default_role": str(Project.role_cls.by_system_code("translator").id),
-                "source_language": str(Language.by_code("ja").id),
-                "target_languages": [str(Language.by_code("zh-CN").id)],
+                "source_language": "ja",
+                "target_languages": ["zh-CN"],
             },
         )
         self.assertErrorEqual(data)
@@ -994,7 +990,8 @@ class ProjectAPITestCase(MoeAPITestCase):
             project1.application_check_type,
         )
         self.assertEqual(
-            Project.role_cls.by_system_code("translator"), project1.default_role,
+            Project.role_cls.by_system_code("translator"),
+            project1.default_role,
         )
         # 将项目计划销毁
         data = self.post(f"/v1/projects/{str(project1.id)}/delete-plan", token=token1)
@@ -1045,8 +1042,8 @@ class ProjectAPITestCase(MoeAPITestCase):
                 "allow_apply_type": Project.allow_apply_type_cls.TEAM_USER,
                 "application_check_type": Project.application_check_type_cls.ADMIN_CHECK,  # noqa: E501
                 "default_role": str(Project.role_cls.by_system_code("translator").id),
-                "source_language": str(Language.by_code("ja").id),
-                "target_languages": [str(Language.by_code("zh-CN").id)],
+                "source_language": "ja",
+                "target_languages": ["zh-CN"],
             },
         )
         self.assertErrorEqual(data)
@@ -1063,7 +1060,8 @@ class ProjectAPITestCase(MoeAPITestCase):
             project1.application_check_type,
         )
         self.assertEqual(
-            Project.role_cls.by_system_code("translator"), project1.default_role,
+            Project.role_cls.by_system_code("translator"),
+            project1.default_role,
         )
         # ===== 开始测试 =====
         # WORKING的项目不能取消
@@ -1127,8 +1125,8 @@ class ProjectAPITestCase(MoeAPITestCase):
                 "allow_apply_type": Project.allow_apply_type_cls.TEAM_USER,
                 "application_check_type": Project.application_check_type_cls.ADMIN_CHECK,  # noqa: E501
                 "default_role": str(Project.role_cls.by_system_code("translator").id),
-                "source_language": str(Language.by_code("ja").id),
-                "target_languages": [str(Language.by_code("zh-CN").id)],
+                "source_language": "ja",
+                "target_languages": ["zh-CN"],
             },
         )
         self.assertErrorEqual(data)
@@ -1145,7 +1143,8 @@ class ProjectAPITestCase(MoeAPITestCase):
             project1.application_check_type,
         )
         self.assertEqual(
-            Project.role_cls.by_system_code("translator"), project1.default_role,
+            Project.role_cls.by_system_code("translator"),
+            project1.default_role,
         )
         # ===== 开始测试 =====
         # 完结项目
@@ -1197,8 +1196,8 @@ class ProjectAPITestCase(MoeAPITestCase):
                 "allow_apply_type": Project.allow_apply_type_cls.TEAM_USER,
                 "application_check_type": Project.application_check_type_cls.ADMIN_CHECK,  # noqa: E501
                 "default_role": str(Project.role_cls.by_system_code("translator").id),
-                "source_language": str(Language.by_code("ja").id),
-                "target_languages": [str(Language.by_code("zh-CN").id)],
+                "source_language": "ja",
+                "target_languages": ["zh-CN"],
             },
         )
         self.assertErrorEqual(data)
@@ -1215,7 +1214,8 @@ class ProjectAPITestCase(MoeAPITestCase):
             project1.application_check_type,
         )
         self.assertEqual(
-            Project.role_cls.by_system_code("translator"), project1.default_role,
+            Project.role_cls.by_system_code("translator"),
+            project1.default_role,
         )
         # 将项目完结
         project1.plan_finish()
@@ -1226,7 +1226,9 @@ class ProjectAPITestCase(MoeAPITestCase):
         self.assertIsNone(project1.plan_delete_time)
         # ===== 开始测试 =====
         # 未登录不能恢复项目
-        data = self.post(f"/v1/projects/{str(project1.id)}/resume",)
+        data = self.post(
+            f"/v1/projects/{str(project1.id)}/resume",
+        )
         self.assertErrorEqual(data, NeedTokenError)
         # 没有权限不能恢复项目
         data = self.post(f"/v1/projects/{str(project1.id)}/resume", token=token2)
@@ -1265,8 +1267,8 @@ class ProjectAPITestCase(MoeAPITestCase):
                 "allow_apply_type": Project.allow_apply_type_cls.TEAM_USER,
                 "application_check_type": Project.application_check_type_cls.ADMIN_CHECK,  # noqa: E501
                 "default_role": str(Project.role_cls.by_system_code("translator").id),
-                "source_language": str(Language.by_code("ja").id),
-                "target_languages": [str(Language.by_code("zh-CN").id)],
+                "source_language": "ja",
+                "target_languages": ["zh-CN"],
             },
         )
         self.assertErrorEqual(data)
@@ -1283,7 +1285,8 @@ class ProjectAPITestCase(MoeAPITestCase):
             project1.application_check_type,
         )
         self.assertEqual(
-            Project.role_cls.by_system_code("translator"), project1.default_role,
+            Project.role_cls.by_system_code("translator"),
+            project1.default_role,
         )
         # ===== 开始测试 =====
         # WORKING状态的项目不能resume
@@ -1542,53 +1545,62 @@ class ProjectAPITestCase(MoeAPITestCase):
             self.assertEqual(project1.users().count(), 5)
             # == 资深成员无法删除成员 ==
             data = self.delete(
-                f"/v1/projects/{str(project1.id)}/users/{str(user1.id)}", token=token2,
+                f"/v1/projects/{str(project1.id)}/users/{str(user1.id)}",
+                token=token2,
             )
             self.assertErrorEqual(data, NoPermissionError)
             # == 资深成员无法删除管理员 ==
             data = self.delete(
-                f"/v1/projects/{str(project1.id)}/users/{str(user3.id)}", token=token2,
+                f"/v1/projects/{str(project1.id)}/users/{str(user3.id)}",
+                token=token2,
             )
             self.assertErrorEqual(data, NoPermissionError)
             # == 管理员无法删除管理员 ==
             data = self.delete(
-                f"/v1/projects/{str(project1.id)}/users/{str(user3.id)}", token=token4,
+                f"/v1/projects/{str(project1.id)}/users/{str(user3.id)}",
+                token=token4,
             )
             self.assertErrorEqual(data, NoPermissionError)
             # == 管理员无法删除非团队成员 ==
             data = self.delete(
-                f"/v1/projects/{str(project1.id)}/users/{str(user5.id)}", token=token4,
+                f"/v1/projects/{str(project1.id)}/users/{str(user5.id)}",
+                token=token4,
             )
             self.assertErrorEqual(data, UserNotExistError)
             # == 非团队成员无法删除成员 ==
             data = self.delete(
-                f"/v1/projects/{str(project1.id)}/users/{str(user1.id)}", token=token5,
+                f"/v1/projects/{str(project1.id)}/users/{str(user1.id)}",
+                token=token5,
             )
             self.assertErrorEqual(data, NoPermissionError)
             self.assertEqual(project1.users().count(), 5)  # 5个人
             # == 成员可以删除自己 ==
             data = self.delete(
-                f"/v1/projects/{str(project1.id)}/users/{str(user1.id)}", token=token1,
+                f"/v1/projects/{str(project1.id)}/users/{str(user1.id)}",
+                token=token1,
             )
             self.assertErrorEqual(data)
             self.assertEqual(project1.users().count(), 4)  # 4个人
             # == 管理员可以删除资深成员 ==
             data = self.delete(
-                f"/v1/projects/{str(project1.id)}/users/{str(user2.id)}", token=token4,
+                f"/v1/projects/{str(project1.id)}/users/{str(user2.id)}",
+                token=token4,
             )
             self.assertErrorEqual(data)
             self.assertEqual(project1.users().count(), 3)  # 3个人，剩下2个管理员和创建者
             # == 管理员可以删除自己 ==
             self.assertErrorEqual(data)
             data = self.delete(
-                f"/v1/projects/{str(project1.id)}/users/{str(user4.id)}", token=token4,
+                f"/v1/projects/{str(project1.id)}/users/{str(user4.id)}",
+                token=token4,
             )
             self.assertErrorEqual(data)
             self.assertEqual(project1.users().count(), 2)  # 2个人，管理员和创建者
             # == 创建者不能删除自己 ==
             self.assertErrorEqual(data)
             data = self.delete(
-                f"/v1/projects/{str(project1.id)}/users/{str(user6.id)}", token=token6,
+                f"/v1/projects/{str(project1.id)}/users/{str(user6.id)}",
+                token=token6,
             )
             self.assertErrorEqual(data, CreatorCanNotLeaveError)
             self.assertEqual(project1.users().count(), 2)  # 2个人，管理员和创建者
@@ -1632,7 +1644,7 @@ class ProjectAPITestCase(MoeAPITestCase):
         data = self.post(
             f"/v1/projects/{str(project.id)}/targets",
             token=token1,
-            json={"language": str(Language.by_code("en").id)},
+            json={"language": "en"},
         )
         self.assertErrorEqual(data, SameTargetLanguageError)
         self.assertEqual(project.targets().count(), 1)
@@ -1640,7 +1652,7 @@ class ProjectAPITestCase(MoeAPITestCase):
         data = self.post(
             f"/v1/projects/{str(project.id)}/targets",
             token=token1,
-            json={"language": str(Language.by_code("ko").id)},
+            json={"language": "ko"},
         )
         self.assertErrorEqual(data)
         self.assertEqual(project.targets().count(), 2)
@@ -1703,8 +1715,8 @@ class ProjectAPITestCase(MoeAPITestCase):
                 "allow_apply_type": Project.allow_apply_type_cls.TEAM_USER,
                 "application_check_type": Project.application_check_type_cls.ADMIN_CHECK,  # noqa: E501
                 "default_role": str(Project.role_cls.by_system_code("translator").id),
-                "source_language": str(Language.by_code("ja").id),
-                "target_languages": [str(Language.by_code("zh-CN").id)],
+                "source_language": "ja",
+                "target_languages": ["zh-CN"],
                 "labelplus_txt": "",
             },
         )
@@ -1728,8 +1740,8 @@ class ProjectAPITestCase(MoeAPITestCase):
                 "allow_apply_type": Project.allow_apply_type_cls.TEAM_USER,
                 "application_check_type": Project.application_check_type_cls.ADMIN_CHECK,  # noqa: E501
                 "default_role": str(Project.role_cls.by_system_code("translator").id),
-                "source_language": str(Language.by_code("ja").id),
-                "target_languages": [str(Language.by_code("zh-CN").id)],
+                "source_language": "ja",
+                "target_languages": ["zh-CN"],
                 "labelplus_txt": """1,0
 -
 框内
@@ -1772,4 +1784,3 @@ class ProjectAPITestCase(MoeAPITestCase):
         source1_translations = sources[1].translations()
         self.assertEqual(source1_translations.count(), 1)
         self.assertEqual(source1_translations[0].content, "第一行\n\n")
-

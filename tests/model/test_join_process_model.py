@@ -1,6 +1,5 @@
 from app.core.rbac import AllowApplyType
 from app.models.project import Project
-from app.apis import project
 from app.models.application import Application, ApplicationStatus
 from app.models.invitation import Invitation, InvitationStatus
 from app.models.team import Team, TeamRole
