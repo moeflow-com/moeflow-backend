@@ -571,12 +571,18 @@ class File(Document):
         if not self.save_name:
             return ""
         return oss.sign_url(current_app.config["OSS_FILE_PREFIX"], self.save_name)
-    
+
     @property
     def cover_url(self):
         if not self.save_name:
             return ""
-        return oss.sign_url(current_app.config["OSS_FILE_PREFIX"], self.save_name, params={ 'x-oss-process': 'style/cover' })
+        return oss.sign_url(current_app.config["OSS_FILE_PREFIX"], self.save_name, process_name=current_app.config["OSS_PROCESS_COVER_NAME"])
+
+    @property
+    def safe_check_url(self):
+        if not self.save_name:
+            return ""
+        return oss.sign_url(current_app.config["OSS_FILE_PREFIX"], self.save_name, process_name=current_app.config["OSS_PROCESS_SAFE_CHECK_NAME"])
 
     @only_file
     def has_real_file(self):
@@ -1077,9 +1083,9 @@ class File(Document):
             data["parse_status_detail_name"] = ImageParseStatus.get_detail_by_value(
                 self.parse_status, "name"
             )
-            url = self.url
-            data["url"] = url
+            data["url"] = self.url
             data["cover_url"] = self.cover_url
+            data["safe_check_url"] = self.safe_check_url
             data["image_ocr_percent"] = self.image_ocr_percent
             data["image_ocr_percent_detail_name"] = ImageOCRPercent.get_detail_by_value(
                 self.image_ocr_percent, "name"

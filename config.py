@@ -44,6 +44,8 @@ OSS_ACCESS_KEY_ID = env["OSS_ACCESS_KEY_ID"]
 OSS_ACCESS_KEY_SECRET = env["OSS_ACCESS_KEY_SECRET"]
 OSS_ENDPOINT = env["OSS_ENDPOINT"]
 OSS_BUCKET_NAME = env["OSS_BUCKET_NAME"]
+OSS_PROCESS_COVER_NAME = env.get("OSS_PROCESS_COVER_NAME", "cover")
+OSS_PROCESS_SAFE_CHECK_NAME = env.get("OSS_PROCESS_SAFE_CHECK_NAME", "safe-check")
 # OSS_DOMAIN 可能绑定在 CDN 来加速 OSS，并开启了 CDN 的[阿里云 OSS 私有 Bucket 回源]和[URL 鉴权]，
 # 此时需要设置 OSS_VIA_CDN = True，将通过 CDN 的 URL 鉴权方式来生成 URL，而不用 OSS 的 URL 签名
 OSS_VIA_CDN = True if env.get("OSS_VIA_CDN", "") == "True" else False

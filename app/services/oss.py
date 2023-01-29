@@ -48,12 +48,15 @@ class OSS:
     def init(self, config):
         """配置初始化"""
         self.auth = oss2.Auth(
-            config["OSS_ACCESS_KEY_ID"], config["OSS_ACCESS_KEY_SECRET"],
+            config["OSS_ACCESS_KEY_ID"],
+            config["OSS_ACCESS_KEY_SECRET"],
         )
         self.bucket = oss2.Bucket(
-            self.auth, config["OSS_ENDPOINT"], config["OSS_BUCKET_NAME"],
+            self.auth,
+            config["OSS_ENDPOINT"],
+            config["OSS_BUCKET_NAME"],
         )
-        
+
         self.oss_domain = config["OSS_DOMAIN"]
         self.oss_via_cdn = config["OSS_VIA_CDN"]
         self.cdn_url_key = config["CDN_URL_KEY_A"]
@@ -61,7 +64,10 @@ class OSS:
     def upload(self, path, filename, file, headers=None, progress_callback=None):
         """上传文件"""
         return self.bucket.put_object(
-            path + filename, file, headers=headers, progress_callback=progress_callback,
+            path + filename,
+            file,
+            headers=headers,
+            progress_callback=progress_callback,
         )
 
     def download(self, path, filename, /, *, local_path=None):
@@ -96,7 +102,13 @@ class OSS:
             return self.sign_oss_url(*args, **kwargs)
 
     def sign_cdn_url(
-        self, path, filename, expires=604800, oss_domain=None,
+        self,
+        path,
+        filename,
+        expires=604800,
+        oss_domain=None,
+        process_name=None,
+        **kwargs,
     ):
         """
         通过 CDN 的 URL 鉴权生成可以访问的 URL，此时 oss_domain 需要是绑定于 CDN 的域名
@@ -110,7 +122,10 @@ class OSS:
         if oss_domain is None:
             oss_domain = self.oss_domain
         uri = oss_domain + path + filename
-        return aliyun_cdn_url_auth_c(uri=uri, key=self.cdn_url_key, exp=now + expires)
+        url = aliyun_cdn_url_auth_c(uri=uri, key=self.cdn_url_key, exp=now + expires)
+        if process_name:
+            url += f"?x-oss-process=style/{process_name}"
+        return url
 
     def sign_oss_url(
         self,
@@ -121,7 +136,8 @@ class OSS:
         params=None,
         method="GET",
         oss_domain=None,
-        download=False
+        download=False,
+        process_name=None,
     ):
         """
         通过 OSS 的 URL 签名生成可以访问的 URL，默认使用配置中用户自定义的 OSS 域名
@@ -136,7 +152,9 @@ class OSS:
         if params is None:
             params = {}
         if download:
-            params['response-content-disposition']='attachment'
+            params["response-content-disposition"] = "attachment"
+        if process_name:
+            params["x-oss-process"] = f"style/{process_name}"
         key = to_string(path + filename)
         req = oss2.http.Request(
             method, oss_domain + key, headers=headers, params=params
