@@ -23,7 +23,7 @@ from app.apis.me import (
     MeRelatedApplicationListAPI,
 )
 from app.apis.avatar import AvatarAPI
-from app.apis.user import UserListAPI, UserAPI
+from app.apis.user import AdminUserAdminStatusAPI, UserListAPI, UserAPI
 from app.apis.project import (
     ProjectAPI,
     ProjectDeletePlanAPI,
@@ -66,13 +66,17 @@ index.add_url_rule(
     "/ping", methods=["GET", "OPTIONS"], view_func=PingAPI.as_view("ping")
 )
 index.add_url_rule(
-    "/docs/<path:path>", methods=["GET", "OPTIONS"], view_func=DocsAPI.as_view("docs"),
+    "/docs/<path:path>",
+    methods=["GET", "OPTIONS"],
+    view_func=DocsAPI.as_view("docs"),
 )
 index.add_url_rule(
     "/urls", methods=["GET", "OPTIONS"], view_func=UrlListAPI.as_view("url_list")
 )
 index.add_url_rule(
-    "/warning", methods=["GET", "OPTIONS"], view_func=WarningAPI.as_view("warning"),
+    "/warning",
+    methods=["GET", "OPTIONS"],
+    view_func=WarningAPI.as_view("warning"),
 )
 index.add_url_rule(
     "/error", methods=["GET", "OPTIONS"], view_func=ErrorAPI.as_view("error")
@@ -80,12 +84,16 @@ index.add_url_rule(
 # type模块
 type = Blueprint("type", __name__, url_prefix=v1_prefix + "/types")
 type.add_url_rule(
-    "/<type_name>", methods=["GET", "OPTIONS"], view_func=TypeAPI.as_view("type"),
+    "/<type_name>",
+    methods=["GET", "OPTIONS"],
+    view_func=TypeAPI.as_view("type"),
 )
 # 用户模块
 user = Blueprint("user", __name__, url_prefix=v1_prefix + "/users")
 user.add_url_rule(
-    "/<name>", methods=["GET", "OPTIONS"], view_func=UserAPI.as_view("user_by_name"),
+    "/<name>",
+    methods=["GET", "OPTIONS"],
+    view_func=UserAPI.as_view("user_by_name"),
 )
 user.add_url_rule(
     "", methods=["GET", "OPTIONS"], view_func=UserListAPI.as_view("user_list")
@@ -94,10 +102,14 @@ user.add_url_rule("", methods=["POST", "OPTIONS"], view_func=UserAPI.as_view("us
 # Me模块
 me = Blueprint("me", __name__, url_prefix=v1_prefix + "/user")
 me.add_url_rule(
-    "/info", methods=["GET", "PUT", "OPTIONS"], view_func=MeInfoAPI.as_view("me_info"),
+    "/info",
+    methods=["GET", "PUT", "OPTIONS"],
+    view_func=MeInfoAPI.as_view("me_info"),
 )
 me.add_url_rule(
-    "/email", methods=["PUT", "OPTIONS"], view_func=MeEmailAPI.as_view("me_email"),
+    "/email",
+    methods=["PUT", "OPTIONS"],
+    view_func=MeEmailAPI.as_view("me_email"),
 )
 me.add_url_rule(
     "/password",
@@ -115,7 +127,9 @@ me.add_url_rule(
     view_func=MeRelatedApplicationListAPI.as_view("me_related_applications_list"),
 )
 me.add_url_rule(
-    "/token", methods=["POST", "OPTIONS"], view_func=MeTokenAPI.as_view("me_token"),
+    "/token",
+    methods=["POST", "OPTIONS"],
+    view_func=MeTokenAPI.as_view("me_token"),
 )
 me.add_url_rule(
     "/password",
@@ -135,7 +149,9 @@ me.add_url_rule(
 # 验证码模块
 v_code = Blueprint("v_code", __name__, url_prefix=v1_prefix)
 v_code.add_url_rule(
-    "/captchas", methods=["POST", "OPTIONS"], view_func=CaptchaAPI.as_view("captcha"),
+    "/captchas",
+    methods=["POST", "OPTIONS"],
+    view_func=CaptchaAPI.as_view("captcha"),
 )
 v_code.add_url_rule(
     "/confirm-email-codes",
@@ -369,7 +385,9 @@ language.add_url_rule(
 # 头像
 avatar = Blueprint("avatar", __name__, url_prefix=v1_prefix + "/avatar")
 avatar.add_url_rule(
-    "", methods=["PUT", "OPTIONS"], view_func=AvatarAPI.as_view("avatar"),
+    "",
+    methods=["PUT", "OPTIONS"],
+    view_func=AvatarAPI.as_view("avatar"),
 )
 
 # 管理员
@@ -383,4 +401,9 @@ admin.add_url_rule(
     "/files/safe-status",
     methods=["PUT", "OPTIONS"],
     view_func=AdminFileListSafeCheckAPI.as_view("admin_file_list_safe_check"),
+)
+admin.add_url_rule(
+    "/admin-status",
+    methods=["PUT", "OPTIONS"],
+    view_func=AdminUserAdminStatusAPI.as_view("admin_admin_status"),
 )

@@ -5,10 +5,11 @@ from flask_babel import gettext
 
 from app.core.responses import MoePagination
 from app.core.views import MoeAPIView
-from app.decorators.auth import token_required
+from app.decorators.auth import admin_required, token_required
 from app.exceptions import RequestDataEmptyError, UserNotExistError
 from app.models.user import User
 from app.validators import RegisterSchema
+from app.validators.admin import AdminStatusSchema
 
 
 class UserListAPI(MoeAPIView):
@@ -43,9 +44,7 @@ class UserListAPI(MoeAPIView):
             raise RequestDataEmptyError
         p = MoePagination()
         objects = (
-            User.objects(name__icontains=query["word"])
-            .skip(p.skip)
-            .limit(p.limit)
+            User.objects(name__icontains=query["word"]).skip(p.skip).limit(p.limit)
         )
         return p.set_objects(objects)
 
@@ -113,3 +112,36 @@ class UserAPI(MoeAPIView):
         # 生成token
         token = user.generate_token()
         return {"message": gettext("注册成功"), "token": token}
+
+
+class AdminUserAdminStatusAPI(MoeAPIView):
+    @admin_required
+    def put(self):
+        """
+        @api {put} /v1/admin/admin-status 修改用户的管理员状态
+        @apiVersion 1.0.0
+        @apiName put_admin_status
+        @apiGroup Admin
+        @apiUse APIHeader
+        @apiUse TokenHeader
+
+        @apiParam {String} user_id 用户Id
+        @apiParam {Boolean} is_admin 是否是管理员
+
+        @apiSuccessExample {json} 返回示例
+        {
+            "data": "修改成功"
+        }
+
+        @apiUse NeedTokenError
+        @apiUse BadTokenError
+        """
+        data = self.get_json(AdminStatusSchema())
+        user = User.by_id(data["user_id"])
+        if user is None:
+            raise UserNotExistError
+        user.admin = data["status"]
+        user.save()
+        return {
+            "message": gettext("修改成功"),
+        }
