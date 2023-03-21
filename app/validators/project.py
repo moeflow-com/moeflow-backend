@@ -87,11 +87,11 @@ class CreateProjectSchema(Schema):
         required=True, validate=[object_id], error_messages={**required_message},
     )
     source_language = fields.Str(
-        required=True, validate=[need_in(Language.codes())], error_messages={**required_message},
+        required=True, validate=[need_in(Language.codes)], error_messages={**required_message},
     )
     target_languages = fields.List(
         fields.Str(
-            required=True, validate=[need_in(Language.codes())], error_messages={**required_message}
+            required=True, validate=[need_in(Language.codes)], error_messages={**required_message}
         ),
         required=True,
     )
@@ -198,7 +198,7 @@ class CreateProjectTargetSchema(Schema):
     """创建项目目标验证器"""
 
     language = fields.Str(
-        required=True, validate=[need_in(Language.codes())], error_messages={**required_message},
+        required=True, validate=[need_in(Language.codes)], error_messages={**required_message},
     )
 
     @post_load

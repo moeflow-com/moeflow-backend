@@ -23,16 +23,15 @@ def cant_empty(value, field_name=None):
 
 def need_in(objects):
     """
-    在validate列表中定义时，仅适用于不会变化的l，如type类型，
-    因为此函数的objects在第一次运行validate定义后就不会变化了
-    比如objects是几个用户id，可能因为数据库中id变化，导致检测是不在里面
-    从而无法测试（测试时objects在运行测试时就定义了，其他测试用例会删库，重新创建id）
-    这种情况推荐在 @validates_schema 中做need_in检测
-    TODO: 可以支持 objects 传入函数来动态获取，就不用在 @validates_schema 中做need_in检测
+    检查是否在要求之列，objects可以是列表，也可以是函数，函数则会调用
     """
 
     def validator(value, field_name=None):
-        if value not in objects:
+        if callable(objects):
+            list = objects()
+        else:
+            list = objects
+        if value not in list:
             raise ValidationError(gettext("此项不可选"), field_names=field_name)
 
     return validator
@@ -64,7 +63,8 @@ def indexes_in(model=None, other_indexes: list = None):
         # 检查排序参数是否在索引中
         if values not in indexes:
             raise ValidationError(
-                gettext(f"不支持使用 {values} 排序，支持：{indexes}"), field_names=field_name,
+                gettext(f"不支持使用 {values} 排序，支持：{indexes}"),
+                field_names=field_name,
             )
 
     return validator
