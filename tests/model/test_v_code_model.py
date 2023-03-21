@@ -17,7 +17,7 @@ class VCodeTestCase(MoeTestCase):
         self.assertEqual(len(c1.content), 4)
         # == 设置失效时间 ==
         c4 = Captcha.create(expires=1)
-        time.sleep(1)
+        time.sleep(1.1)
         with self.assertRaises(VCodeExpiredError):
             Captcha.verify(c4.info, c4.content)
         # 进行验证
@@ -47,7 +47,7 @@ class VCodeTestCase(MoeTestCase):
         self.assertTrue(v2.content.isdigit())  # 全都是数字
         # == 设置失效时间 ==
         v3 = VCode.create(VCodeType.CONFIRM_EMAIL, "3", expires=1)
-        time.sleep(1)
+        time.sleep(1.1)
         with self.assertRaises(VCodeExpiredError):
             VCode.verify(VCodeType.CONFIRM_EMAIL, v3.info, v3.content)
         # == 设置大小写不敏感 ==
