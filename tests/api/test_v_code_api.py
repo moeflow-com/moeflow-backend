@@ -65,7 +65,7 @@ class VCodeTestCase(MoeAPITestCase):
         )
         self.assertErrorEqual(data3)
         # 等待wait时间
-        time.sleep(data.json["wait"])
+        time.sleep(data.json["wait"] + 0.1)
         # 冷却后又可以使用
         captcha_info, captcha = self.get_captcha()
         data4 = self.post(
@@ -108,7 +108,7 @@ class VCodeTestCase(MoeAPITestCase):
         data3 = self.post("/v1/reset-email-codes", token=token2)
         self.assertErrorEqual(data3)
         # 等待wait时间
-        time.sleep(data.json["wait"])
+        time.sleep(data.json["wait"] + 0.1)
         # 冷却后又可以使用
         data4 = self.post("/v1/reset-email-codes", token=token)
         self.assertErrorEqual(data4)
@@ -168,7 +168,7 @@ class VCodeTestCase(MoeAPITestCase):
         )
         self.assertErrorEqual(data3)
         # 等待wait时间
-        time.sleep(data.json["wait"])
+        time.sleep(data.json["wait"] + 0.1)
         # 申请人机验证码
         captcha_info, captcha = self.get_captcha()
         # 冷却后又可以使用

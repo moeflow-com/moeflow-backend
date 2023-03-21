@@ -27,6 +27,13 @@
 5. 启动输出用 Celery Worker (导入项目、生成缩略图、导出翻译、导出项目)，请执行：`celery -A app.celery worker -Q output -n output -P eventlet --loglevel=info`
 6. 非 Windows 环境如果有报错，请去掉命令中的 `-P eventlet` 一段。
 
+## 如何测试
+
+1. 配置测试 `test.py`
+    1. DEBUG = True 和 TESTING = True
+    2. DB_URI 协议名使用 `mongomock://` 并将数据库名以 `_test` 结尾
+3. 执行 `export CONFIG_PATH=/path/to/configs/test.py && pytest -n auto` 开始并行测试
+
 ## 版本修改内容一览
 
 ### Version 1.0.0
