@@ -13,6 +13,7 @@ SECRET_KEY = env["SECRET_KEY"]  # 必填 - 密钥
 DEBUG = False
 TESTING = False
 MAX_CONTENT_LENGTH = int(env.get("MAX_CONTENT_LENGTH", 20 * 1024 * 1024))
+ADMIN_EMAIL = env["ADMIN_EMAIL"]
 # -----------
 # Mongo 数据库
 # -----------

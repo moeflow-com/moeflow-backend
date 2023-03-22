@@ -13,7 +13,7 @@ from app.models.project import (
 )
 from app.models.team import Team, TeamRole
 from app.models.user import User
-from tests import MoeAPITestCase
+from tests import DEFAULT_USERS_COUNT, MoeAPITestCase
 
 
 class JoinProcessAPITestCase(MoeAPITestCase):
@@ -211,7 +211,7 @@ class JoinProcessAPITestCase(MoeAPITestCase):
         self.assertErrorEqual(data)
         self.assertEqual(0, Application.objects.count())
         self.assertEqual(1, Project.objects.count())
-        self.assertEqual(3, User.objects.count())
+        self.assertEqual(DEFAULT_USERS_COUNT + 3, User.objects.count())
 
     def test_project_apply5(self):
         """

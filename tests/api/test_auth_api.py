@@ -3,14 +3,14 @@ from app.exceptions import BadTokenError, NeedTokenError, UserBannedError
 from app.models.user import User
 from app.models.v_code import VCode, VCodeType
 from flask_apikit.exceptions import ValidateError
-from tests import MoeAPITestCase
+from tests import DEFAULT_USERS_COUNT, MoeAPITestCase
 
 
 class AuthAPITestCase(MoeAPITestCase):
     def test_register1(self):
         """测试注册API"""
         # 缺少验证码无法注册
-        self.assertEqual(User.objects.count(), 0)
+        self.assertEqual(User.objects.count(), DEFAULT_USERS_COUNT + 0)
         # 申请人机验证码
         captcha_info, captcha = self.get_captcha()
         # 申请邮件验证码
@@ -53,7 +53,7 @@ class AuthAPITestCase(MoeAPITestCase):
             },
         )
         self.assertErrorEqual(data, ValidateError)
-        self.assertEqual(User.objects.count(), 0)
+        self.assertEqual(User.objects.count(), DEFAULT_USERS_COUNT + 0)
         # == 错误的邮箱注册 ==
         # 获取验证码内容
         data = self.post(
@@ -67,7 +67,7 @@ class AuthAPITestCase(MoeAPITestCase):
             },
         )
         self.assertErrorEqual(data, ValidateError)
-        self.assertEqual(User.objects.count(), 0)
+        self.assertEqual(User.objects.count(), DEFAULT_USERS_COUNT + 0)
         # == 正确的注册 ==
         data = self.post(
             "/v1/users",
@@ -80,7 +80,7 @@ class AuthAPITestCase(MoeAPITestCase):
             },
         )
         self.assertErrorEqual(data)
-        self.assertEqual(User.objects.count(), 1)
+        self.assertEqual(User.objects.count(), DEFAULT_USERS_COUNT + 1)
         # == 注册过的邮箱不能再次注册 ==
         data = self.post(
             "/v1/users",
@@ -93,7 +93,7 @@ class AuthAPITestCase(MoeAPITestCase):
             },
         )
         self.assertErrorEqual(data, ValidateError)
-        self.assertEqual(User.objects.count(), 1)
+        self.assertEqual(User.objects.count(), DEFAULT_USERS_COUNT + 1)
         # == 注册了的邮箱,不能申请邮箱确认验证码 ==
         # 申请邮件验证码
         data = self.post("/v1/confirm-email-codes", json={"email": "AAA@a.com"})
@@ -131,7 +131,7 @@ class AuthAPITestCase(MoeAPITestCase):
             },
         )
         self.assertErrorEqual(data, ValidateError)
-        self.assertEqual(User.objects.count(), 0)
+        self.assertEqual(User.objects.count(), DEFAULT_USERS_COUNT + 0)
         # == 邮箱后加空格 ==
         data = self.post(
             "/v1/users",
@@ -144,7 +144,7 @@ class AuthAPITestCase(MoeAPITestCase):
             },
         )
         self.assertErrorEqual(data, ValidateError)
-        self.assertEqual(User.objects.count(), 0)
+        self.assertEqual(User.objects.count(), DEFAULT_USERS_COUNT + 0)
         # == 邮箱中间加空格 ==
         data = self.post(
             "/v1/users",
@@ -157,7 +157,7 @@ class AuthAPITestCase(MoeAPITestCase):
             },
         )
         self.assertErrorEqual(data, ValidateError)
-        self.assertEqual(User.objects.count(), 0)
+        self.assertEqual(User.objects.count(), DEFAULT_USERS_COUNT + 0)
         # == 名称前加空格 ==
         data = self.post(
             "/v1/users",
@@ -170,7 +170,7 @@ class AuthAPITestCase(MoeAPITestCase):
             },
         )
         self.assertErrorEqual(data, ValidateError)
-        self.assertEqual(User.objects.count(), 0)
+        self.assertEqual(User.objects.count(), DEFAULT_USERS_COUNT + 0)
         # == 名称后加空格 ==
         data = self.post(
             "/v1/users",
@@ -183,7 +183,7 @@ class AuthAPITestCase(MoeAPITestCase):
             },
         )
         self.assertErrorEqual(data, ValidateError)
-        self.assertEqual(User.objects.count(), 0)
+        self.assertEqual(User.objects.count(), DEFAULT_USERS_COUNT + 0)
         # == 名称中间加空格 ==
         data = self.post(
             "/v1/users",
@@ -196,7 +196,7 @@ class AuthAPITestCase(MoeAPITestCase):
             },
         )
         self.assertErrorEqual(data, ValidateError)
-        self.assertEqual(User.objects.count(), 0)
+        self.assertEqual(User.objects.count(), DEFAULT_USERS_COUNT + 0)
         # == 名称加符号 ==
         data = self.post(
             "/v1/users",
@@ -209,7 +209,7 @@ class AuthAPITestCase(MoeAPITestCase):
             },
         )
         self.assertErrorEqual(data, ValidateError)
-        self.assertEqual(User.objects.count(), 0)
+        self.assertEqual(User.objects.count(), DEFAULT_USERS_COUNT + 0)
         # == 符合要求的名称 ==
         data = self.post(
             "/v1/users",
@@ -222,7 +222,7 @@ class AuthAPITestCase(MoeAPITestCase):
             },
         )
         self.assertErrorEqual(data)
-        self.assertEqual(User.objects.count(), 1)
+        self.assertEqual(User.objects.count(), DEFAULT_USERS_COUNT + 1)
         # 用户邮箱记录的是小写
         user = User.get_by_email("AAA@a.com")
         self.assertEqual(user.email, "aaa@a.com")
@@ -256,7 +256,7 @@ class AuthAPITestCase(MoeAPITestCase):
             },
         )
         self.assertErrorEqual(data, ValidateError)
-        self.assertEqual(User.objects.count(), 0)
+        self.assertEqual(User.objects.count(), DEFAULT_USERS_COUNT + 0)
         # == 符合要求的名称 ==
         data = self.post(
             "/v1/users",
@@ -269,7 +269,7 @@ class AuthAPITestCase(MoeAPITestCase):
             },
         )
         self.assertErrorEqual(data)
-        self.assertEqual(User.objects.count(), 1)
+        self.assertEqual(User.objects.count(), DEFAULT_USERS_COUNT + 1)
 
     def test_register3(self):
         """测试注册API（注册请求使用大写）"""
@@ -300,7 +300,7 @@ class AuthAPITestCase(MoeAPITestCase):
             },
         )
         self.assertErrorEqual(data, ValidateError)
-        self.assertEqual(User.objects.count(), 0)
+        self.assertEqual(User.objects.count(), DEFAULT_USERS_COUNT + 0)
         # == 符合要求的名称 ==
         data = self.post(
             "/v1/users",
@@ -313,7 +313,7 @@ class AuthAPITestCase(MoeAPITestCase):
             },
         )
         self.assertErrorEqual(data)
-        self.assertEqual(User.objects.count(), 1)
+        self.assertEqual(User.objects.count(), DEFAULT_USERS_COUNT + 1)
         # 用户邮箱记录的是小写
         user = User.get_by_email("AAA@a.com")
         self.assertEqual(user.email, "aaa@a.com")
@@ -471,7 +471,8 @@ class AuthAPITestCase(MoeAPITestCase):
         self.assertEqual(data.json["name"], "11")
         self.assertEqual(data.json["signature"], "222")
         self.assertEqual(
-            data.json["locale"], {"id": "auto", "name": "自动", "intro": "遵循浏览器设置"},
+            data.json["locale"],
+            {"id": "auto", "name": "自动", "intro": "遵循浏览器设置"},
         )
         # 设置资料
         data = self.put(
@@ -1129,14 +1130,23 @@ class AuthAPITestCase(MoeAPITestCase):
         # 申请邮件验证码，直接报错，邮箱已注册
         v2 = self.post(
             "/v1/confirm-email-codes",
-            json={"email": email, "captcha_info": captcha_info, "captcha": captcha,},
+            json={
+                "email": email,
+                "captcha_info": captcha_info,
+                "captcha": captcha,
+            },
         )
         self.assertErrorEqual(v2, ValidateError)
         self.assertIn("email", v2.json["message"])
         # 也报错邮箱已注册
         data = self.post(
             "/v1/users",
-            json={"email": email, "name": name, "password": password, "v_code": "123",},
+            json={
+                "email": email,
+                "name": name,
+                "password": password,
+                "v_code": "123",
+            },
         )
         self.assertErrorEqual(data, ValidateError)
         self.assertIn("email", data.json["message"])

@@ -14,7 +14,7 @@ from app.models.v_code import VCodeType, VCode
 from typing import Any, Union
 
 TEST_FILE_PATH = os.path.abspath(os.path.join(FILE_PATH, "test"))
-
+DEFAULT_USERS_COUNT = 1
 
 def create_test_app():
     # 先创建app连接上数据库

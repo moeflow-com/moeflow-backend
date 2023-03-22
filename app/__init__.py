@@ -25,6 +25,26 @@ apikit = APIKit()
 
 config_path_env = "CONFIG_PATH"
 
+def create_or_override_default_admin(app):
+    """创建或覆盖默认管理员"""
+    from app.models.user import User
+
+    admin_user = User.get_by_email(app.config["ADMIN_EMAIL"])
+    if admin_user:
+        if admin_user.admin is False:
+            admin_user.admin = True
+            admin_user.save()
+            logger.info("已将 {} 设置为管理员".format(app.config["ADMIN_EMAIL"]))
+    else:
+        admin_user = User.create(
+            name='Admin',
+            email=app.config["ADMIN_EMAIL"],
+            password='moe123456',
+        )
+        admin_user.admin = True
+        admin_user.save()
+        logger.info("已创建管理员 {}, 默认密码为 moe123456，请及时修改！".format(admin_user))
+
 
 def create_app():
     app = Flask(__name__)
@@ -54,6 +74,8 @@ def create_app():
     logger.info("-" * 50)
     logger.info("站点支持语言: " + str([str(i) for i in babel.list_translations()]))
     oss.init(app.config)  # 文件储存
+
+    create_or_override_default_admin(app)
 
     # from app.tasks.ocr import recover_ocr_tasks
 
