@@ -23,7 +23,12 @@ from app.apis.me import (
     MeRelatedApplicationListAPI,
 )
 from app.apis.avatar import AvatarAPI
-from app.apis.user import AdminUserAdminStatusAPI, UserListAPI, UserAPI
+from app.apis.user import (
+    AdminUserAdminStatusAPI,
+    AdminUserListAPI,
+    UserListAPI,
+    UserAPI,
+)
 from app.apis.project import (
     ProjectAPI,
     ProjectDeletePlanAPI,
@@ -406,4 +411,9 @@ admin.add_url_rule(
     "/admin-status",
     methods=["PUT", "OPTIONS"],
     view_func=AdminUserAdminStatusAPI.as_view("admin_admin_status"),
+)
+admin.add_url_rule(
+    "/users",
+    methods=["GET", "OPTIONS"],
+    view_func=AdminUserListAPI.as_view("admin_user_list"),
 )

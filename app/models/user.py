@@ -230,7 +230,7 @@ class User(Document):
             "locale": Locale.to_api(id=self.locale),
             "admin": self.admin,
         }
-        if g.get("current_user") and g.get("current_user") == self:
+        if g.get("current_user") and g.get("current_user").admin:
             data = {**data, **{"email": self.email}}
         return data
 
@@ -350,7 +350,11 @@ class User(Document):
     def applications(self, group=None, status=None, skip=None, limit=None):
         """获取自己发出的所有的申请"""
         applications = Application.get(
-            user=self, group=group, status=status, skip=skip, limit=limit,
+            user=self,
+            group=group,
+            status=status,
+            skip=skip,
+            limit=limit,
         )
         return applications
 

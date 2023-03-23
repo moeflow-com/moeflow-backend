@@ -75,9 +75,7 @@ def local(action):
         )
     elif action == 4:
         os.system(
-            "pybabel compile -d {locale_folder}".format(
-                locale_folder=locale_folder
-            )
+            "pybabel compile -d {locale_folder}".format(locale_folder=locale_folder)
         )
 
 

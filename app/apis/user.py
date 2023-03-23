@@ -114,6 +114,42 @@ class UserAPI(MoeAPIView):
         return {"message": gettext("注册成功"), "token": token}
 
 
+class AdminUserListAPI(MoeAPIView):
+    @admin_required
+    def get(self):
+        """
+        @api {get} /v1/admin/users 获取用户列表
+        @apiVersion 1.0.0
+        @apiName get_admin_users
+        @apiGroup Admin
+        @apiUse APIHeader
+        @apiUse TokenHeader
+
+        @apiSuccessExample {json} 返回示例
+        [
+            {
+                "avatar": null,
+                "id": "5911930d7e4b036e2df3a910",
+                "name": "123123",
+                "signature": "這個用戶還沒有簽名"
+            }
+        ]
+
+        @apiUse NeedTokenError
+        @apiUse BadTokenError
+        """
+        query = self.get_query()
+        # word 不可为空
+        p = MoePagination()
+        word = query["word"]
+        objects = (
+            (User.objects(name__icontains=query["word"]).skip(p.skip).limit(p.limit))
+            if word
+            else User.objects.skip(p.skip).limit(p.limit)
+        )
+        return p.set_objects(objects)
+
+
 class AdminUserAdminStatusAPI(MoeAPIView):
     @admin_required
     def put(self):

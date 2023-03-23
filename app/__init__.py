@@ -25,6 +25,7 @@ apikit = APIKit()
 
 config_path_env = "CONFIG_PATH"
 
+
 def create_or_override_default_admin(app):
     """创建或覆盖默认管理员"""
     from app.models.user import User
@@ -34,16 +35,17 @@ def create_or_override_default_admin(app):
         if admin_user.admin is False:
             admin_user.admin = True
             admin_user.save()
+            logger.info("-" * 50)
             logger.info("已将 {} 设置为管理员".format(app.config["ADMIN_EMAIL"]))
     else:
         admin_user = User.create(
-            name='Admin',
+            name="Admin",
             email=app.config["ADMIN_EMAIL"],
-            password='moe123456',
+            password="moe123456",
         )
         admin_user.admin = True
         admin_user.save()
-        logger.info("已创建管理员 {}, 默认密码为 moe123456，请及时修改！".format(admin_user))
+        logger.info("已创建管理员 {}, 默认密码为 moe123456，请及时修改！".format(admin_user.email))
 
 
 def create_app():
