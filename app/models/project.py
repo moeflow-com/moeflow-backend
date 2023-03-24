@@ -329,7 +329,7 @@ class Project(GroupMixin, Document):
     default_role = ReferenceField(
         "ProjectRole", db_field="dr", reverse_delete_rule=DENY
     )
-    max_user = IntField(db_field="u", required=True, default=100)  # 最大用户数
+    max_user = IntField(db_field="u", required=True, default=100000)  # 最大用户数
     source_name = StringField(db_field="sn")  # 作品原名
     target_name = StringField(db_field="tn")  # 作品译名
     source_language = ReferenceField(  # 源语言

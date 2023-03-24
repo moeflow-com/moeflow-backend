@@ -250,7 +250,7 @@ class Team(GroupMixin, Document):
     intro = StringField(db_field="i", default="")  # 团队介绍
     default_role_system_code = "beginner"
     default_role = ReferenceField("TeamRole", db_field="dr", reverse_delete_rule=DENY)
-    max_user = IntField(db_field="u", required=True, default=100)  # 人数限制
+    max_user = IntField(db_field="u", required=True, default=100000)  # 人数限制
     # OCR限额
     ocr_quota_month = IntField(db_field="om", default=0)  # 每月限额
     ocr_quota_used = IntField(db_field="ou", default=0)  # 当月已用限额，每月1号0点清零
