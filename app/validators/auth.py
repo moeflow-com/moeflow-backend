@@ -31,7 +31,9 @@ class RegisterSchema(Schema):
     )
     # 邮件验证码
     v_code = fields.Str(
-        required=True, validate=[cant_empty], error_messages={**required_message},
+        required=True,
+        validate=[cant_empty],
+        error_messages={**required_message},
     )
 
     @validates_schema
@@ -132,9 +134,7 @@ class ChangePasswordSchema(Schema):
 
     @validates_schema
     def verify_password(self, data):
-        password_validator(
-            self.context["email"], data["old_password"], "old_password"
-        )
+        password_validator(self.context["email"], data["old_password"], "old_password")
 
 
 class ResetPasswordSchema(Schema):
@@ -157,3 +157,33 @@ class ResetPasswordSchema(Schema):
         v_code_validator(
             VCodeType.RESET_PASSWORD, data["email"].lower(), data["v_code"]
         )
+
+
+class AdminRegisterSchema(Schema):
+    """注册验证"""
+
+    email = fields.Email(
+        required=True,
+        validate=[UserValidate.valid_new_email],
+        error_messages={**required_message, **email_invalid_message},
+    )
+    name = fields.Str(
+        required=True,
+        validate=[UserValidate.valid_new_name],
+        error_messages={**required_message},
+    )
+    password = fields.Str(
+        required=True,
+        validate=[UserValidate.password_length],
+        error_messages={**required_message},
+    )
+
+
+class AdminEditUserPasswordSchema(Schema):
+    """管理后台修改密码验证"""
+
+    password = fields.Str(
+        required=True,
+        validate=[UserValidate.password_length],
+        error_messages={**required_message},
+    )

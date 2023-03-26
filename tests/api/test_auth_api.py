@@ -1,5 +1,6 @@
 from app import Locale
 from app.exceptions import BadTokenError, NeedTokenError, UserBannedError
+from app.exceptions.base import NoPermissionError
 from app.models.user import User
 from app.models.v_code import VCode, VCodeType
 from flask_apikit.exceptions import ValidateError
@@ -1527,3 +1528,119 @@ class AuthAPITestCase(MoeAPITestCase):
             json={"email": "Aaa@A.Com", "v_code": content, "password": "222222"},
         )
         self.assertErrorEqual(data)
+
+    def test_admin_register(self):
+        """测试管理后台注册API"""
+        test_default_users_count = DEFAULT_USERS_COUNT + 2
+        admin_user = self.create_user("admin")
+        admin_user.admin = True
+        admin_user.save()
+        admin_token = admin_user.generate_token()
+        user = self.create_user("user")
+        user_token = user.generate_token()
+        self.assertEqual(User.objects.count(), test_default_users_count + 0)
+        # == 非管理员无法注册 ==
+        data = self.post(
+            "/v1/admin/users",
+            json={
+                "email": "AAA@a.com",
+                "name": "12134",
+                "password": "111111",
+            },
+            token=user_token,
+        )
+        self.assertErrorEqual(data, NoPermissionError)
+        self.assertEqual(User.objects.count(), test_default_users_count + 0)
+        # == 正确的注册 ==
+        data = self.post(
+            "/v1/admin/users",
+            json={
+                "email": "AAA@a.com",
+                "name": "12134",
+                "password": "111111",
+            },
+            token=admin_token,
+        )
+        self.assertErrorEqual(data)
+        self.assertEqual(User.objects.count(), test_default_users_count + 1)
+        # == 注册过的邮箱不能再次注册 ==
+        data = self.post(
+            "/v1/admin/users",
+            json={
+                "email": "AAA@a.com",
+                "name": "12134a",
+                "password": "111111",
+            },
+            token=admin_token,
+        )
+        self.assertErrorEqual(data, ValidateError)
+        self.assertEqual(User.objects.count(), test_default_users_count + 1)
+        # == 注册过的昵称不能再次注册 ==
+        data = self.post(
+            "/v1/admin/users",
+            json={
+                "email": "AAA1@a.com",
+                "name": "12134",
+                "password": "111111",
+            },
+            token=admin_token,
+        )
+        self.assertErrorEqual(data, ValidateError)
+        self.assertEqual(User.objects.count(), test_default_users_count + 1)
+        # 用户邮箱记录的是小写
+        user = User.get_by_email("AAA@a.com")
+        self.assertEqual(user.email, "aaa@a.com")
+
+    def test_admin_edit_user_password(self):
+        """测试管理后台修改用户密码"""
+        admin_user = self.create_user("admin")
+        admin_user.admin = True
+        admin_user.save()
+        admin_token = admin_user.generate_token()
+        user = self.create_user("user")
+        user_token = user.generate_token()
+        new_password = "new_password111111"
+        # == 非管理员无法修改 ==
+        data = self.put(
+            "/v1/admin/users/" + str(user.id),
+            json={
+                "password": new_password,
+            },
+            token=user_token,
+        )
+        self.assertErrorEqual(data, NoPermissionError)
+        # 使用新密码无法登陆
+        captcha_info, captcha = self.get_captcha()
+        data = self.post(
+            "/v1/user/token",
+            json={
+                "email": user.email,
+                "password": new_password,
+                "captcha_info": captcha_info,
+                "captcha": captcha,
+            },
+        )
+        self.assertErrorEqual(data, ValidateError)
+        self.assertIsNotNone(data.json.get("message").get("password"))
+        # == 管理员可以修改 ==
+        data = self.put(
+            "/v1/admin/users/" + str(user.id),
+            json={
+                "password": new_password,
+            },
+            token=admin_token,
+        )
+        self.assertErrorEqual(data)
+        # 使用新密码可以登陆
+        captcha_info, captcha = self.get_captcha()
+        data = self.post(
+            "/v1/user/token",
+            json={
+                "email": user.email,
+                "password": new_password,
+                "captcha_info": captcha_info,
+                "captcha": captcha,
+            },
+        )
+        self.assertErrorEqual(data)
+        self.assertIsNotNone(data.json.get("token"))

@@ -25,6 +25,7 @@ from app.apis.me import (
 from app.apis.avatar import AvatarAPI
 from app.apis.site_setting import SiteSettingAPI
 from app.apis.user import (
+    AdminUserAPI,
     AdminUserAdminStatusAPI,
     AdminUserListAPI,
     UserListAPI,
@@ -415,11 +416,16 @@ admin.add_url_rule(
 )
 admin.add_url_rule(
     "/users",
-    methods=["GET", "OPTIONS"],
+    methods=["GET", "POST", "OPTIONS"],
     view_func=AdminUserListAPI.as_view("admin_user_list"),
 )
 admin.add_url_rule(
     "/site-setting",
     methods=["GET", "PUT", "OPTIONS"],
     view_func=SiteSettingAPI.as_view("admin_site_setting"),
+)
+admin.add_url_rule(
+    "/users/<user_id>",
+    methods=["PUT", "OPTIONS"],
+    view_func=AdminUserAPI.as_view("admin_edit_user_password"),
 )

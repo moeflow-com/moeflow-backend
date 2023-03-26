@@ -6,12 +6,14 @@ from flask_babel import gettext
 from app.core.responses import MoePagination
 from app.core.views import MoeAPIView
 from app.decorators.auth import admin_required, token_required
+from app.decorators.url import fetch_model
 from app.exceptions import RequestDataEmptyError, UserNotExistError
 from app.exceptions.auth import EmailNotInWhitelistError
 from app.models.site_setting import SiteSetting
 from app.models.user import User
 from app.validators import RegisterSchema
 from app.validators.admin import AdminStatusSchema
+from app.validators.auth import AdminEditUserPasswordSchema, AdminRegisterSchema
 
 
 class UserListAPI(MoeAPIView):
@@ -125,7 +127,7 @@ class AdminUserListAPI(MoeAPIView):
     @admin_required
     def get(self):
         """
-        @api {get} /v1/admin/users 获取用户列表
+        @api {get} /v1/admin/users 管理后台获取用户列表
         @apiVersion 1.0.0
         @apiName get_admin_users
         @apiGroup Admin
@@ -150,11 +152,39 @@ class AdminUserListAPI(MoeAPIView):
         p = MoePagination()
         word = query["word"]
         objects = (
-            (User.objects(name__icontains=query["word"]).skip(p.skip).limit(p.limit))
+            (
+                User.objects(name__icontains=query["word"])
+                .skip(p.skip)
+                .limit(p.limit)
+                .order_by("-create_time")
+            )
             if word
-            else User.objects.skip(p.skip).limit(p.limit)
+            else User.objects.skip(p.skip).limit(p.limit).order_by("-create_time")
         )
         return p.set_objects(objects)
+
+    @admin_required
+    def post(self):
+        """
+        @api {post} /v1/admin/users 管理后台新建用户
+        """
+        data = self.get_json(AdminRegisterSchema())
+        # 创建用户
+        User.create(email=data["email"], name=data["name"], password=data["password"])
+        return {"message": gettext("注册成功")}
+
+
+class AdminUserAPI(MoeAPIView):
+    @admin_required
+    @fetch_model(User)
+    def put(self, user):
+        """
+        @api {put} /v1/admin/users/<user_id> 重置用户密码
+        """
+        data = self.get_json(AdminEditUserPasswordSchema())
+        user.password = data["password"]
+        user.save()
+        return {"message": gettext("修改成功")}
 
 
 class AdminUserAdminStatusAPI(MoeAPIView):
