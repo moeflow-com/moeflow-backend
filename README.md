@@ -30,9 +30,10 @@
 ## 如何测试
 
 1. 配置测试 `test.py`
-    1. DEBUG = True 和 TESTING = True
-    2. DB_URI 协议名使用 `mongomock://` 并将数据库名以 `_test` 结尾
-3. 执行 `export CONFIG_PATH=/path/to/configs/test.py && pytest -n auto` 开始并行测试
+   1. DEBUG = True 和 TESTING = True
+   2. DB_URI 协议名使用 `mongomock://` 并将数据库名以 `_test` 结尾
+   3. 将 `CONFIRM_EMAIL_WAIT_SECONDS` `RESET_EMAIL_WAIT_SECONDS` `RESET_PASSWORD_WAIT_SECONDS` 设置为 `1`，以免过多等待
+2. 执行 `export CONFIG_PATH=/path/to/configs/test.py && pytest -n auto` 开始并行测试
 
 ## 版本修改内容一览
 

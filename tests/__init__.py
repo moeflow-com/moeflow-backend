@@ -7,6 +7,7 @@ import os
 from mongoengine import connection
 
 from app import create_app, FILE_PATH
+from app.models.site_setting import SiteSetting
 from app.models.user import User
 from app.models.team import Team
 from app.models.project import ProjectSet
@@ -15,6 +16,7 @@ from typing import Any, Union
 
 TEST_FILE_PATH = os.path.abspath(os.path.join(FILE_PATH, "test"))
 DEFAULT_USERS_COUNT = 1
+
 
 def create_test_app():
     # 先创建app连接上数据库
@@ -35,6 +37,7 @@ class MoeTestCase(TestCase):
         self.app_context = self.app.app_context()
         self.app_context.push()
         self.client = self.app.test_client(use_cookies=True)
+        self.disable_whitelist()
 
     def tearDown(self):
         self.app_context.pop()
@@ -76,6 +79,12 @@ class MoeTestCase(TestCase):
     def get_creator(self, group: Union[Team, Project]) -> User:
         """获取团队或项目的创建人"""
         return group.users(role=group.role_cls.by_system_code("creator")).first()
+
+    def disable_whitelist(self):
+        """禁用白名单"""
+        site_setting = SiteSetting.get()
+        site_setting.enable_whitelist = False
+        site_setting.save()
 
 
 class MoeAPITestCase(MoeTestCase):

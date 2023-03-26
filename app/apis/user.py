@@ -7,6 +7,8 @@ from app.core.responses import MoePagination
 from app.core.views import MoeAPIView
 from app.decorators.auth import admin_required, token_required
 from app.exceptions import RequestDataEmptyError, UserNotExistError
+from app.exceptions.auth import EmailNotInWhitelistError
+from app.models.site_setting import SiteSetting
 from app.models.user import User
 from app.validators import RegisterSchema
 from app.validators.admin import AdminStatusSchema
@@ -105,6 +107,11 @@ class UserAPI(MoeAPIView):
         @apiUse ValidateError
         """
         data = self.get_json(RegisterSchema())
+        # 检查白名单
+        site_setting = SiteSetting.get()
+        if site_setting.enable_whitelist:
+            if data["email"] not in site_setting.whitelist_emails:
+                raise EmailNotInWhitelistError
         # 创建用户
         user = User.create(
             email=data["email"], name=data["name"], password=data["password"]

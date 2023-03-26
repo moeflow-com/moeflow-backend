@@ -23,6 +23,7 @@ from app.apis.me import (
     MeRelatedApplicationListAPI,
 )
 from app.apis.avatar import AvatarAPI
+from app.apis.site_setting import SiteSettingAPI
 from app.apis.user import (
     AdminUserAdminStatusAPI,
     AdminUserListAPI,
@@ -416,4 +417,9 @@ admin.add_url_rule(
     "/users",
     methods=["GET", "OPTIONS"],
     view_func=AdminUserListAPI.as_view("admin_user_list"),
+)
+admin.add_url_rule(
+    "/site-setting",
+    methods=["GET", "PUT", "OPTIONS"],
+    view_func=SiteSettingAPI.as_view("admin_site_setting"),
 )

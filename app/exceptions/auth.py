@@ -123,3 +123,13 @@ class UserNameLengthError(AuthRootError):
 
     code = 1011
     message = lazy_gettext("长度为2到18个字符")
+
+
+class EmailNotInWhitelistError(AuthRootError):
+    """
+    @apiDefine EmailNotInWhitelistError
+    @apiError 1011 邮箱不在白名单中，请联系管理员添加
+    """
+
+    code = 1012
+    message = lazy_gettext("邮箱不在白名单中，请联系管理员添加")

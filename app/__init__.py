@@ -65,10 +65,12 @@ def create_app():
     from app.models.language import Language
     from app.models.project import ProjectRole
     from app.models.team import TeamRole
+    from app.models.site_setting import SiteSetting
 
     TeamRole.init_system_roles()
     ProjectRole.init_system_roles()
     Language.init_system_languages()
+    SiteSetting.init_site_setting()
     # 初始化插件
     babel.init_app(app)
     apikit.init_app(app)
