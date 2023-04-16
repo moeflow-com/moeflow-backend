@@ -1,6 +1,8 @@
 from app.exceptions.auth import UserNotExistError
 from app.exceptions.project import ProjectNotExistError
 from typing import List
+from app.exceptions.team import OnlyAllowAdminCreateTeamError
+from app.models.site_setting import SiteSetting
 from app.models.user import User
 from app.models.language import Language
 from flask import request, current_app
@@ -24,6 +26,7 @@ from app.validators.team import CreateTeamSchema, EditTeamSchema
 from flask_apikit.utils import QueryParser
 from app.models.project import ProjectRole, ProjectSet, ProjectUserRelation
 from app.validators.project import ProjectSetsSchema
+
 
 def getLanguageByCode(code):
     lang = Language.by_code(code)
@@ -101,6 +104,11 @@ class TeamListAPI(MoeAPIView):
 
         @apiUse ValidateError
         """
+        if (
+            SiteSetting.get().only_allow_admin_create_team
+            and not self.current_user.admin
+        ):
+            raise OnlyAllowAdminCreateTeamError
         # 处理请求数据
         data = self.get_json(CreateTeamSchema())
         # 创建团队

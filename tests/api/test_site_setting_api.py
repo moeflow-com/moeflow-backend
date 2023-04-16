@@ -33,13 +33,18 @@ class TestSiteSettingAPI(MoeAPITestCase):
         user_token = user.generate_token()
         site_setting = SiteSetting.get()
         site_setting.enable_whitelist = True
+        site_setting.only_allow_admin_create_team = True
         site_setting.save()
         site_setting.reload()
         self.assertEqual(site_setting.enable_whitelist, True)
         self.assertEqual(site_setting.whitelist_emails, [])
+        self.assertEqual(site_setting.only_allow_admin_create_team, True)
+        self.assertEqual(site_setting.auto_join_team_ids, [])
         new_setting_json = {
             "enable_whitelist": False,
             "whitelist_emails": ["admin1@moeflow.com", "admin2@moeflow.com"],
+            "only_allow_admin_create_team": False,
+            "auto_join_team_ids": ["5e7f7b2b4d9b4b0b8c1c1c1c"],
         }
         # 普通用户, 无权限
         data = self.put(
@@ -57,4 +62,11 @@ class TestSiteSettingAPI(MoeAPITestCase):
         )
         self.assertEqual(
             site_setting.whitelist_emails, new_setting_json["whitelist_emails"]
+        )
+        self.assertEqual(
+            site_setting.only_allow_admin_create_team,
+            new_setting_json["only_allow_admin_create_team"],
+        )
+        self.assertEqual(
+            [str(id) for id in site_setting.auto_join_team_ids], new_setting_json["auto_join_team_ids"]
         )

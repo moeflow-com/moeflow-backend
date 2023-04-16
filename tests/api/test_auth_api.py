@@ -1,6 +1,9 @@
+from mongomock import ObjectId
 from app import Locale
 from app.exceptions import BadTokenError, NeedTokenError, UserBannedError
 from app.exceptions.base import NoPermissionError
+from app.models.site_setting import SiteSetting
+from app.models.team import TeamRole
 from app.models.user import User
 from app.models.v_code import VCode, VCodeType
 from flask_apikit.exceptions import ValidateError
@@ -1644,3 +1647,25 @@ class AuthAPITestCase(MoeAPITestCase):
         )
         self.assertErrorEqual(data)
         self.assertIsNotNone(data.json.get("token"))
+
+    def test_auto_join_team_when_register(self):
+        """测试注册时自动加入团队"""
+        site_setting = SiteSetting.get()
+        # 创建团队
+        team_admin_role = TeamRole.by_system_code("admin")
+        team_beginner_role = TeamRole.by_system_code("beginner")
+        # team1 默认角色为 beginner, team2 默认角色为 admin
+        team1 = self.create_team("team1")
+        team2 = self.create_team("team2")
+        team2.default_role = team_admin_role
+        team2.save()
+        site_setting.auto_join_team_ids = [team1.id, team2.id, ObjectId()]  # 第三个为不存在的团队
+        site_setting.save()
+        site_setting.reload()
+        # 注册
+        user = self.create_user("user1")
+        teams = user.teams()
+        self.assertEqual(teams.count(), 2)
+        self.assertListEqual([team.id for team in teams], [team1.id, team2.id])
+        self.assertEqual(user.teams(role=team_beginner_role).first().id, team1.id)
+        self.assertEqual(user.teams(role=team_admin_role).first().id, team2.id)

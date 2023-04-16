@@ -38,6 +38,7 @@ class MoeTestCase(TestCase):
         self.app_context.push()
         self.client = self.app.test_client(use_cookies=True)
         self.disable_whitelist()
+        self.disable_only_allow_admin_create_team()
 
     def tearDown(self):
         self.app_context.pop()
@@ -84,6 +85,12 @@ class MoeTestCase(TestCase):
         """禁用白名单"""
         site_setting = SiteSetting.get()
         site_setting.enable_whitelist = False
+        site_setting.save()
+
+    def disable_only_allow_admin_create_team(self):
+        """禁用仅允许管理员创建团队"""
+        site_setting = SiteSetting.get()
+        site_setting.only_allow_admin_create_team = False
         site_setting.save()
 
 

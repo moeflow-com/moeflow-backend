@@ -35,6 +35,7 @@ from app.models.application import Application, ApplicationStatus
 from app.models.invitation import Invitation, InvitationStatus
 from app.models.message import Message
 from app.models.project import Project, ProjectRole, ProjectUserRelation
+from app.models.site_setting import SiteSetting
 from app.models.team import Team, TeamPermission, TeamUserRelation
 from app.regexs import EMAIL_REGEX, USER_NAME_REGEX
 from app.constants.locale import Locale
@@ -62,6 +63,13 @@ class User(Document):
         user = cls(name=name, email=email.lower())
         user.password = password
         user.save()
+        # 将用户自动加入默认团队
+        auto_join_team_ids = SiteSetting.get().auto_join_team_ids
+        if auto_join_team_ids and isinstance(auto_join_team_ids, list):
+            for team_id in auto_join_team_ids:
+                team = Team.objects(id=team_id).first()
+                if team is not None:
+                    user.join(team)
         return user
 
     @classmethod

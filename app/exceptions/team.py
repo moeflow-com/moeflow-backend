@@ -56,3 +56,12 @@ class TeamNameLengthError(TeamRootError):
 
     code = 3007
     message = lazy_gettext("长度为2到18个字符")
+
+class OnlyAllowAdminCreateTeamError(TeamRootError):
+    """
+    @apiDefine OnlyAllowAdminCreateTeamError
+    @apiError 3008 仅站点管理员可创建团队
+    """
+
+    code = 3008
+    message = lazy_gettext("仅站点管理员可创建团队")
