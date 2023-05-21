@@ -7,6 +7,7 @@ from flask_apikit import APIKit
 from flask_babel import Babel
 
 from app.constants.locale import Locale
+from app.core.rbac import AllowApplyType, ApplicationCheckType
 from app.services.google_storage import GoogleStorage
 from app.services.oss import OSS
 from app.utils.logging import configure_logger, logger
@@ -26,6 +27,29 @@ apikit = APIKit()
 config_path_env = "CONFIG_PATH"
 
 
+def create_default_team(admin_user):
+    from app.models.team import Team, TeamRole
+    from app.models.site_setting import SiteSetting
+
+    logger.info("-" * 50)
+    if Team.objects().count() == 0:
+        logger.info(f"已建立默认团队")
+        team = Team.create(
+            name="默认团队",
+            creator=admin_user,
+        )
+        team.intro = "所有新用户会自动加入此团队，如不需要，站点管理员可以在“站点管理-自动加入的团队 ID”中删除此团队 ID。"
+        team.allow_apply_type = AllowApplyType.ALL
+        team.application_check_type = ApplicationCheckType.ADMIN_CHECK
+        team.default_role = TeamRole.by_system_code("member")
+        team.save()
+        site_setting = SiteSetting.get()
+        site_setting.auto_join_team_ids = [team.id]
+        site_setting.save()
+    else:
+        logger.info(f"已有团队，跳过建立默认团队")
+
+
 def create_or_override_default_admin(app):
     """创建或覆盖默认管理员"""
     from app.models.user import User
@@ -41,11 +65,12 @@ def create_or_override_default_admin(app):
         admin_user = User.create(
             name="Admin",
             email=app.config["ADMIN_EMAIL"],
-            password="moe123456",
+            password="123123",
         )
         admin_user.admin = True
         admin_user.save()
-        logger.info("已创建管理员 {}, 默认密码为 moe123456，请及时修改！".format(admin_user.email))
+        logger.info("已创建管理员 {}, 默认密码为 123123，请及时修改！".format(admin_user.email))
+    return admin_user
 
 
 def create_app():
@@ -79,7 +104,8 @@ def create_app():
     logger.info("站点支持语言: " + str([str(i) for i in babel.list_translations()]))
     oss.init(app.config)  # 文件储存
 
-    create_or_override_default_admin(app)
+    admin_user = create_or_override_default_admin(app)
+    create_default_team(admin_user)
 
     # from app.tasks.ocr import recover_ocr_tasks
 

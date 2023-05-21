@@ -7,7 +7,7 @@ from app.exceptions import (
 from app.models.application import Application, ApplicationStatus
 from app.models.team import Team, TeamPermission, TeamRole
 from app.models.user import User
-from tests import DEFAULT_USERS_COUNT, MoeAPITestCase
+from tests import DEFAULT_TEAMS_COUNT, DEFAULT_USERS_COUNT, MoeAPITestCase
 
 
 class JoinProcessAPITestCase(MoeAPITestCase):
@@ -194,7 +194,7 @@ class JoinProcessAPITestCase(MoeAPITestCase):
         data = self.delete(f"/v1/applications/{application.id}", token=token2)
         self.assertErrorEqual(data)
         self.assertEqual(0, Application.objects.count())
-        self.assertEqual(1, Team.objects.count())
+        self.assertEqual(DEFAULT_TEAMS_COUNT + 1, Team.objects.count())
         self.assertEqual(DEFAULT_USERS_COUNT + 3, User.objects.count())
 
     def test_team_apply5(self):

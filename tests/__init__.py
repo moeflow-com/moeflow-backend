@@ -15,6 +15,9 @@ from app.models.v_code import VCodeType, VCode
 from typing import Any, Union
 
 TEST_FILE_PATH = os.path.abspath(os.path.join(FILE_PATH, "test"))
+DEFAULT_TEAMS_COUNT = 1
+DEFAULT_TEAM_USER_RELATIONS = 1
+DEFAULT_PROJECT_SETS_COUNT = 1
 DEFAULT_USERS_COUNT = 1
 
 

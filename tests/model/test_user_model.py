@@ -1,7 +1,7 @@
 from app.models.project import Project, ProjectPermission, ProjectRole
 from app.models.team import Team, TeamPermission, TeamRole
 from app.models.user import User
-from tests import MoeAPITestCase
+from tests import DEFAULT_TEAMS_COUNT, MoeAPITestCase
 
 
 class UserModelTestCase(MoeAPITestCase):
@@ -73,9 +73,11 @@ class UserModelTestCase(MoeAPITestCase):
         self.user.join(team3, role2)
         # 获取用户所有teams，跳过并限制1
         self.assertEqual(len(self.user.teams(skip=1, limit=1)), 1)
-        self.assertEqual("t2", self.user.teams(skip=1, limit=1).first().name)
+        self.assertEqual(  # 第一个是默认团队
+            "t2", self.user.teams(skip=DEFAULT_TEAMS_COUNT + 1, limit=1).first().name
+        )
         # 用户加入了三个团队
-        self.assertEqual(self.user.teams().count(), 3)
+        self.assertEqual(self.user.teams().count(), DEFAULT_TEAMS_COUNT + 3)
         self.assertEqual(len(self.user.teams(role=role1)), 2)
         self.assertEqual(len(self.user.teams(role=role2)), 1)
         self.assertEqual(len(self.user.teams(role=[role1, role2])), 3)

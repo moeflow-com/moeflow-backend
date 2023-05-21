@@ -34,6 +34,8 @@ class TestSiteSettingAPI(MoeAPITestCase):
         site_setting = SiteSetting.get()
         site_setting.enable_whitelist = True
         site_setting.only_allow_admin_create_team = True
+        site_setting.auto_join_team_ids = []
+        site_setting.whitelist_emails = []
         site_setting.save()
         site_setting.reload()
         self.assertEqual(site_setting.enable_whitelist, True)

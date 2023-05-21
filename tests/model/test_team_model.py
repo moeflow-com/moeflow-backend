@@ -24,7 +24,13 @@ from app.models.team import Team, TeamPermission, TeamRole, TeamUserRelation
 from app.models.term import Term, TermBank
 from app.models.user import User
 from app.constants.project import ProjectStatus
-from tests import TEST_FILE_PATH, MoeTestCase
+from tests import (
+    DEFAULT_PROJECT_SETS_COUNT,
+    DEFAULT_TEAM_USER_RELATIONS,
+    DEFAULT_TEAMS_COUNT,
+    TEST_FILE_PATH,
+    MoeTestCase,
+)
 
 
 class TeamModelTestCase(MoeTestCase):
@@ -125,7 +131,8 @@ class TeamModelTestCase(MoeTestCase):
         self.assertEqual(1, team.projects(status=ProjectStatus.FINISHED).count())
         # 默认项目集
         self.assertEqual(
-            3, team.projects(project_set=default_project_set, status=None).count(),
+            3,
+            team.projects(project_set=default_project_set, status=None).count(),
         )
         self.assertEqual(
             2,
@@ -163,7 +170,8 @@ class TeamModelTestCase(MoeTestCase):
         self.assertEqual(1, team.projects(status=ProjectStatus.FINISHED).count())
         # 默认项目集
         self.assertEqual(
-            2, team.projects(project_set=default_project_set, status=None).count(),
+            2,
+            team.projects(project_set=default_project_set, status=None).count(),
         )
         self.assertEqual(
             1,
@@ -201,7 +209,8 @@ class TeamModelTestCase(MoeTestCase):
         self.assertEqual(1, team.projects(status=ProjectStatus.FINISHED).count())
         # 默认项目集
         self.assertEqual(
-            1, team.projects(project_set=default_project_set, status=None).count(),
+            1,
+            team.projects(project_set=default_project_set, status=None).count(),
         )
         self.assertEqual(
             1,
@@ -239,7 +248,8 @@ class TeamModelTestCase(MoeTestCase):
         self.assertEqual(1, team.projects(status=ProjectStatus.FINISHED).count())
         # 默认项目集
         self.assertEqual(
-            0, team.projects(project_set=default_project_set, status=None).count(),
+            0,
+            team.projects(project_set=default_project_set, status=None).count(),
         )
         self.assertEqual(
             0,
@@ -278,7 +288,9 @@ class TeamModelTestCase(MoeTestCase):
         """测试默认项目集"""
         user1 = User(name="u1", email="u1").save()
         team1 = Team.create("t1", user1)
-        self.assertEqual(1, ProjectSet.objects.count())  # 一共有1个
+        self.assertEqual(
+            DEFAULT_PROJECT_SETS_COUNT + 1, ProjectSet.objects.count()
+        )  # 一共有1个
         self.assertEqual(1, team1.project_sets().count())
         self.assertIsNotNone(team1.default_project_set)
         self.assertEqual(True, team1.default_project_set.default)
@@ -286,7 +298,9 @@ class TeamModelTestCase(MoeTestCase):
         self.assertEqual(team1.default_project_set, team1.project_sets().first())
 
         team2 = Team.create("t2", user1)
-        self.assertEqual(2, ProjectSet.objects.count())  # 一共有2个
+        self.assertEqual(
+            DEFAULT_PROJECT_SETS_COUNT + 2, ProjectSet.objects.count()
+        )  # 一共有2个
         self.assertEqual(1, team1.project_sets().count())
         self.assertEqual(1, team2.project_sets().count())
         self.assertIsNotNone(team1.default_project_set)
@@ -458,8 +472,10 @@ class TeamModelTestCase(MoeTestCase):
             # 公用部分
             self.assertEqual(Language.objects().count(), 106)  # 语言不影响
             # 团队部分（team1）
-            self.assertEqual(Team.objects.count(), 1 * 2)
-            self.assertEqual(TeamUserRelation.objects.count(), 2 * 2)
+            self.assertEqual(Team.objects.count(), DEFAULT_TEAMS_COUNT + 1 * 2)
+            self.assertEqual(
+                TeamUserRelation.objects.count(), DEFAULT_TEAM_USER_RELATIONS + 2 * 2
+            )
             self.assertEqual(TeamRole.objects.count(), 5 + 1 * 2)  # 5个系统角色
             self.assertEqual(
                 Application.objects(group__in=[team, team2]).count(), 1 * 2
@@ -479,13 +495,16 @@ class TeamModelTestCase(MoeTestCase):
             self.assertEqual(Translation.objects.count(), 2 * 2)
             self.assertEqual(Tip.objects.count(), 2 * 2)
             self.assertEqual(
-                ProjectRole.objects(group__in=[project, project2]).count(), 1 * 2,
+                ProjectRole.objects(group__in=[project, project2]).count(),
+                1 * 2,
             )
             self.assertEqual(
-                Application.objects(group__in=[project, project2]).count(), 1 * 2,
+                Application.objects(group__in=[project, project2]).count(),
+                1 * 2,
             )
             self.assertEqual(
-                Invitation.objects(group__in=[project, project2]).count(), 1 * 2,
+                Invitation.objects(group__in=[project, project2]).count(),
+                1 * 2,
             )
             self.assertTrue(
                 oss.is_exist(current_app.config["OSS_FILE_PREFIX"], file_save_name)
@@ -499,8 +518,8 @@ class TeamModelTestCase(MoeTestCase):
             # 公用部分
             self.assertEqual(Language.objects().count(), 106)  # 语言不影响
             # 团队部分（team1）
-            self.assertEqual(Team.objects.count(), 1)
-            self.assertEqual(TeamUserRelation.objects.count(), 2)
+            self.assertEqual(Team.objects.count(), DEFAULT_TEAMS_COUNT + 1)
+            self.assertEqual(TeamUserRelation.objects.count(), DEFAULT_TEAM_USER_RELATIONS + 2)
             self.assertEqual(TeamRole.objects.count(), 5 + 1)  # 5个系统角色
             self.assertEqual(Application.objects(group__in=[team, team2]).count(), 1)
             self.assertEqual(Invitation.objects(group__in=[team, team2]).count(), 1)
@@ -512,32 +531,40 @@ class TeamModelTestCase(MoeTestCase):
             # 项目部分
             self.assertEqual(Project.objects.count(), 1)
             self.assertEqual(
-                ProjectUserRelation.objects(group__in=[project, project2]).count(), 2,
+                ProjectUserRelation.objects(group__in=[project, project2]).count(),
+                2,
             )
             self.assertEqual(
-                ProjectUserRelation.objects(group__in=[project2]).count(), 2,
+                ProjectUserRelation.objects(group__in=[project2]).count(),
+                2,
             )
             self.assertEqual(File.objects.count(), 1)
             self.assertEqual(Source.objects.count(), 3)
             self.assertEqual(Translation.objects.count(), 2)
             self.assertEqual(Tip.objects.count(), 2)
             self.assertEqual(
-                ProjectRole.objects(group__in=[project, project2]).count(), 1,
+                ProjectRole.objects(group__in=[project, project2]).count(),
+                1,
             )
             self.assertEqual(
-                Application.objects(group__in=[project, project2]).count(), 1,
+                Application.objects(group__in=[project, project2]).count(),
+                1,
             )
             self.assertEqual(
-                Invitation.objects(group__in=[project, project2]).count(), 1,
+                Invitation.objects(group__in=[project, project2]).count(),
+                1,
             )
             self.assertEqual(
-                ProjectRole.objects(group__in=[project2]).count(), 1,
+                ProjectRole.objects(group__in=[project2]).count(),
+                1,
             )
             self.assertEqual(
-                Application.objects(group__in=[project2]).count(), 1,
+                Application.objects(group__in=[project2]).count(),
+                1,
             )
             self.assertEqual(
-                Invitation.objects(group__in=[project2]).count(), 1,
+                Invitation.objects(group__in=[project2]).count(),
+                1,
             )
             self.assertFalse(
                 oss.is_exist(current_app.config["OSS_FILE_PREFIX"], file_save_name)
