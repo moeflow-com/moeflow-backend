@@ -23,6 +23,8 @@ def email_task(
     from_username=None,
 ):
     """发送邮件"""
+    if not celery.conf.app_config["ENABLE_USER_EMAIL"]:
+        return "未开启用户邮件配置"
     email_smtp_host = celery.conf.app_config["EMAIL_SMTP_HOST"]
     email_smtp_port = celery.conf.app_config["EMAIL_SMTP_PORT"]
     email_use_ssl = celery.conf.app_config["EMAIL_USE_SSL"]

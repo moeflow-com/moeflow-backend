@@ -91,12 +91,14 @@ GOOGLE_STORAGE_MOEFLOW_VISION_TMP = {
 # -----------
 # EMAIL SMTP
 # -----------
-EMAIL_SMTP_HOST = env.get("EMAIL_SMTP_HOST", "")  # 必填 - SMTP服务器地址
-EMAIL_SMTP_PORT = env.get("EMAIL_SMTP_PORT", 465)  # 必填 - SMTP服务器端口
+ENABLE_USER_EMAIL = True if env["ENABLE_USER_EMAIL"] == "True" else False # 发送用户邮件（验证码等）
+ENABLE_LOG_EMAIL = True if env["ENABLE_LOG_EMAIL"] == "True" else False # 发送日志邮件
+EMAIL_SMTP_HOST = env.get("EMAIL_SMTP_HOST", "")  # SMTP服务器地址
+EMAIL_SMTP_PORT = env.get("EMAIL_SMTP_PORT", 465)  # SMTP服务器端口
 EMAIL_USE_SSL = True if env.get("EMAIL_USE_SSL", "") == "True" else False
 EMAIL_ADDRESS = env.get("EMAIL_ADDRESS", "")
-EMAIL_USERNAME = env.get("EMAIL_USERNAME", "")  # 必填 - SMTP服务器用户名，通常是邮箱全称
-EMAIL_PASSWORD = env.get("EMAIL_PASSWORD", "")  # 必填 - SMTP服务器密码
+EMAIL_USERNAME = env.get("EMAIL_USERNAME", "")  # SMTP服务器用户名，通常是邮箱全称
+EMAIL_PASSWORD = env.get("EMAIL_PASSWORD", "")  # SMTP服务器密码
 EMAIL_REPLY_ADDRESS = env.get("EMAIL_ADDRESS", "")
 EMAIL_ERROR_ADDRESS = env.get("EMAIL_ADDRESS", "")
 # -----------

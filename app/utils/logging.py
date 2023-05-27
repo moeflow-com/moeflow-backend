@@ -55,9 +55,7 @@ def configure_logger(app):
     """
     logger.setLevel(logging.DEBUG)
     # 各种格式
-    stream_formatter = logging.Formatter(
-        "[%(asctime)s] (%(levelname)s) %(message)s"
-    )
+    stream_formatter = logging.Formatter("[%(asctime)s] (%(levelname)s) %(message)s")
     file_formatter = logging.Formatter(
         "[%(asctime)s %(pathname)s:%(lineno)d] (%(levelname)s) %(message)s"
     )
@@ -111,22 +109,23 @@ def configure_logger(app):
         file_handler.setFormatter(file_formatter)
 
         # === 邮件输出 ===
-        mail_handler = SMTPSSLHandler(
-            (app.config["EMAIL_SMTP_HOST"], app.config["EMAIL_SMTP_PORT"]),
-            app.config["EMAIL_ADDRESS"],
-            app.config["EMAIL_ERROR_ADDRESS"],
-            "萌翻站点发生错误",
-            credentials=(
+        if app.config["ENABLE_LOG_EMAIL"]:
+            mail_handler = SMTPSSLHandler(
+                (app.config["EMAIL_SMTP_HOST"], app.config["EMAIL_SMTP_PORT"]),
                 app.config["EMAIL_ADDRESS"],
-                app.config["EMAIL_PASSWORD"],
-            ),
-        )
-        mail_handler.setLevel(logging.ERROR)
-        mail_handler.setFormatter(mail_formatter)
-        # 附加到logger
+                app.config["EMAIL_ERROR_ADDRESS"],
+                "萌翻站点发生错误",
+                credentials=(
+                    app.config["EMAIL_ADDRESS"],
+                    app.config["EMAIL_PASSWORD"],
+                ),
+            )
+            mail_handler.setLevel(logging.ERROR)
+            mail_handler.setFormatter(mail_formatter)
+            logger.addHandler(mail_handler)
+            app.logger.addHandler(mail_handler)
+
         logger.addHandler(stream_handler)
         logger.addHandler(file_handler)
-        logger.addHandler(mail_handler)
         app.logger.addHandler(stream_handler)
         app.logger.addHandler(file_handler)
-        app.logger.addHandler(mail_handler)
