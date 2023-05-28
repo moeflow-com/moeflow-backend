@@ -1,7 +1,8 @@
 from flask import current_app
+from app.constants.v_code import VCodeTypeIntro
 
 from app.core.views import MoeAPIView
-from app.decorators.auth import token_required
+from app.decorators.auth import admin_required, token_required
 from app.models.v_code import Captcha, VCode, VCodeType
 from app.validators import ConfirmEmailVCodeSchema, ResetPasswordVCodeSchema
 
@@ -123,3 +124,24 @@ class ResetPasswordVCodeAPI(MoeAPIView):
         v_code = VCode.create(VCodeType.RESET_PASSWORD, email, wait=wait)
         v_code.to_email(email)
         return {"wait": wait}
+
+
+class AdminVCodeListAPI(MoeAPIView):
+    @admin_required
+    def get(self):
+        """返回最新的 100 个验证码"""
+        codes = (
+            VCode.objects(type__ne=VCodeType.CAPTCHA).limit(100).order_by("-send_time")
+        )
+        return [
+            {
+                "id": str(code.id),
+                "content": code.content,
+                "intro": VCodeTypeIntro[code.type],
+                "info": code.info,
+                "expires": code.expires.isoformat(),
+                "wrong_count": code.wrong_count,
+                "send_time": code.send_time.isoformat(),
+            }
+            for code in codes
+        ]

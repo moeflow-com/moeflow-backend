@@ -12,6 +12,14 @@ class VCodeType(IntType):
     RESET_PHONE = 6  # 重设手机
 
 
+VCodeTypeIntro = {
+    VCodeType.CAPTCHA: "人机验证码",
+    VCodeType.CONFIRM_EMAIL: "验证邮箱",
+    VCodeType.RESET_EMAIL: "重设邮箱",
+    VCodeType.RESET_PASSWORD: "重置密码",
+    VCodeType.CONFIRM_PHONE: "验证手机",
+    VCodeType.RESET_PHONE: "重设手机",
+}
 VCodeTypes = Literal[1, 2, 3, 4, 5, 6]
 
 

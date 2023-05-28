@@ -58,6 +58,7 @@ from app.apis.term import TermAPI, TermBankAPI, TermListAPI
 from app.apis.translation import SourceTranslationListAPI, TranslationAPI
 from app.apis.type import TypeAPI
 from app.apis.v_code import (
+    AdminVCodeListAPI,
     CaptchaAPI,
     ConfirmEmailVCodeAPI,
     ResetEmailVCodeAPI,
@@ -428,4 +429,9 @@ admin.add_url_rule(
     "/users/<user_id>",
     methods=["PUT", "OPTIONS"],
     view_func=AdminUserAPI.as_view("admin_edit_user_password"),
+)
+admin.add_url_rule(
+    "/v-codes",
+    methods=["GET", "OPTIONS"],
+    view_func=AdminVCodeListAPI.as_view("admin_v_code_list"),
 )
