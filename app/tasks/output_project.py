@@ -93,7 +93,7 @@ def output_project_task(output_id):
             file_ids_include=file_ids_include,
             file_ids_exclude=file_ids_exclude,
         )
-        with open(zip_translations_txt_path, "w", encoding='utf-8') as txt:
+        with open(zip_translations_txt_path, "w", encoding="utf-8") as txt:
             txt.write(labelplus)
         if type == OutputTypes.ONLY_TEXT:
             # 上传txt到oss
@@ -118,26 +118,28 @@ def output_project_task(output_id):
                 )
                 try:
                     oss.download(
-                        oss_file_prefix, file.save_name, local_path=file_path,
+                        oss_file_prefix,
+                        file.save_name,
+                        local_path=file_path,
                     )
-                except (oss2.exceptions.NoSuchKey):
+                except oss2.exceptions.NoSuchKey:
                     errors += (
                         f"File {file.name}<{str(file.id)}> is not found in server.\r\n"
                     )
                     if os.path.exists(file_path):
                         os.remove(file_path)
-                except (Exception):
+                except Exception:
                     logger.exception(Exception)
                     errors += f"File {file.name}<{str(file.id)}> download error.\r\n"
                     if os.path.exists(file_path):
                         os.remove(file_path)
             # 放入PS脚本和其资源文件夹
-            if os.path.exists(ps_script_path):
-                shutil.copy(ps_script_path, zip_ps_script_path)
-            if os.path.exists(ps_script_res_folder_path):
-                shutil.copytree(
-                    ps_script_res_folder_path, zip_ps_script_res_folder_path
-                )
+            # if os.path.exists(ps_script_path):
+            #     shutil.copy(ps_script_path, zip_ps_script_path)
+            # if os.path.exists(ps_script_res_folder_path):
+            #     shutil.copytree(
+            #         ps_script_res_folder_path, zip_ps_script_res_folder_path
+            #     )
             # 记录错误
             if errors:
                 with open(zip_errors_txt_path, "w") as txt:
@@ -162,9 +164,11 @@ def output_project_task(output_id):
             # 上传zip到oss
             with open(zip_path, "rb") as zip_file:
                 oss.upload(
-                    celery.conf.app_config["OSS_OUTPUT_PREFIX"], zip_name, zip_file,
+                    celery.conf.app_config["OSS_OUTPUT_PREFIX"],
+                    zip_name,
+                    zip_file,
                 )
-    except (Exception):
+    except Exception:
         output.update(status=OutputStatus.ERROR)
         logger.exception(Exception)
         return (
