@@ -241,7 +241,7 @@ class GroupMixin:
     application_check_type = IntField(
         db_field="m_t", default=ApplicationCheckType.ADMIN_CHECK, required=True
     )  # 审核模式
-    max_user = IntField(db_field="m_u", required=True, default=30)
+    max_user = IntField(db_field="m_u", required=True, default=100000)
     user_count = IntField(db_field="m_uc", required=True, default=0)  # 当前人数缓存
     create_time = DateTimeField(db_field="m_c", default=datetime.datetime.utcnow)
     edit_time = DateTimeField(db_field="m_e", default=datetime.datetime.utcnow)
