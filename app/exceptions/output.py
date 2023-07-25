@@ -26,8 +26,8 @@ class OutputNotExistError(OutputRootError):
 class OutputTooFastError(OutputRootError):
     """
     @apiDefine OutputTooFastError
-    @apiError 9002 请等待上一个导出开始5分钟后，再次执行导出
+    @apiError 9002 导出过于频繁，请稍后再试
     """
 
     code = 9002
-    message = lazy_gettext("请等待上一个导出开始5分钟后，再次执行导出")
+    message = lazy_gettext("导出过于频繁，请稍后再试")

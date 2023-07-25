@@ -31,6 +31,7 @@ RESET_EMAIL_WAIT_SECONDS = 60  # 重置邮箱验证码邮件发送等待时间
 RESET_PASSWORD_WAIT_SECONDS = 60  # 重置密码邮件发送等待时间
 PLAN_FINISH_DELTA = 7 * 24 * 60 * 60  # 计划完结延时时间
 PLAN_DELETE_DELTA = 7 * 24 * 60 * 60  # 计划删除延时时间
+OUTPUT_WAIT_SECONDS = 60 * 5  # 导出等待时间
 # -----------
 # 默认设置
 # -----------

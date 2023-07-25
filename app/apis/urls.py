@@ -36,6 +36,7 @@ from app.apis.project import (
     ProjectDeletePlanAPI,
     ProjectFinishPlanAPI,
     ProjectOCRAPI,
+    ProjectOutputListAPI,
     ProjectResumeAPI,
     ProjectTargetListAPI,
     ProjectTargetOutputListAPI,
@@ -279,6 +280,11 @@ project.add_url_rule(
     "/<project_id>/targets",
     methods=["GET", "POST", "OPTIONS"],
     view_func=ProjectTargetListAPI.as_view("project_target_list"),
+)
+project.add_url_rule(
+    "/<project_id>/outputs",
+    methods=["POST", "OPTIONS"],
+    view_func=ProjectOutputListAPI.as_view("project_output_all_list"),
 )
 project.add_url_rule(
     "/<project_id>/targets/<target_id>/outputs",

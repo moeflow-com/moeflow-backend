@@ -951,6 +951,21 @@ class Project(GroupMixin, Document):
         ):
             data += file.to_labelplus(target=target)
         return data
+    
+    def to_output_json(self):
+        data = {
+            "name": self.name,
+            "intro": self.intro,
+            "default_role": self.default_role.system_code,
+            "allow_apply_type": self.allow_apply_type,
+            "application_check_type": self.application_check_type,
+            "is_need_check_application": self.is_need_check_application(),
+            "create_time": self.create_time.isoformat(),
+            "edit_time": self.edit_time.isoformat(),
+            "source_language": self.source_language.code,
+            "target_languages": [target.language.code for target in self.targets()],
+        }
+        return data
 
     def to_api(self, /, *, user=None, with_team=True, with_project_set=True):
         """

@@ -1,4 +1,5 @@
 from app.constants.file import FileType, ParseStatus
+from app.constants.output import OutputTypes
 from app.tasks.ocr import ocr
 from app.models.team import TeamPermission
 import datetime
@@ -202,6 +203,39 @@ class ProjectTargetListAPI(MoeAPIView):
         return {"message": gettext("添加目标语言成功"), "target": target.to_api()}
 
 
+class ProjectOutputListAPI(MoeAPIView):
+    @token_required
+    @fetch_model(Project)
+    def post(self, project: Project):
+        if not self.current_user.can(project, ProjectPermission.OUTPUT_TRA):
+            raise NoPermissionError
+        outputs_json = []
+        for target in project.targets():
+            # 等待一定时间后允许再次导出
+            last_output = target.outputs().first()
+            if last_output and (
+                datetime.datetime.utcnow() - last_output.create_time
+                < datetime.timedelta(
+                    seconds=current_app.config.get("OUTPUT_WAIT_SECONDS", 60 * 5)
+                )
+            ):
+                continue
+            # 删除三个导出之前的
+            old_targets = target.outputs().skip(2)
+            Output.delete_real_files(old_targets)
+            old_targets.delete()
+            # 创建新target
+            output = Output.create(
+                project=project,
+                target=target,
+                user=self.current_user,
+                type=OutputTypes.ALL,
+            )
+            output_project(str(output.id))
+            outputs_json.append(output.to_api())
+        return outputs_json
+
+
 class ProjectTargetOutputListAPI(MoeAPIView):
     @token_required
     @fetch_model(Project)
@@ -251,11 +285,13 @@ class ProjectTargetOutputListAPI(MoeAPIView):
             raise NoPermissionError
         if target.project != project:
             raise TargetNotExistError
-        # 如果上一个翻译在5分钟内则禁止再次新增
+        # 等待一定时间后允许再次导出
         last_output = target.outputs().first()
         if last_output and (
             datetime.datetime.utcnow() - last_output.create_time
-            < datetime.timedelta(seconds=60 * 5)
+            < datetime.timedelta(
+                seconds=current_app.config.get("OUTPUT_WAIT_SECONDS", 60 * 5)
+            )
         ):
             raise OutputTooFastError
         data = self.get_json(CreateOutputSchema())

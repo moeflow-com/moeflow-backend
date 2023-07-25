@@ -1,7 +1,9 @@
 """
 导出项目
 """
+import json
 import os
+import re
 import oss2
 import shutil
 from zipfile import ZipFile
@@ -12,6 +14,7 @@ from app.constants.output import OutputStatus, OutputTypes
 from app.constants.file import FileType
 from app import oss
 from app.models import connect_db
+from app.regexs import SAFE_FILENAME_REGEX
 from . import SyncResult
 from celery.utils.log import get_task_logger
 
@@ -47,10 +50,21 @@ def output_project_task(output_id):
     file_ids_include = output.file_ids_include
     file_ids_exclude = output.file_ids_exclude
 
+    safe_project_set_name = re.sub(SAFE_FILENAME_REGEX, "□", project.project_set.name)
+    safe_project_name = re.sub(SAFE_FILENAME_REGEX, "□", project.name)
+    download_name = (
+        ("" if project.project_set.default else (safe_project_set_name + " - "))
+        + safe_project_name
+        + " - "
+        + target.language.i18n_name
+    )
+
     # 各个文件夹/文件路径
     zip_tmp_folder_name = str(output.id)  # 临时文件夹名
     zip_name = str(output.id) + ".zip"  # 压缩文件名（和文件夹同名，并都存在zips根目录）
+    zip_download_name = download_name + ".zip"
     txt_name = str(output.id) + ".txt"  # 翻译文本名（当仅导出翻译文本的时候使用）
+    txt_download_name = download_name + ".txt"
     # PS脚本和其资源文件夹 原位置
     ps_script_path = os.path.abspath(
         os.path.join(FILE_PATH, "ps_script", "ps_script.jsx")
@@ -81,6 +95,9 @@ def output_project_task(output_id):
     zip_errors_txt_path = os.path.abspath(
         os.path.join(zip_tmp_folder_path, "errors.txt")
     )
+    project_json_path = os.path.abspath(
+        os.path.join(zip_tmp_folder_path, "project.json")
+    )
 
     errors = ""
     try:
@@ -102,10 +119,20 @@ def output_project_task(output_id):
                     celery.conf.app_config["OSS_OUTPUT_PREFIX"],
                     txt_name,
                     txt,
-                    headers={"Content-Disposition": "attachment"},
+                    headers={
+                        "Content-Disposition": f'attachment; filename="{txt_download_name}"'.encode(
+                            "utf8"
+                        )
+                    },
                 )
         elif type == OutputTypes.ALL:
             output.update(status=OutputStatus.DOWNLOADING)
+            # 创建项目信息文件
+            project_json = project.to_output_json()
+            project_json["output_id"] = str(output.id)
+            project_json["output_language"] = target.language.code
+            with open(project_json_path, "w", encoding="utf-8") as json_file:
+                json.dump(project_json, json_file)
             # 下载项目图片
             files = project.files(
                 type_only=FileType.IMAGE,
@@ -167,6 +194,11 @@ def output_project_task(output_id):
                     celery.conf.app_config["OSS_OUTPUT_PREFIX"],
                     zip_name,
                     zip_file,
+                    headers={
+                        "Content-Disposition": f'attachment; filename="{zip_download_name}"'.encode(
+                            "utf8"
+                        )
+                    },
                 )
     except Exception:
         output.update(status=OutputStatus.ERROR)
