@@ -135,6 +135,81 @@ class CreateProjectSchema(Schema):
         return in_data
 
 
+class ImportProjectSchema(Schema):
+    """创建项目验证器"""
+
+    name = fields.Str(
+        required=True,
+        validate=[ProjectValidate.name_length],
+        error_messages={**required_message},
+    )
+    intro = fields.Str(
+        required=True,
+        validate=[ProjectValidate.intro_length],
+        error_messages={**required_message},
+    )
+    allow_apply_type = fields.Int(
+        required=True,
+        validate=[need_in(Project.allow_apply_type_cls.ids())],
+        error_messages={**required_message},
+    )
+    application_check_type = fields.Int(
+        required=True,
+        validate=[need_in(Project.application_check_type_cls.ids())],
+        error_messages={**required_message},
+    )
+    default_role = fields.Str(
+        required=True, validate=[object_id], error_messages={**required_message},
+    )
+    project_set = fields.Str(
+        required=True, validate=[object_id], error_messages={**required_message},
+    )
+    source_language = fields.Str(
+        required=True, validate=[need_in(Language.codes)], error_messages={**required_message},
+    )
+    output_language = fields.Str(
+        required=True, validate=[need_in(Language.codes)], error_messages={**required_message},
+    )
+    labelplus_txt = fields.Str(missing=None)
+
+    @validates_schema
+    def verify_default_role(self, data):
+        # 角色必须在系统团队的角色中
+        need_in(
+            [
+                str(role.id)
+                for role in Project.role_cls.system_roles(without_creator=True)
+            ]
+        )(data["default_role"], field_name="default_role")
+
+    @post_load
+    def to_model(self, in_data):
+        """通过id获取模型，以供直接使用"""
+        # 获取默认角色
+        in_data["default_role"] = Project.role_cls.by_id(in_data["default_role"])
+        # 必须是项目所在团队的项目集
+        project_set = (
+            self.context["team"]
+            .project_sets()
+            .filter(id=in_data["project_set"])
+            .first()
+        )
+        if project_set is None:
+            raise ProjectSetNotExistError
+        in_data["project_set"] = project_set
+        # 获取源语言
+        try:
+            in_data["source_language"] = Language.by_code(in_data["source_language"])
+        except LanguageNotExistError as e:
+            raise ValidationError(e.message, field_names="source_language")
+        # 获取目标语言
+        try:
+            in_data["output_language"] = Language.by_code(in_data["output_language"])
+        except LanguageNotExistError as e:
+            raise ValidationError(e.message, field_names="output_language")
+        return in_data
+    
+
 class EditProjectSchema(Schema):
     """修改项目验证器"""
 

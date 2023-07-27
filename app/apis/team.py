@@ -1,3 +1,5 @@
+import zipfile
+from marshmallow import ValidationError
 from app.exceptions.auth import UserNotExistError
 from app.exceptions.project import ProjectNotExistError
 from typing import List
@@ -5,7 +7,7 @@ from app.exceptions.team import OnlyAllowAdminCreateTeamError
 from app.models.site_setting import SiteSetting
 from app.models.user import User
 from app.models.language import Language
-from flask import request, current_app
+from flask import json, request, current_app
 from flask_babel import gettext
 
 from app.core.responses import MoePagination
@@ -18,6 +20,7 @@ from app.models.team import Team, TeamPermission
 from app.constants.project import ProjectStatus
 from app.validators.project import (
     CreateProjectSchema,
+    ImportProjectSchema,
     SearchTeamProjectSchema,
     TeamInsightProjectListSchema,
     TeamInsightUserListSchema,
@@ -26,6 +29,7 @@ from app.validators.team import CreateTeamSchema, EditTeamSchema
 from flask_apikit.utils import QueryParser
 from app.models.project import ProjectRole, ProjectSet, ProjectUserRelation
 from app.validators.project import ProjectSetsSchema
+from flask_apikit.exceptions import ValidateError
 
 
 def getLanguageByCode(code):
@@ -322,6 +326,54 @@ class TeamProjectListAPI(MoeAPIView):
         }
 
 
+class TeamProjectImportAPI(MoeAPIView):
+    @token_required
+    @fetch_model(Team)
+    @fetch_model(ProjectSet)
+    def post(self, team, project_set):
+        # 检查用户权限
+        if not self.current_user.can(team, TeamPermission.CREATE_PROJECT):
+            raise NoPermissionError(gettext("您没有权限在这个团队创建项目"))
+        project_json_file = request.files["project"]
+        project_json_data = json.load(project_json_file)
+        project_json_data["project_set"] = str(project_set.id)
+        project_json_data["default_role"] = str(
+            ProjectRole.by_system_code(project_json_data["default_role"]).id
+        )
+        labelplus_file = request.files["labelplus"]
+        labelplus_txt = labelplus_file.read().decode('utf-8')
+        print(labelplus_txt)
+
+        # 处理请求数据
+        schema = ImportProjectSchema()
+        schema.context = {"team": team}
+        try:
+            data = schema.load(project_json_data)
+        except ValidationError as e:
+            # 合并多个验证器对于同一字段的相同错误
+            for key in e.messages.keys():
+                e.messages[key] = list(set(e.messages[key]))
+            raise ValidateError(e.messages, replace=True)
+        # 创建项目
+        project = Project.create(
+            name=data["name"],
+            team=team,
+            project_set=data["project_set"],
+            creator=self.current_user,
+            default_role=data["default_role"],
+            allow_apply_type=data["allow_apply_type"],
+            application_check_type=data["application_check_type"],
+            intro=data["intro"],
+            source_language=data["source_language"],
+            target_languages=[data["output_language"]],
+            labelplus_txt=labelplus_txt,
+        )
+        return {
+            "message": gettext("创建成功"),
+            "project": project.to_api(user=self.current_user),
+        }
+
+
 class TeamProjectSetListAPI(MoeAPIView):
     @token_required
     @fetch_model(Team)
@@ -468,9 +520,15 @@ class TeamInsightProjectListAPI(MoeAPIView):
         data = []
         for project in projects:
             project_users_data = get_insight_project_users_data(project)
-            data.append(
-                {**project_users_data, "project": project.to_api(with_team=False)}
-            )
+            project_data = {
+                **project_users_data,
+                "project": project.to_api(with_team=False),
+            }
+            if self.current_user.can(team, TeamPermission.AUTO_BECOME_PROJECT_ADMIN):
+                project_data["outputs"] = [
+                    output.to_api() for output in project.outputs()
+                ]
+            data.append(project_data)
         return p.set_data(data=data, count=projects.count())
 
 
