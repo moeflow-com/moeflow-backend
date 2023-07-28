@@ -123,6 +123,7 @@ def output_project_task(output_id):
                     + "/",
                     txt_download_name,
                     txt,
+                    headers={"Content-Disposition": f'attachment;"'.encode("utf8")},
                 )
         elif type == OutputTypes.ALL:
             output.update(status=OutputStatus.DOWNLOADING)
@@ -197,14 +198,15 @@ def output_project_task(output_id):
                     + "/",
                     zip_download_name,
                     zip_file,
+                    headers={"Content-Disposition": f'attachment;"'.encode("utf8")},
                 )
-    # except Exception:
-    #     output.update(status=OutputStatus.ERROR)
-    #     logger.exception(Exception)
-    #     return (
-    #         f"失败：导出 Project<{str(project.id)}> "
-    #         + f"Target<{str(target.id)}> Output<{str(output.id)}>"
-    #     )
+    except Exception:
+        output.update(status=OutputStatus.ERROR)
+        logger.exception(Exception)
+        return (
+            f"失败：导出 Project<{str(project.id)}> "
+            + f"Target<{str(target.id)}> Output<{str(output.id)}>"
+        )
     finally:
         # 删除临时文件夹和zip
         if os.path.exists(zip_path):

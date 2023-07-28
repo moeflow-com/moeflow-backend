@@ -7,6 +7,7 @@ import re
 import shutil
 import time
 import hashlib
+from urllib import parse
 
 import oss2
 from oss2 import to_string
@@ -222,7 +223,7 @@ class OSS:
         # 如果没有指定oss_domain，则使用配置中的STORAGE_DOMAIN
         if oss_domain is None:
             oss_domain = self.oss_domain
-        uri = oss_domain + path + filename
+        uri = oss_domain + path + parse.quote(filename)
         url = aliyun_cdn_url_auth_c(uri=uri, key=self.cdn_url_key, exp=now + expires)
         if process_name:
             url += f"?x-oss-process=style/{process_name}"
