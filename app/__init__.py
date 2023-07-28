@@ -18,6 +18,7 @@ from .apis import register_apis
 APP_PATH = os.path.abspath(os.path.dirname(__file__))
 FILE_PATH = os.path.abspath(os.path.join(APP_PATH, "..", "files"))  # 一般文件
 TMP_PATH = os.path.abspath(os.path.join(FILE_PATH, "tmp"))  # 临时文件存放地址
+STORAGE_PATH = os.path.abspath(os.path.join(APP_PATH, "..", "storage"))  # 储存地址
 # 插件
 babel = Babel()
 oss = OSS()

@@ -38,18 +38,23 @@ OUTPUT_WAIT_SECONDS = 60 * 5  # 导出等待时间
 DEFAULT_USER_AVATAR = None
 DEFAULT_TEAM_AVATAR = None
 # -----------
-# OSS
+# Storage 配置
 # -----------
-# 用户自定义域名（未设置则填写阿里云提供的 OSS 域名）
-OSS_DOMAIN = env["OSS_DOMAIN"]
-OSS_ACCESS_KEY_ID = env["OSS_ACCESS_KEY_ID"]
-OSS_ACCESS_KEY_SECRET = env["OSS_ACCESS_KEY_SECRET"]
-OSS_ENDPOINT = env["OSS_ENDPOINT"]
-OSS_BUCKET_NAME = env["OSS_BUCKET_NAME"]
+# 目前支持 LOCAL_STORAGE 和 OSS
+STORAGE_TYPE = env["STORAGE_TYPE"]
+# 未设置自定义域名则填写阿里云提供的 OSS 域名，格式如：https://<your-bucket-name>.<oss-region>.aliyuncs.com/
+# 如果绑定了 CDN 来加速 OSS，则填写绑定在 CDN 的域名
+# 本地储存填写绑定到服务器的域名，需用 nginx 指向 storage 文件夹，格式如：https://<your-domain>.com/storage/
+STORAGE_DOMAIN = env.get("STORAGE_DOMAIN", "http://" + DOMAIN + "/storage/")
+OSS_ACCESS_KEY_ID = env.get("OSS_ACCESS_KEY_ID", "")
+OSS_ACCESS_KEY_SECRET = env.get("OSS_ACCESS_KEY_SECRET", "")
+OSS_ENDPOINT = env.get("OSS_ENDPOINT", "")
+OSS_BUCKET_NAME = env.get("OSS_BUCKET_NAME", "")
 OSS_PROCESS_COVER_NAME = env.get("OSS_PROCESS_COVER_NAME", "cover")
 OSS_PROCESS_SAFE_CHECK_NAME = env.get("OSS_PROCESS_SAFE_CHECK_NAME", "safe-check")
-# OSS_DOMAIN 可能绑定在 CDN 来加速 OSS，并开启了 CDN 的[阿里云 OSS 私有 Bucket 回源]和[URL 鉴权]，
-# 此时需要设置 OSS_VIA_CDN = True，将通过 CDN 的 URL 鉴权方式来生成 URL，而不用 OSS 的 URL 签名
+# 如果 OSS 绑定了 CDN 来加速，同时开启了 CDN 的 [阿里云 OSS 私有 Bucket 回源] 和 [URL 鉴权]，
+# 此时需要设置 STORAGE_DOMAIN 为 CDN 域名，且设置 OSS_VIA_CDN = True，
+# 这样程序将通过 CDN 的 URL 鉴权方式来生成 CDN URL，而不用 OSS 的 URL 签名鉴权
 OSS_VIA_CDN = True if env.get("OSS_VIA_CDN", "") == "True" else False
 # CDN URL 鉴权主/备 KEY
 CDN_URL_KEY_A = env.get("CDN_URL_KEY_A", "")
@@ -92,8 +97,10 @@ GOOGLE_STORAGE_MOEFLOW_VISION_TMP = {
 # -----------
 # EMAIL SMTP
 # -----------
-ENABLE_USER_EMAIL = True if env["ENABLE_USER_EMAIL"] == "True" else False # 发送用户邮件（验证码等）
-ENABLE_LOG_EMAIL = True if env["ENABLE_LOG_EMAIL"] == "True" else False # 发送日志邮件
+ENABLE_USER_EMAIL = (
+    True if env["ENABLE_USER_EMAIL"] == "True" else False
+)  # 发送用户邮件（验证码等）
+ENABLE_LOG_EMAIL = True if env["ENABLE_LOG_EMAIL"] == "True" else False  # 发送日志邮件
 EMAIL_SMTP_HOST = env.get("EMAIL_SMTP_HOST", "")  # SMTP服务器地址
 EMAIL_SMTP_PORT = env.get("EMAIL_SMTP_PORT", 465)  # SMTP服务器端口
 EMAIL_USE_SSL = True if env.get("EMAIL_USE_SSL", "") == "True" else False

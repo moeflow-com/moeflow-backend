@@ -4,6 +4,7 @@ import requests
 from bson import ObjectId
 
 from app import TMP_PATH, oss
+from app.constants.storage import StorageType
 from tests import MoeTestCase
 
 
@@ -76,8 +77,11 @@ class OSSModelTestCase(MoeTestCase):
         oss.upload(self.path, filename1, filename1)
         self.assertTrue(oss.is_exist(self.path, filename1))
         # 直接用链接访问，报错
-        response = requests.get(self.app.config["OSS_DOMAIN"] + self.path + filename1)
-        self.assertEqual(403, response.status_code)
+        if self.app.config["STORAGE_TYPE"] == StorageType.OSS:
+            response = requests.get(
+                self.app.config["STORAGE_DOMAIN"] + self.path + filename1
+            )
+            self.assertEqual(403, response.status_code)
         # 签名后的url可以访问
         url = oss.sign_url(self.path, filename1)
         response = requests.get(url)

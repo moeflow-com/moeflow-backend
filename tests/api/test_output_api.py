@@ -28,7 +28,8 @@ class OutputAPITestCase(MoeAPITestCase):
         # 下载文件并查看是否正确
         output = project.outputs().first()
         output_zip_in_oss = oss.download(
-            self.app.config["OSS_OUTPUT_PREFIX"], str(output.id) + ".zip"
+            self.app.config["OSS_OUTPUT_PREFIX"] + str(output.id) + "/",
+            output.file_name,
         )
         output_zip = ZipFile(io.BytesIO(output_zip_in_oss.read()))
         output_zip_namelist = output_zip.namelist()
@@ -61,7 +62,8 @@ class OutputAPITestCase(MoeAPITestCase):
         # 下载文件并查看是否正确
         output = project.outputs().first()
         output_txt_in_oss = oss.download(
-            self.app.config["OSS_OUTPUT_PREFIX"], str(output.id) + ".txt"
+            self.app.config["OSS_OUTPUT_PREFIX"] + str(output.id) + "/",
+            output.file_name,
         )
         translations_txt = output_txt_in_oss.read().decode("utf-8")
         self.assertIn("[1.png]", translations_txt)
@@ -90,7 +92,8 @@ class OutputAPITestCase(MoeAPITestCase):
         # 下载文件并查看是否正确
         output = project.outputs().first()
         output_zip_in_oss = oss.download(
-            self.app.config["OSS_OUTPUT_PREFIX"], str(output.id) + ".zip"
+            self.app.config["OSS_OUTPUT_PREFIX"] + str(output.id) + "/",
+            output.file_name,
         )
         output_zip = ZipFile(io.BytesIO(output_zip_in_oss.read()))
         output_zip_namelist = output_zip.namelist()
@@ -126,7 +129,8 @@ class OutputAPITestCase(MoeAPITestCase):
         # 下载文件并查看是否正确
         output = project.outputs().first()
         output_txt_in_oss = oss.download(
-            self.app.config["OSS_OUTPUT_PREFIX"], str(output.id) + ".txt"
+            self.app.config["OSS_OUTPUT_PREFIX"] + str(output.id) + "/",
+            output.file_name,
         )
         translations_txt = output_txt_in_oss.read().decode("utf-8")
         self.assertIn("[1.png]", translations_txt)
@@ -155,7 +159,8 @@ class OutputAPITestCase(MoeAPITestCase):
         # 下载文件并查看是否正确
         output = project.outputs().first()
         output_zip_in_oss = oss.download(
-            self.app.config["OSS_OUTPUT_PREFIX"], str(output.id) + ".zip"
+            self.app.config["OSS_OUTPUT_PREFIX"] + str(output.id) + "/",
+            output.file_name,
         )
         output_zip = ZipFile(io.BytesIO(output_zip_in_oss.read()))
         output_zip_namelist = output_zip.namelist()
@@ -191,7 +196,8 @@ class OutputAPITestCase(MoeAPITestCase):
         # 下载文件并查看是否正确
         output = project.outputs().first()
         output_txt_in_oss = oss.download(
-            self.app.config["OSS_OUTPUT_PREFIX"], str(output.id) + ".txt"
+            self.app.config["OSS_OUTPUT_PREFIX"] + str(output.id) + "/",
+            output.file_name,
         )
         translations_txt = output_txt_in_oss.read().decode("utf-8")
         self.assertNotIn("[1.png]", translations_txt)
@@ -221,7 +227,8 @@ class OutputAPITestCase(MoeAPITestCase):
         # 下载文件并查看是否正确
         output = project.outputs().first()
         output_zip_in_oss = oss.download(
-            self.app.config["OSS_OUTPUT_PREFIX"], str(output.id) + ".zip"
+            self.app.config["OSS_OUTPUT_PREFIX"] + str(output.id) + "/",
+            output.file_name,
         )
         output_zip = ZipFile(io.BytesIO(output_zip_in_oss.read()))
         output_zip_namelist = output_zip.namelist()

@@ -115,3 +115,6 @@ gen
 
 # 临时文件夹
 /files/tmp/
+
+# 储存文件
+/storage/*

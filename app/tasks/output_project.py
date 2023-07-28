@@ -114,16 +114,15 @@ def output_project_task(output_id):
             txt.write(labelplus)
         if type == OutputTypes.ONLY_TEXT:
             # 上传txt到oss
+            output.update(file_name=txt_download_name)
             with open(zip_translations_txt_path, "rb") as txt:
                 oss.upload(
-                    celery.conf.app_config["OSS_OUTPUT_PREFIX"],
-                    txt_name,
+                    os.path.join(
+                        celery.conf.app_config["OSS_OUTPUT_PREFIX"], str(output.id)
+                    )
+                    + "/",
+                    txt_download_name,
                     txt,
-                    headers={
-                        "Content-Disposition": f'attachment; filename="{txt_download_name}"'.encode(
-                            "utf8"
-                        )
-                    },
                 )
         elif type == OutputTypes.ALL:
             output.update(status=OutputStatus.DOWNLOADING)
@@ -190,23 +189,22 @@ def output_project_task(output_id):
                         zip_file.write(file_path, file_in_zip_path)
             # 上传zip到oss
             with open(zip_path, "rb") as zip_file:
+                output.update(file_name=zip_download_name)
                 oss.upload(
-                    celery.conf.app_config["OSS_OUTPUT_PREFIX"],
-                    zip_name,
+                    os.path.join(
+                        celery.conf.app_config["OSS_OUTPUT_PREFIX"], str(output.id)
+                    )
+                    + "/",
+                    zip_download_name,
                     zip_file,
-                    headers={
-                        "Content-Disposition": f'attachment; filename="{zip_download_name}"'.encode(
-                            "utf8"
-                        )
-                    },
                 )
-    except Exception:
-        output.update(status=OutputStatus.ERROR)
-        logger.exception(Exception)
-        return (
-            f"失败：导出 Project<{str(project.id)}> "
-            + f"Target<{str(target.id)}> Output<{str(output.id)}>"
-        )
+    # except Exception:
+    #     output.update(status=OutputStatus.ERROR)
+    #     logger.exception(Exception)
+    #     return (
+    #         f"失败：导出 Project<{str(project.id)}> "
+    #         + f"Target<{str(target.id)}> Output<{str(output.id)}>"
+    #     )
     finally:
         # 删除临时文件夹和zip
         if os.path.exists(zip_path):

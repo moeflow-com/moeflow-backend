@@ -7,7 +7,7 @@ import datetime
 from flask import current_app
 
 from app.utils.logging import logger
-from mongoengine import DateTimeField, Document, IntField, ReferenceField
+from mongoengine import DateTimeField, Document, IntField, ReferenceField, StringField
 from typing import List, TYPE_CHECKING
 import oss2
 from app import oss
@@ -26,6 +26,7 @@ class Output(Document):
     user = ReferenceField("User", db_field="u")  # 操作人
     status = IntField(db_field="s", default=OutputStatus.QUEUING)
     type = IntField(db_field="ty", default=OutputTypes.ALL)
+    file_name = StringField(df_field="fn", default="")
     create_time = DateTimeField(db_field="ct", default=datetime.datetime.utcnow)
     file_ids_include = ListField(ObjectIdField(), default=list)
     file_ids_exclude = ListField(ObjectIdField(), default=list)
@@ -57,19 +58,22 @@ class Output(Document):
         try:
             oss.delete(
                 current_app.config["OSS_OUTPUT_PREFIX"],
-                [str(output.id) + ".zip" for output in outputs],
+                [str(output.id) + "/" + output.file_name for output in outputs],
             )
-        except (oss2.exceptions.NoSuchKey) as e:
+        except oss2.exceptions.NoSuchKey as e:
             logger.error(e)
-        except (Exception) as e:
+        except Exception as e:
             logger.error(e)
 
     def delete_real_file(self):
         try:
-            oss.delete(current_app.config["OSS_OUTPUT_PREFIX"], str(self.id) + ".zip")
-        except (oss2.exceptions.NoSuchKey) as e:
+            oss.delete(
+                current_app.config["OSS_OUTPUT_PREFIX"] + str(self.id) + "/",
+                self.file_name,
+            )
+        except oss2.exceptions.NoSuchKey as e:
             logger.error(e)
-        except (Exception) as e:
+        except Exception as e:
             logger.error(e)
 
     def clear(self):
@@ -96,13 +100,9 @@ class Output(Document):
             "create_time": self.create_time.isoformat(),
         }
         if self.status == OutputStatus.SUCCEEDED:
-            data["link"] = (
-                oss.sign_url(
-                    current_app.config["OSS_OUTPUT_PREFIX"], str(self.id) + ".zip", download=True
-                )
-                if self.type == OutputTypes.ALL
-                else oss.sign_url(
-                    current_app.config["OSS_OUTPUT_PREFIX"], str(self.id) + ".txt", download=True
-                )
+            data["link"] = oss.sign_url(
+                current_app.config["OSS_OUTPUT_PREFIX"] + str(self.id) + "/",
+                self.file_name,
+                download=True,
             )
         return data

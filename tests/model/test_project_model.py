@@ -180,6 +180,8 @@ class ProjectModelTestCase(MoeTestCase):
             )
             output_project(str(output1.id))
             output_project(str(output2.id))
+            output1.reload()
+            output2.reload()
             # 这时候应该有
             # 3个用户，1个项目，2个团队-用户关系（其中一个是自定义角色），1个自定义角色，
             # 1个文件，3个原文，2个翻译，2个tip，2个output，1个邀请，1个申请
@@ -198,12 +200,14 @@ class ProjectModelTestCase(MoeTestCase):
             )
             self.assertTrue(
                 oss.is_exist(
-                    current_app.config["OSS_OUTPUT_PREFIX"], str(output1.id) + ".zip"
+                    current_app.config["OSS_OUTPUT_PREFIX"] + str(output1.id) + "/",
+                    output1.file_name,
                 )
             )
             self.assertTrue(
                 oss.is_exist(
-                    current_app.config["OSS_OUTPUT_PREFIX"], str(output2.id) + ".zip"
+                    current_app.config["OSS_OUTPUT_PREFIX"] + str(output2.id) + "/",
+                    output2.file_name,
                 )
             )
             # 这时候删除项目
@@ -224,12 +228,14 @@ class ProjectModelTestCase(MoeTestCase):
             )
             self.assertFalse(
                 oss.is_exist(
-                    current_app.config["OSS_OUTPUT_PREFIX"], str(output1.id) + ".zip"
+                    current_app.config["OSS_OUTPUT_PREFIX"] + str(output1.id) + "/",
+                    output1.file_name,
                 )
             )
             self.assertFalse(
                 oss.is_exist(
-                    current_app.config["OSS_OUTPUT_PREFIX"], str(output2.id) + ".zip"
+                    current_app.config["OSS_OUTPUT_PREFIX"] + str(output2.id) + "/",
+                    output2.file_name,
                 )
             )
 
@@ -313,6 +319,8 @@ class ProjectModelTestCase(MoeTestCase):
             )
             output_project(str(output1.id))
             output_project(str(output2.id))
+            output1.reload()
+            output2.reload()
             # 这时候应该有
             # 3个用户，1个项目，2个团队-用户关系（其中一个是自定义角色），1个自定义角色，
             # 1个文件，3个原文，2个翻译，2个tip，2个output，1个邀请，1个申请
@@ -337,12 +345,14 @@ class ProjectModelTestCase(MoeTestCase):
             )
             self.assertTrue(
                 oss.is_exist(
-                    current_app.config["OSS_OUTPUT_PREFIX"], str(output1.id) + ".zip"
+                    current_app.config["OSS_OUTPUT_PREFIX"] + str(output1.id) + "/",
+                    output1.file_name,
                 )
             )
             self.assertTrue(
                 oss.is_exist(
-                    current_app.config["OSS_OUTPUT_PREFIX"], str(output2.id) + ".zip"
+                    current_app.config["OSS_OUTPUT_PREFIX"] + str(output2.id) + "/",
+                    output2.file_name,
                 )
             )
             self.assertTrue(file.save_name)
@@ -360,12 +370,14 @@ class ProjectModelTestCase(MoeTestCase):
             )
             self.assertFalse(
                 oss.is_exist(
-                    current_app.config["OSS_OUTPUT_PREFIX"], str(output1.id) + ".zip"
+                    current_app.config["OSS_OUTPUT_PREFIX"] + str(output1.id) + "/",
+                    output1.file_name,
                 )
             )
             self.assertFalse(
                 oss.is_exist(
-                    current_app.config["OSS_OUTPUT_PREFIX"], str(output2.id) + ".zip"
+                    current_app.config["OSS_OUTPUT_PREFIX"] + str(output2.id) + "/",
+                    output2.file_name,
                 )
             )
             # 文件的状态变化了
@@ -411,7 +423,8 @@ class ProjectModelTestCase(MoeTestCase):
                 files = project.files(type_exclude=FileType.FOLDER)
                 self.assertEqual(2, files.count())
                 self.assertEqual(
-                    sorted(["f1.txt", "f2.txt"]), sorted([f.name for f in files]),
+                    sorted(["f1.txt", "f2.txt"]),
+                    sorted([f.name for f in files]),
                 )
 
                 # 测试只搜索文件夹
@@ -448,15 +461,18 @@ class ProjectModelTestCase(MoeTestCase):
                 # 测试排序
                 files = project.files()
                 self.assertEqual(
-                    ["dir1", "f1.txt", "dir2", "f2.txt"], [f.name for f in files],
+                    ["dir1", "f1.txt", "dir2", "f2.txt"],
+                    [f.name for f in files],
                 )
                 files = project.files(order_by=["-dir_sort_name", "-sort_name"])
                 self.assertEqual(
-                    ["f2.txt", "dir2", "f1.txt", "dir1"], [f.name for f in files],
+                    ["f2.txt", "dir2", "f1.txt", "dir1"],
+                    [f.name for f in files],
                 )
                 files = project.files(order_by=["_id"])  # 按创建顺序
                 self.assertEqual(
-                    ["dir1", "dir2", "f2.txt", "f1.txt"], [f.name for f in files],
+                    ["dir1", "dir2", "f2.txt", "f1.txt"],
+                    [f.name for f in files],
                 )
 
                 # 错误的parent
@@ -684,6 +700,6 @@ class ProjectModelTestCase(MoeTestCase):
             self.assertIsNotNone(relation)
             self.assertEqual(ProjectRole.by_system_code("admin"), relation.role)
             self.assertEqual(
-                0, user1.invitations(group=project).count(),
+                0,
+                user1.invitations(group=project).count(),
             )
-

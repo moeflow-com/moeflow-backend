@@ -25,7 +25,9 @@ class TargetTestCase(MoeAPITestCase):
             target = Target.create(project=project, language=language)
             Translation.create("t", source=source, target=target, user=user)
             Tip.create("t", source=source, target=target, user=user)
-            Output.create(project=project, target=target, user=user, type=OutputTypes.ALL)
+            Output.create(
+                project=project, target=target, user=user, type=OutputTypes.ALL
+            )
             self.assertEqual(Target.objects().count(), 2)
             self.assertEqual(Translation.objects().count(), 1)
             self.assertEqual(Tip.objects().count(), 1)
@@ -62,55 +64,75 @@ class TargetTestCase(MoeAPITestCase):
             output_project(str(target1_output2.id))
             output_project(str(target2_output1.id))
             output_project(str(target2_output2.id))
+            target1_output1.reload()
+            target1_output2.reload()
+            target2_output1.reload()
+            target2_output2.reload()
             self.assertTrue(
                 oss.is_exist(
-                    self.app.config["OSS_OUTPUT_PREFIX"],
-                    str(target1_output1.id) + ".zip",
+                    self.app.config["OSS_OUTPUT_PREFIX"]
+                    + str(target1_output1.id)
+                    + "/",
+                    target1_output1.file_name,
                 )
             )
             self.assertTrue(
                 oss.is_exist(
-                    self.app.config["OSS_OUTPUT_PREFIX"],
-                    str(target1_output2.id) + ".zip",
+                    self.app.config["OSS_OUTPUT_PREFIX"]
+                    + str(target1_output2.id)
+                    + "/",
+                    target1_output2.file_name,
                 )
             )
             self.assertTrue(
                 oss.is_exist(
-                    self.app.config["OSS_OUTPUT_PREFIX"],
-                    str(target2_output1.id) + ".zip",
+                    self.app.config["OSS_OUTPUT_PREFIX"]
+                    + str(target2_output1.id)
+                    + "/",
+                    target2_output1.file_name,
                 )
             )
             self.assertTrue(
                 oss.is_exist(
-                    self.app.config["OSS_OUTPUT_PREFIX"],
-                    str(target2_output2.id) + ".zip",
+                    self.app.config["OSS_OUTPUT_PREFIX"]
+                    + str(target2_output2.id)
+                    + "/",
+                    target2_output2.file_name,
                 )
             )
             Output.delete_real_files(target1.outputs())
             # target 1 的 output 已被删除
             self.assertFalse(
                 oss.is_exist(
-                    self.app.config["OSS_OUTPUT_PREFIX"],
-                    str(target1_output1.id) + ".zip",
+                    self.app.config["OSS_OUTPUT_PREFIX"]
+                    + str(target1_output1.id)
+                    + "/",
+                    target1_output1.file_name,
                 )
             )
             self.assertFalse(
                 oss.is_exist(
-                    self.app.config["OSS_OUTPUT_PREFIX"],
-                    str(target1_output2.id) + ".zip",
+                    self.app.config["OSS_OUTPUT_PREFIX"]
+                    + str(target1_output2.id)
+                    + "/",
+                    target1_output2.file_name,
                 )
             )
             # target 2 的 output 依旧存在
             self.assertTrue(
                 oss.is_exist(
-                    self.app.config["OSS_OUTPUT_PREFIX"],
-                    str(target2_output1.id) + ".zip",
+                    self.app.config["OSS_OUTPUT_PREFIX"]
+                    + str(target2_output1.id)
+                    + "/",
+                    target2_output1.file_name,
                 )
             )
             self.assertTrue(
                 oss.is_exist(
-                    self.app.config["OSS_OUTPUT_PREFIX"],
-                    str(target2_output2.id) + ".zip",
+                    self.app.config["OSS_OUTPUT_PREFIX"]
+                    + str(target2_output2.id)
+                    + "/",
+                    target2_output2.file_name,
                 )
             )
 
