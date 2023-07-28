@@ -22,6 +22,7 @@ from mongoengine import (
 )
 
 from app import oss
+from app.constants.storage import StorageType
 from app.core.responses import MoePagination
 from app.decorators.file import need_activated, only, only_file
 from app.exceptions import (
@@ -58,6 +59,7 @@ from app.constants.file import (
     ParseErrorType,
     ParseStatus,
 )
+from app.tasks.thumbnail import create_thumbnail
 from app.utils import default
 from app.utils.file import get_file_size
 from app.utils.hash import get_file_md5
@@ -576,13 +578,37 @@ class File(Document):
     def cover_url(self):
         if not self.save_name:
             return ""
-        return oss.sign_url(current_app.config["OSS_FILE_PREFIX"], self.save_name, process_name=current_app.config["OSS_PROCESS_COVER_NAME"])
+        if current_app.config[
+            "STORAGE_TYPE"
+        ] == StorageType.LOCAL_STORAGE and not oss.is_exist(
+            current_app.config["OSS_FILE_PREFIX"],
+            self.save_name,
+            process_name=current_app.config["OSS_PROCESS_COVER_NAME"],
+        ):
+            return "generating"
+        return oss.sign_url(
+            current_app.config["OSS_FILE_PREFIX"],
+            self.save_name,
+            process_name=current_app.config["OSS_PROCESS_COVER_NAME"],
+        )
 
     @property
     def safe_check_url(self):
         if not self.save_name:
             return ""
-        return oss.sign_url(current_app.config["OSS_FILE_PREFIX"], self.save_name, process_name=current_app.config["OSS_PROCESS_SAFE_CHECK_NAME"])
+        if current_app.config[
+            "STORAGE_TYPE"
+        ] == StorageType.LOCAL_STORAGE and not oss.is_exist(
+            current_app.config["OSS_FILE_PREFIX"],
+            self.save_name,
+            process_name=current_app.config["OSS_PROCESS_SAFE_CHECK_NAME"],
+        ):
+            return "generating"
+        return oss.sign_url(
+            current_app.config["OSS_FILE_PREFIX"],
+            self.save_name,
+            process_name=current_app.config["OSS_PROCESS_SAFE_CHECK_NAME"],
+        )
 
     @only_file
     def has_real_file(self):
@@ -638,6 +664,11 @@ class File(Document):
         # 文本自动解析生成 Source
         if self.type == FileType.TEXT:
             self.parse()
+        if (
+            self.type == FileType.IMAGE
+            and current_app.config["STORAGE_TYPE"] == StorageType.LOCAL_STORAGE
+        ):
+            create_thumbnail(str(self.id))
         self.reload()
         return oss_result
 
@@ -660,7 +691,14 @@ class File(Document):
         if self.has_real_file:
             # 物理删除源文件
             oss_result = oss.delete(
-                current_app.config["OSS_FILE_PREFIX"], self.save_name
+                current_app.config["OSS_FILE_PREFIX"],
+                [
+                    self.save_name,
+                    current_app.config["OSS_PROCESS_COVER_NAME"] + "-" + self.save_name,
+                    current_app.config["OSS_PROCESS_SAFE_CHECK_NAME"]
+                    + "-"
+                    + self.save_name,
+                ],
             )
             # 初始化对象，并更新缓存计数
             if init_obj:
@@ -1401,7 +1439,7 @@ class Translation(Document):
         translation.content = content
         try:
             translation.save()
-        except (mongoengine.errors.NotUniqueError):
+        except mongoengine.errors.NotUniqueError:
             raise TranslationNotUniqueError
         translation.update_cache("edit_time", datetime.datetime.utcnow())
         # 如果是唯一的翻译，且是新增的，且不是空白，则增加计数

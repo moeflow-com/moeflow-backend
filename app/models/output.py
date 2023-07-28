@@ -1,3 +1,4 @@
+import os
 from app.utils import default
 from mongoengine.base.fields import ObjectIdField
 from mongoengine.fields import ListField
@@ -59,6 +60,14 @@ class Output(Document):
             oss.delete(
                 current_app.config["OSS_OUTPUT_PREFIX"],
                 [str(output.id) + "/" + output.file_name for output in outputs],
+            )
+            oss.rmdir(
+                [
+                    os.path.join(
+                        current_app.config["OSS_OUTPUT_PREFIX"], str(output.id)
+                    )
+                    for output in outputs
+                ],
             )
         except oss2.exceptions.NoSuchKey as e:
             logger.error(e)

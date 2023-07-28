@@ -342,7 +342,6 @@ class TeamProjectImportAPI(MoeAPIView):
         )
         labelplus_file = request.files["labelplus"]
         labelplus_txt = labelplus_file.read().decode('utf-8')
-        print(labelplus_txt)
 
         # 处理请求数据
         schema = ImportProjectSchema()

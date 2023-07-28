@@ -77,8 +77,6 @@ class OSS:
 
     def upload(self, path, filename, file, headers=None, progress_callback=None):
         """上传文件"""
-        print("path: ", path)
-        print("filename: ", filename)
         if self.storage_type == StorageType.OSS:
             return self.bucket.put_object(
                 path + filename,
@@ -118,15 +116,28 @@ class OSS:
                 with open(file_path, "rb") as file:
                     return BytesIO(file.read())
 
-    def is_exist(self, path, filename):
+    def is_exist(self, path, filename, process_name=None):
         """检查文件是否存在"""
         if self.storage_type == StorageType.OSS:
             return self.bucket.object_exists(path + filename)
         else:
             if os.path.isabs(path):
-                return os.path.isfile(os.path.join(path, filename))
+                return os.path.isfile(
+                    os.path.join(
+                        path,
+                        (process_name + "-" if process_name is not None else "")
+                        + filename,
+                    )
+                )
             else:
-                return os.path.isfile(os.path.join(self.STORAGE_PATH, path, filename))
+                return os.path.isfile(
+                    os.path.join(
+                        self.STORAGE_PATH,
+                        path,
+                        (process_name + "-" if process_name is not None else "")
+                        + filename,
+                    )
+                )
 
     def delete(self, path, filename):
         """（批量）删除文件"""
@@ -151,6 +162,20 @@ class OSS:
             else:
                 if self.is_exist(folder_path, filename):
                     os.remove(os.path.join(folder_path, filename))
+
+    def rmdir(self, path):
+        """（批量）删除文件夹，仅本地储存"""
+        if self.storage_type == StorageType.LOCAL_STORAGE:
+            # 如果给予列表，则批量删除
+            if isinstance(path, list):
+                for p in path:
+                    folder_path = os.path.join(self.STORAGE_PATH, p)
+                    if os.path.isdir(folder_path) and len(os.listdir(folder_path)) == 0:
+                        os.rmdir(folder_path)
+            else:
+                folder_path = os.path.join(self.STORAGE_PATH, path)
+                if os.path.isdir(folder_path) and len(os.listdir(folder_path)) == 0:
+                    os.rmdir(folder_path)
 
     def sign_url(self, *args, **kwargs):
         if self.storage_type == StorageType.OSS:
