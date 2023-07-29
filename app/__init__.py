@@ -144,6 +144,7 @@ def create_celery():
             "app.tasks.output_project",
             "app.tasks.ocr",
             "app.tasks.import_from_labelplus",
+            "app.tasks.thumbnail",
         ],
         related_name=None,
     )
