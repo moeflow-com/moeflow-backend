@@ -26,8 +26,13 @@ def create_thumbnail_task(image_id):
     :return:
     """
     from app.models.file import File
+    from app.models.project import Project
+    from app.models.output import Output
+    from app.models.team import Team
+    from app.models.target import Target
+    from app.models.user import User
 
-    (File)
+    (File, Project, Team, Target, User, Output)
 
     oss_file_prefix = celery.conf.app_config["OSS_FILE_PREFIX"]
     connect_db(celery.conf.app_config)
