@@ -1,9 +1,12 @@
+import datetime
 import zipfile
 from marshmallow import ValidationError
+from app.constants.output import OutputTypes
 from app.exceptions.auth import UserNotExistError
 from app.exceptions.project import ProjectNotExistError
 from typing import List
 from app.exceptions.team import OnlyAllowAdminCreateTeamError
+from app.models.output import Output
 from app.models.site_setting import SiteSetting
 from app.models.user import User
 from app.models.language import Language
@@ -18,6 +21,7 @@ from app.exceptions import NoPermissionError, RequestDataEmptyError
 from app.models.project import Project
 from app.models.team import Team, TeamPermission
 from app.constants.project import ProjectStatus
+from app.tasks.output_project import output_project
 from app.validators.project import (
     CreateProjectSchema,
     ImportProjectSchema,
@@ -324,6 +328,38 @@ class TeamProjectListAPI(MoeAPIView):
             "message": gettext("创建成功"),
             "project": project.to_api(user=self.current_user),
         }
+
+
+class TeamProjectOutputListAPI(MoeAPIView):
+    @token_required
+    @fetch_model(Team)
+    def post(self, team: Team):
+        if not self.current_user.can(team, TeamPermission.AUTO_BECOME_PROJECT_ADMIN):
+            raise NoPermissionError
+        for project in team.projects(status=ProjectStatus.WORKING):
+            for target in project.targets():
+                # 等待一定时间后允许再次导出
+                last_output = target.outputs().first()
+                if last_output and (
+                    datetime.datetime.utcnow() - last_output.create_time
+                    < datetime.timedelta(
+                        seconds=current_app.config.get("OUTPUT_WAIT_SECONDS", 60 * 5)
+                    )
+                ):
+                    continue
+                # 删除三个导出之前的
+                old_targets = target.outputs().skip(2)
+                Output.delete_real_files(old_targets)
+                old_targets.delete()
+                # 创建新target
+                output = Output.create(
+                    project=project,
+                    target=target,
+                    user=self.current_user,
+                    type=OutputTypes.ALL,
+                )
+                output_project(str(output.id))
+        return {"message": gettext("创建导出任务成功")}
 
 
 class TeamProjectImportAPI(MoeAPIView):

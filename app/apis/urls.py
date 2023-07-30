@@ -50,7 +50,9 @@ from app.apis.team import (
     TeamInsightUserProjectListAPI,
     TeamListAPI,
     TeamAPI,
-    TeamProjectListAPI,TeamProjectImportAPI,
+    TeamProjectListAPI,
+    TeamProjectImportAPI,
+    TeamProjectOutputListAPI,
     TeamProjectSetListAPI,
     TeamInsightUserListAPI,
 )
@@ -192,6 +194,11 @@ team.add_url_rule(
     "/<team_id>/projects",
     methods=["GET", "POST", "OPTIONS"],
     view_func=TeamProjectListAPI.as_view("team_project_list"),
+)
+team.add_url_rule(
+    "/<team_id>/outputs",
+    methods=["POST", "OPTIONS"],
+    view_func=TeamProjectOutputListAPI.as_view("team_project_output_list"),
 )
 team.add_url_rule(
     "/<team_id>/project-sets/<project_set_id>/project-zips",
