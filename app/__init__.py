@@ -141,6 +141,7 @@ def create_celery():
         packages=[
             "app.tasks.email",
             "app.tasks.file_parse",
+            "app.tasks.output_team_projects",
             "app.tasks.output_project",
             "app.tasks.ocr",
             "app.tasks.import_from_labelplus",

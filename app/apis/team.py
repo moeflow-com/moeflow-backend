@@ -21,7 +21,7 @@ from app.exceptions import NoPermissionError, RequestDataEmptyError
 from app.models.project import Project
 from app.models.team import Team, TeamPermission
 from app.constants.project import ProjectStatus
-from app.tasks.output_project import output_project
+from app.tasks.output_team_projects import output_team_projects
 from app.validators.project import (
     CreateProjectSchema,
     ImportProjectSchema,
@@ -336,29 +336,7 @@ class TeamProjectOutputListAPI(MoeAPIView):
     def post(self, team: Team):
         if not self.current_user.can(team, TeamPermission.AUTO_BECOME_PROJECT_ADMIN):
             raise NoPermissionError
-        for project in team.projects(status=ProjectStatus.WORKING):
-            for target in project.targets():
-                # 等待一定时间后允许再次导出
-                last_output = target.outputs().first()
-                if last_output and (
-                    datetime.datetime.utcnow() - last_output.create_time
-                    < datetime.timedelta(
-                        seconds=current_app.config.get("OUTPUT_WAIT_SECONDS", 60 * 5)
-                    )
-                ):
-                    continue
-                # 删除三个导出之前的
-                old_targets = target.outputs().skip(2)
-                Output.delete_real_files(old_targets)
-                old_targets.delete()
-                # 创建新target
-                output = Output.create(
-                    project=project,
-                    target=target,
-                    user=self.current_user,
-                    type=OutputTypes.ALL,
-                )
-                output_project(str(output.id))
+        output_team_projects(str(team.id), str(self.current_user.id))
         return {"message": gettext("创建导出任务成功")}
 
 
@@ -377,7 +355,7 @@ class TeamProjectImportAPI(MoeAPIView):
             ProjectRole.by_system_code(project_json_data["default_role"]).id
         )
         labelplus_file = request.files["labelplus"]
-        labelplus_txt = labelplus_file.read().decode('utf-8')
+        labelplus_txt = labelplus_file.read().decode("utf-8")
 
         # 处理请求数据
         schema = ImportProjectSchema()
