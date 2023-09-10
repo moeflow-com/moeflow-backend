@@ -259,6 +259,6 @@ class OSS:
             params["x-oss-process"] = f"style/{process_name}"
         key = to_string(path + filename)
         req = oss2.http.Request(
-            method, oss_domain + key, headers=headers, params=params
+            method, oss_domain + parse.quote(key), headers=headers, params=params
         )
         return self.bucket.auth._sign_url(req, self.bucket.bucket_name, key, expires)
