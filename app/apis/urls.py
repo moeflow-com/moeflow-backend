@@ -23,7 +23,7 @@ from app.apis.me import (
     MeRelatedApplicationListAPI,
 )
 from app.apis.avatar import AvatarAPI
-from app.apis.site_setting import SiteSettingAPI
+from app.apis.site_setting import HomepageAPI, SiteSettingAPI
 from app.apis.user import (
     AdminUserAPI,
     AdminUserAdminStatusAPI,
@@ -91,6 +91,11 @@ index.add_url_rule(
 )
 index.add_url_rule(
     "/error", methods=["GET", "OPTIONS"], view_func=ErrorAPI.as_view("error")
+)
+# site公开配置模块
+site = Blueprint("site", __name__, url_prefix=v1_prefix + "/site")
+site.add_url_rule(
+    "/homepage", methods=["GET", "OPTIONS"], view_func=HomepageAPI.as_view("homepage")
 )
 # type模块
 type = Blueprint("type", __name__, url_prefix=v1_prefix + "/types")

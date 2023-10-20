@@ -23,3 +23,5 @@ class SiteSettingSchema(Schema):
         required=True,
         error_messages={**required_message},
     )
+    homepage_html = fields.Str()
+    homepage_css = fields.Str()
