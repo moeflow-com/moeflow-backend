@@ -1,10 +1,11 @@
-from marshmallow import Schema, fields
+from marshmallow import fields
 
 from app.models.file import File
 from app.validators.custom_validate import indexes_in, object_id
+from app.validators.custom_schema import DefaultSchema
 
 
-class FileSearchSchema(Schema):
+class FileSearchSchema(DefaultSchema):
     word = fields.Str(missing=None)
     parent_id = fields.Str(missing=None, validate=[object_id])
     only_folder = fields.Bool(missing=False)
@@ -13,13 +14,13 @@ class FileSearchSchema(Schema):
     target = fields.Str(missing=None, validate=[object_id])
 
 
-class FileGetSchema(Schema):
+class FileGetSchema(DefaultSchema):
     target = fields.Str(missing=None, validate=[object_id])
 
 
-class FileUploadSchema(Schema):
+class FileUploadSchema(DefaultSchema):
     parent_id = fields.Str(missing=None, validate=[object_id])
 
 
-class AdminFileSearchSchema(Schema):
+class AdminFileSearchSchema(DefaultSchema):
     safe_status = fields.List(fields.Int(), missing=[])

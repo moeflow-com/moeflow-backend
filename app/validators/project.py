@@ -1,4 +1,4 @@
-from marshmallow import Schema, fields, post_load, validates_schema
+from marshmallow import fields, post_load, validates_schema
 
 from app.exceptions import ProjectSetNotExistError, LanguageNotExistError
 from app.models.project import Project, ProjectSet
@@ -13,11 +13,11 @@ from app.validators.custom_validate import (
     need_in,
     object_id,
 )
-from app.models.language import Language
+from app.validators.custom_schema import DefaultSchema
 from marshmallow.exceptions import ValidationError
 
 
-class ProjectSetsSchema(Schema):
+class ProjectSetsSchema(DefaultSchema):
     name = fields.Str(
         required=True,
         validate=[ProjectSetValidate.name_length],
@@ -25,7 +25,7 @@ class ProjectSetsSchema(Schema):
     )
 
 
-class SearchTeamProjectSchema(Schema):
+class SearchTeamProjectSchema(DefaultSchema):
     """搜索团队下项目验证器"""
 
     status = fields.List(
@@ -48,7 +48,7 @@ class SearchTeamProjectSchema(Schema):
             return in_data
 
 
-class SearchUserProjectSchema(Schema):
+class SearchUserProjectSchema(DefaultSchema):
     """搜索用户下项目验证器"""
 
     status = fields.List(
@@ -57,7 +57,7 @@ class SearchUserProjectSchema(Schema):
     word = fields.Str(missing=None)
 
 
-class CreateProjectSchema(Schema):
+class CreateProjectSchema(DefaultSchema):
     """创建项目验证器"""
 
     name = fields.Str(
@@ -135,7 +135,7 @@ class CreateProjectSchema(Schema):
         return in_data
 
 
-class ImportProjectSchema(Schema):
+class ImportProjectSchema(DefaultSchema):
     """创建项目验证器"""
 
     name = fields.Str(
@@ -208,9 +208,9 @@ class ImportProjectSchema(Schema):
         except LanguageNotExistError as e:
             raise ValidationError(e.message, field_names="output_language")
         return in_data
-    
 
-class EditProjectSchema(Schema):
+
+class EditProjectSchema(DefaultSchema):
     """修改项目验证器"""
 
     name = fields.Str(
@@ -261,7 +261,7 @@ class EditProjectSchema(Schema):
         return in_data
 
 
-class ChangeProjectUserSchema(Schema):
+class ChangeProjectUserSchema(DefaultSchema):
     """修改项目用户验证器"""
 
     role = fields.Str(
@@ -269,7 +269,7 @@ class ChangeProjectUserSchema(Schema):
     )
 
 
-class CreateProjectTargetSchema(Schema):
+class CreateProjectTargetSchema(DefaultSchema):
     """创建项目目标验证器"""
 
     language = fields.Str(
@@ -283,7 +283,7 @@ class CreateProjectTargetSchema(Schema):
         return in_data
 
 
-class CreateOutputSchema(Schema):
+class CreateOutputSchema(DefaultSchema):
     """创建导出内容验证器"""
 
     type = fields.Int(
@@ -295,9 +295,9 @@ class CreateOutputSchema(Schema):
     file_ids_exclude = fields.List(fields.Str(validate=[object_id]), missing=None)
 
 
-class TeamInsightUserListSchema(Schema):
+class TeamInsightUserListSchema(DefaultSchema):
     word = fields.Str(missing=None)
 
 
-class TeamInsightProjectListSchema(Schema):
+class TeamInsightProjectListSchema(DefaultSchema):
     word = fields.Str(missing=None)

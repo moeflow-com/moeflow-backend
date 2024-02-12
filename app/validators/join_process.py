@@ -1,12 +1,13 @@
-from marshmallow import Schema, fields, post_load
+from marshmallow import fields, post_load
 
 from app.exceptions import RoleNotExistError, UserNotExistError
 from app.models.user import User
+from app.validators.custom_schema import DefaultSchema
 from app.validators.custom_message import required_message
 from app.validators.custom_validate import JoinValidate, object_id
 
 
-class CreateInvitationSchema(Schema):
+class CreateInvitationSchema(DefaultSchema):
     user_id = fields.Str(
         required=True, validate=[object_id], error_messages={**required_message},
     )
@@ -34,29 +35,29 @@ class CreateInvitationSchema(Schema):
         return in_data
 
 
-class SearchInvitationSchema(Schema):
+class SearchInvitationSchema(DefaultSchema):
     status = fields.List(fields.Int(), missing=None)
 
 
-class SearchRelatedApplicationSchema(Schema):
+class SearchRelatedApplicationSchema(DefaultSchema):
     status = fields.List(fields.Int(), missing=None)
 
 
-class ChangeInvitationSchema(Schema):
+class ChangeInvitationSchema(DefaultSchema):
     role_id = fields.Str(required=True, error_messages={**required_message})
 
 
-class CheckInvitationSchema(Schema):
+class CheckInvitationSchema(DefaultSchema):
     allow = fields.Boolean(required=True, error_messages={**required_message})
 
 
-class SearchApplicationSchema(Schema):
+class SearchApplicationSchema(DefaultSchema):
     status = fields.List(fields.Int(), missing=None)
 
 
-class CreateApplicationSchema(Schema):
+class CreateApplicationSchema(DefaultSchema):
     message = fields.Str(required=True, validate=[JoinValidate.message_length])
 
 
-class CheckApplicationSchema(Schema):
+class CheckApplicationSchema(DefaultSchema):
     allow = fields.Boolean(required=True, error_messages={**required_message})

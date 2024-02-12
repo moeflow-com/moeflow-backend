@@ -1,7 +1,8 @@
-from marshmallow import Schema, fields, post_load
+from marshmallow import fields, post_load
 
 from app.models.language import Language
 from app.validators.custom_message import required_message
+from app.validators.custom_schema import DefaultSchema
 from app.validators.custom_validate import (
     TermBankValidate,
     TermValidate,
@@ -9,7 +10,7 @@ from app.validators.custom_validate import (
 )
 
 
-class TermBankSchema(Schema):
+class TermBankSchema(DefaultSchema):
     name = fields.Str(
         required=True,
         validate=[TermBankValidate.name_length],
@@ -44,7 +45,7 @@ class TermBankSchema(Schema):
         return in_data
 
 
-class TermSchema(Schema):
+class TermSchema(DefaultSchema):
     source = fields.Str(
         required=True,
         validate=[TermValidate.source_length],
