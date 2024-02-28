@@ -48,7 +48,10 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
             team=team,
             creator=user,
             source_language=Language.by_code("en"),
-            target_languages=[Language.by_code("zh-CN"), Language.by_code("ja"),],
+            target_languages=[
+                Language.by_code("zh-CN"),
+                Language.by_code("ja"),
+            ],
         )
         # == 开始测试 ==
         self.assertEqual(2, Target.objects().count())
@@ -91,7 +94,10 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
             team=team,
             creator=user,
             source_language=Language.by_code("en"),
-            target_languages=[Language.by_code("zh-CN"), Language.by_code("ja"),],
+            target_languages=[
+                Language.by_code("zh-CN"),
+                Language.by_code("ja"),
+            ],
         )
         # == 开始测试 ==
         self.assertEqual(1, project1.target_count)
@@ -140,22 +146,27 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
             )
             target1.reload()
             self.assertEqual(
-                (file1_target1_t + file2_target1_t), target1.translated_source_count,
+                (file1_target1_t + file2_target1_t),
+                target1.translated_source_count,
             )
             self.assertEqual(
-                (file1_target1_c + file2_target1_c), target1.checked_source_count,
+                (file1_target1_c + file2_target1_c),
+                target1.checked_source_count,
             )
             target2.reload()
             self.assertEqual(
-                (file1_target2_t + file2_target2_t), target2.translated_source_count,
+                (file1_target2_t + file2_target2_t),
+                target2.translated_source_count,
             )
             self.assertEqual(
-                (file1_target2_c + file2_target2_c), target2.checked_source_count,
+                (file1_target2_c + file2_target2_c),
+                target2.checked_source_count,
             )
             # file1和它的两个Cache
             file1.reload()
             self.assertEqual(
-                (file1_target1_t + file1_target2_t), file1.translated_source_count,
+                (file1_target1_t + file1_target2_t),
+                file1.translated_source_count,
             )
             self.assertEqual(
                 (file1_target1_c + file1_target2_c), file1.checked_source_count
@@ -169,7 +180,8 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
             # file2和它的两个Cache
             file2.reload()
             self.assertEqual(
-                (file2_target1_t + file2_target2_t), file2.translated_source_count,
+                (file2_target1_t + file2_target2_t),
+                file2.translated_source_count,
             )
             self.assertEqual(
                 (file2_target1_c + file2_target2_c), file2.checked_source_count
@@ -192,17 +204,21 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
             )
             dir1_target1.reload()
             self.assertEqual(
-                file1_target1_t + file2_target1_t, dir1_target1.translated_source_count,
+                file1_target1_t + file2_target1_t,
+                dir1_target1.translated_source_count,
             )
             self.assertEqual(
-                file1_target1_c + file2_target1_c, dir1_target1.checked_source_count,
+                file1_target1_c + file2_target1_c,
+                dir1_target1.checked_source_count,
             )
             dir1_target2.reload()
             self.assertEqual(
-                file1_target2_t + file2_target2_t, dir1_target2.translated_source_count,
+                file1_target2_t + file2_target2_t,
+                dir1_target2.translated_source_count,
             )
             self.assertEqual(
-                file1_target2_c + file2_target2_c, dir1_target2.checked_source_count,
+                file1_target2_c + file2_target2_c,
+                dir1_target2.checked_source_count,
             )
             # dir2 和他两个Cache
             dir2.reload()
@@ -230,7 +246,10 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
             team=team,
             creator=user1,
             source_language=Language.by_code("en"),
-            target_languages=[Language.by_code("zh-CN"), Language.by_code("ja"),],
+            target_languages=[
+                Language.by_code("zh-CN"),
+                Language.by_code("ja"),
+            ],
         )
         user1.join(project, role=ProjectRole.by_system_code("admin"))
         """
@@ -783,22 +802,27 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
             )
             target1.reload()
             self.assertEqual(
-                (file1_target1_t + file2_target1_t), target1.translated_source_count,
+                (file1_target1_t + file2_target1_t),
+                target1.translated_source_count,
             )
             self.assertEqual(
-                (file1_target1_c + file2_target1_c), target1.checked_source_count,
+                (file1_target1_c + file2_target1_c),
+                target1.checked_source_count,
             )
             target2.reload()
             self.assertEqual(
-                (file1_target2_t + file2_target2_t), target2.translated_source_count,
+                (file1_target2_t + file2_target2_t),
+                target2.translated_source_count,
             )
             self.assertEqual(
-                (file1_target2_c + file2_target2_c), target2.checked_source_count,
+                (file1_target2_c + file2_target2_c),
+                target2.checked_source_count,
             )
             # file1和它的两个Cache
             file1.reload()
             self.assertEqual(
-                (file1_target1_t + file1_target2_t), file1.translated_source_count,
+                (file1_target1_t + file1_target2_t),
+                file1.translated_source_count,
             )
             self.assertEqual(
                 (file1_target1_c + file1_target2_c), file1.checked_source_count
@@ -812,7 +836,8 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
             # file2和它的两个Cache
             file2.reload()
             self.assertEqual(
-                (file2_target1_t + file2_target2_t), file2.translated_source_count,
+                (file2_target1_t + file2_target2_t),
+                file2.translated_source_count,
             )
             self.assertEqual(
                 (file2_target1_c + file2_target2_c), file2.checked_source_count
@@ -835,17 +860,21 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
             )
             dir1_target1.reload()
             self.assertEqual(
-                file1_target1_t + file2_target1_t, dir1_target1.translated_source_count,
+                file1_target1_t + file2_target1_t,
+                dir1_target1.translated_source_count,
             )
             self.assertEqual(
-                file1_target1_c + file2_target1_c, dir1_target1.checked_source_count,
+                file1_target1_c + file2_target1_c,
+                dir1_target1.checked_source_count,
             )
             dir1_target2.reload()
             self.assertEqual(
-                file1_target2_t + file2_target2_t, dir1_target2.translated_source_count,
+                file1_target2_t + file2_target2_t,
+                dir1_target2.translated_source_count,
             )
             self.assertEqual(
-                file1_target2_c + file2_target2_c, dir1_target2.checked_source_count,
+                file1_target2_c + file2_target2_c,
+                dir1_target2.checked_source_count,
             )
             # dir2 和他两个Cache
             dir2.reload()
@@ -873,7 +902,10 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
             team=team,
             creator=user1,
             source_language=Language.by_code("en"),
-            target_languages=[Language.by_code("zh-CN"), Language.by_code("ja"),],
+            target_languages=[
+                Language.by_code("zh-CN"),
+                Language.by_code("ja"),
+            ],
         )
         user1.join(project, role=ProjectRole.by_system_code("admin"))
         """
@@ -1085,17 +1117,21 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
             )
             target1.reload()
             self.assertEqual(
-                (file1_target1_t + file2_target1_t), target1.translated_source_count,
+                (file1_target1_t + file2_target1_t),
+                target1.translated_source_count,
             )
             self.assertEqual(
-                (file1_target1_c + file2_target1_c), target1.checked_source_count,
+                (file1_target1_c + file2_target1_c),
+                target1.checked_source_count,
             )
             target2.reload()
             self.assertEqual(
-                (file1_target2_t + file2_target2_t), target2.translated_source_count,
+                (file1_target2_t + file2_target2_t),
+                target2.translated_source_count,
             )
             self.assertEqual(
-                (file1_target2_c + file2_target2_c), target2.checked_source_count,
+                (file1_target2_c + file2_target2_c),
+                target2.checked_source_count,
             )
             # file1和它的两个Cache
             try:
@@ -1129,10 +1165,12 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
                     file1_source2_target2_tra2.reload()
             else:
                 self.assertEqual(
-                    (file1_target1_t + file1_target2_t), file1.translated_source_count,
+                    (file1_target1_t + file1_target2_t),
+                    file1.translated_source_count,
                 )
                 self.assertEqual(
-                    (file1_target1_c + file1_target2_c), file1.checked_source_count,
+                    (file1_target1_c + file1_target2_c),
+                    file1.checked_source_count,
                 )
                 file1_target1.reload()
                 self.assertEqual(file1_target1_t, file1_target1.translated_source_count)
@@ -1172,10 +1210,12 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
                     file2_source2_target2_tra2.reload()
             else:
                 self.assertEqual(
-                    (file2_target1_t + file2_target2_t), file2.translated_source_count,
+                    (file2_target1_t + file2_target2_t),
+                    file2.translated_source_count,
                 )
                 self.assertEqual(
-                    (file2_target1_c + file2_target2_c), file2.checked_source_count,
+                    (file2_target1_c + file2_target2_c),
+                    file2.checked_source_count,
                 )
                 file2_target1.reload()
                 self.assertEqual(file2_target1_t, file2_target1.translated_source_count)
@@ -1242,10 +1282,12 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
                     dir1_target2.reload()
             else:
                 self.assertEqual(
-                    file2_target1_t + file2_target2_t, dir2.translated_source_count,
+                    file2_target1_t + file2_target2_t,
+                    dir2.translated_source_count,
                 )
                 self.assertEqual(
-                    file2_target1_c + file2_target2_c, dir2.checked_source_count,
+                    file2_target1_c + file2_target2_c,
+                    dir2.checked_source_count,
                 )
                 dir2_target1.reload()
                 self.assertEqual(file2_target1_t, dir2_target1.translated_source_count)
@@ -1265,7 +1307,10 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
             team=team,
             creator=user1,
             source_language=Language.by_code("en"),
-            target_languages=[Language.by_code("zh-CN"), Language.by_code("ja"),],
+            target_languages=[
+                Language.by_code("zh-CN"),
+                Language.by_code("ja"),
+            ],
         )
         user1.join(project, role=ProjectRole.by_system_code("admin"))
         """
@@ -1423,17 +1468,21 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
             )
             target1.reload()
             self.assertEqual(
-                (file1_target1_t + file2_target1_t), target1.translated_source_count,
+                (file1_target1_t + file2_target1_t),
+                target1.translated_source_count,
             )
             self.assertEqual(
-                (file1_target1_c + file2_target1_c), target1.checked_source_count,
+                (file1_target1_c + file2_target1_c),
+                target1.checked_source_count,
             )
             target2.reload()
             self.assertEqual(
-                (file1_target2_t + file2_target2_t), target2.translated_source_count,
+                (file1_target2_t + file2_target2_t),
+                target2.translated_source_count,
             )
             self.assertEqual(
-                (file1_target2_c + file2_target2_c), target2.checked_source_count,
+                (file1_target2_c + file2_target2_c),
+                target2.checked_source_count,
             )
             # file1和它的两个Cache
             try:
@@ -1467,10 +1516,12 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
                     file1_source2_target2_tra2.reload()
             else:
                 self.assertEqual(
-                    (file1_target1_t + file1_target2_t), file1.translated_source_count,
+                    (file1_target1_t + file1_target2_t),
+                    file1.translated_source_count,
                 )
                 self.assertEqual(
-                    (file1_target1_c + file1_target2_c), file1.checked_source_count,
+                    (file1_target1_c + file1_target2_c),
+                    file1.checked_source_count,
                 )
                 file1_target1.reload()
                 self.assertEqual(file1_target1_t, file1_target1.translated_source_count)
@@ -1510,10 +1561,12 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
                     file2_source2_target2_tra2.reload()
             else:
                 self.assertEqual(
-                    (file2_target1_t + file2_target2_t), file2.translated_source_count,
+                    (file2_target1_t + file2_target2_t),
+                    file2.translated_source_count,
                 )
                 self.assertEqual(
-                    (file2_target1_c + file2_target2_c), file2.checked_source_count,
+                    (file2_target1_c + file2_target2_c),
+                    file2.checked_source_count,
                 )
                 file2_target1.reload()
                 self.assertEqual(file2_target1_t, file2_target1.translated_source_count)
@@ -1580,10 +1633,12 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
                     dir1_target2.reload()
             else:
                 self.assertEqual(
-                    file2_target1_t + file2_target2_t, dir2.translated_source_count,
+                    file2_target1_t + file2_target2_t,
+                    dir2.translated_source_count,
                 )
                 self.assertEqual(
-                    file2_target1_c + file2_target2_c, dir2.checked_source_count,
+                    file2_target1_c + file2_target2_c,
+                    dir2.checked_source_count,
                 )
                 dir2_target1.reload()
                 self.assertEqual(file2_target1_t, dir2_target1.translated_source_count)
@@ -1603,7 +1658,10 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
             team=team,
             creator=user1,
             source_language=Language.by_code("en"),
-            target_languages=[Language.by_code("zh-CN"), Language.by_code("ja"),],
+            target_languages=[
+                Language.by_code("zh-CN"),
+                Language.by_code("ja"),
+            ],
         )
         user1.join(project, role=ProjectRole.by_system_code("admin"))
         """
@@ -1749,17 +1807,21 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
             )
             target1.reload()
             self.assertEqual(
-                (file1_target1_t + file2_target1_t), target1.translated_source_count,
+                (file1_target1_t + file2_target1_t),
+                target1.translated_source_count,
             )
             self.assertEqual(
-                (file1_target1_c + file2_target1_c), target1.checked_source_count,
+                (file1_target1_c + file2_target1_c),
+                target1.checked_source_count,
             )
             target2.reload()
             self.assertEqual(
-                (file1_target2_t + file2_target2_t), target2.translated_source_count,
+                (file1_target2_t + file2_target2_t),
+                target2.translated_source_count,
             )
             self.assertEqual(
-                (file1_target2_c + file2_target2_c), target2.checked_source_count,
+                (file1_target2_c + file2_target2_c),
+                target2.checked_source_count,
             )
             # file1和它的两个Cache
             try:
@@ -1793,10 +1855,12 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
                     file1_source2_target2_tra2.reload()
             else:
                 self.assertEqual(
-                    (file1_target1_t + file1_target2_t), file1.translated_source_count,
+                    (file1_target1_t + file1_target2_t),
+                    file1.translated_source_count,
                 )
                 self.assertEqual(
-                    (file1_target1_c + file1_target2_c), file1.checked_source_count,
+                    (file1_target1_c + file1_target2_c),
+                    file1.checked_source_count,
                 )
                 file1_target1.reload()
                 self.assertEqual(file1_target1_t, file1_target1.translated_source_count)
@@ -1836,10 +1900,12 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
                     file2_source2_target2_tra2.reload()
             else:
                 self.assertEqual(
-                    (file2_target1_t + file2_target2_t), file2.translated_source_count,
+                    (file2_target1_t + file2_target2_t),
+                    file2.translated_source_count,
                 )
                 self.assertEqual(
-                    (file2_target1_c + file2_target2_c), file2.checked_source_count,
+                    (file2_target1_c + file2_target2_c),
+                    file2.checked_source_count,
                 )
                 file2_target1.reload()
                 self.assertEqual(file2_target1_t, file2_target1.translated_source_count)
@@ -1906,10 +1972,12 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
                     dir2_target2.reload()
             else:
                 self.assertEqual(
-                    file2_target1_t + file2_target2_t, dir2.translated_source_count,
+                    file2_target1_t + file2_target2_t,
+                    dir2.translated_source_count,
                 )
                 self.assertEqual(
-                    file2_target1_c + file2_target2_c, dir2.checked_source_count,
+                    file2_target1_c + file2_target2_c,
+                    dir2.checked_source_count,
                 )
                 dir2_target1.reload()
                 self.assertEqual(file2_target1_t, dir2_target1.translated_source_count)
@@ -1929,7 +1997,10 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
             team=team,
             creator=user1,
             source_language=Language.by_code("en"),
-            target_languages=[Language.by_code("zh-CN"), Language.by_code("ja"),],
+            target_languages=[
+                Language.by_code("zh-CN"),
+                Language.by_code("ja"),
+            ],
         )
         user1.join(project, role=ProjectRole.by_system_code("admin"))
         """
@@ -2087,17 +2158,21 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
             )
             target1.reload()
             self.assertEqual(
-                (file1_target1_t + file2_target1_t), target1.translated_source_count,
+                (file1_target1_t + file2_target1_t),
+                target1.translated_source_count,
             )
             self.assertEqual(
-                (file1_target1_c + file2_target1_c), target1.checked_source_count,
+                (file1_target1_c + file2_target1_c),
+                target1.checked_source_count,
             )
             target2.reload()
             self.assertEqual(
-                (file1_target2_t + file2_target2_t), target2.translated_source_count,
+                (file1_target2_t + file2_target2_t),
+                target2.translated_source_count,
             )
             self.assertEqual(
-                (file1_target2_c + file2_target2_c), target2.checked_source_count,
+                (file1_target2_c + file2_target2_c),
+                target2.checked_source_count,
             )
             # file1和它的两个Cache
             try:
@@ -2131,10 +2206,12 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
                     file1_source2_target2_tra2.reload()
             else:
                 self.assertEqual(
-                    (file1_target1_t + file1_target2_t), file1.translated_source_count,
+                    (file1_target1_t + file1_target2_t),
+                    file1.translated_source_count,
                 )
                 self.assertEqual(
-                    (file1_target1_c + file1_target2_c), file1.checked_source_count,
+                    (file1_target1_c + file1_target2_c),
+                    file1.checked_source_count,
                 )
                 file1_target1.reload()
                 self.assertEqual(file1_target1_t, file1_target1.translated_source_count)
@@ -2174,10 +2251,12 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
                     file2_source2_target2_tra2.reload()
             else:
                 self.assertEqual(
-                    (file2_target1_t + file2_target2_t), file2.translated_source_count,
+                    (file2_target1_t + file2_target2_t),
+                    file2.translated_source_count,
                 )
                 self.assertEqual(
-                    (file2_target1_c + file2_target2_c), file2.checked_source_count,
+                    (file2_target1_c + file2_target2_c),
+                    file2.checked_source_count,
                 )
                 file2_target1.reload()
                 self.assertEqual(file2_target1_t, file2_target1.translated_source_count)
@@ -2244,10 +2323,12 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
                     dir2_target2.reload()
             else:
                 self.assertEqual(
-                    file2_target1_t + file2_target2_t, dir2.translated_source_count,
+                    file2_target1_t + file2_target2_t,
+                    dir2.translated_source_count,
                 )
                 self.assertEqual(
-                    file2_target1_c + file2_target2_c, dir2.checked_source_count,
+                    file2_target1_c + file2_target2_c,
+                    dir2.checked_source_count,
                 )
                 dir2_target1.reload()
                 self.assertEqual(file2_target1_t, dir2_target1.translated_source_count)
@@ -2267,7 +2348,10 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
             team=team,
             creator=user1,
             source_language=Language.by_code("en"),
-            target_languages=[Language.by_code("zh-CN"), Language.by_code("ja"),],
+            target_languages=[
+                Language.by_code("zh-CN"),
+                Language.by_code("ja"),
+            ],
         )
         user1.join(project, role=ProjectRole.by_system_code("admin"))
         """
@@ -2449,17 +2533,21 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
             )
             target1.reload()
             self.assertEqual(
-                (file1_target1_t + file2_target1_t), target1.translated_source_count,
+                (file1_target1_t + file2_target1_t),
+                target1.translated_source_count,
             )
             self.assertEqual(
-                (file1_target1_c + file2_target1_c), target1.checked_source_count,
+                (file1_target1_c + file2_target1_c),
+                target1.checked_source_count,
             )
             target2.reload()
             self.assertEqual(
-                (file1_target2_t + file2_target2_t), target2.translated_source_count,
+                (file1_target2_t + file2_target2_t),
+                target2.translated_source_count,
             )
             self.assertEqual(
-                (file1_target2_c + file2_target2_c), target2.checked_source_count,
+                (file1_target2_c + file2_target2_c),
+                target2.checked_source_count,
             )
             # file1和它的两个Cache
             try:
@@ -2493,10 +2581,12 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
                     file1_source2_target2_tra2.reload()
             else:
                 self.assertEqual(
-                    (file1_target1_t + file1_target2_t), file1.translated_source_count,
+                    (file1_target1_t + file1_target2_t),
+                    file1.translated_source_count,
                 )
                 self.assertEqual(
-                    (file1_target1_c + file1_target2_c), file1.checked_source_count,
+                    (file1_target1_c + file1_target2_c),
+                    file1.checked_source_count,
                 )
                 file1_target1.reload()
                 self.assertEqual(file1_target1_t, file1_target1.translated_source_count)
@@ -2536,10 +2626,12 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
                     file2_source2_target2_tra2.reload()
             else:
                 self.assertEqual(
-                    (file2_target1_t + file2_target2_t), file2.translated_source_count,
+                    (file2_target1_t + file2_target2_t),
+                    file2.translated_source_count,
                 )
                 self.assertEqual(
-                    (file2_target1_c + file2_target2_c), file2.checked_source_count,
+                    (file2_target1_c + file2_target2_c),
+                    file2.checked_source_count,
                 )
                 file2_target1.reload()
                 self.assertEqual(file2_target1_t, file2_target1.translated_source_count)
@@ -2606,10 +2698,12 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
                     dir2_target2.reload()
             else:
                 self.assertEqual(
-                    file2_target1_t + file2_target2_t, dir2.translated_source_count,
+                    file2_target1_t + file2_target2_t,
+                    dir2.translated_source_count,
                 )
                 self.assertEqual(
-                    file2_target1_c + file2_target2_c, dir2.checked_source_count,
+                    file2_target1_c + file2_target2_c,
+                    dir2.checked_source_count,
                 )
                 dir2_target1.reload()
                 self.assertEqual(file2_target1_t, dir2_target1.translated_source_count)
@@ -2629,7 +2723,10 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
             team=team,
             creator=user1,
             source_language=Language.by_code("en"),
-            target_languages=[Language.by_code("zh-CN"), Language.by_code("ja"),],
+            target_languages=[
+                Language.by_code("zh-CN"),
+                Language.by_code("ja"),
+            ],
         )
         user1.join(project, role=ProjectRole.by_system_code("admin"))
         """
@@ -2807,17 +2904,21 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
             )
             target1.reload()
             self.assertEqual(
-                (file1_target1_t + file2_target1_t), target1.translated_source_count,
+                (file1_target1_t + file2_target1_t),
+                target1.translated_source_count,
             )
             self.assertEqual(
-                (file1_target1_c + file2_target1_c), target1.checked_source_count,
+                (file1_target1_c + file2_target1_c),
+                target1.checked_source_count,
             )
             target2.reload()
             self.assertEqual(
-                (file1_target2_t + file2_target2_t), target2.translated_source_count,
+                (file1_target2_t + file2_target2_t),
+                target2.translated_source_count,
             )
             self.assertEqual(
-                (file1_target2_c + file2_target2_c), target2.checked_source_count,
+                (file1_target2_c + file2_target2_c),
+                target2.checked_source_count,
             )
             # file1和它的两个Cache
             try:
@@ -2851,10 +2952,12 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
                     file1_source2_target2_tra2.reload()
             else:
                 self.assertEqual(
-                    (file1_target1_t + file1_target2_t), file1.translated_source_count,
+                    (file1_target1_t + file1_target2_t),
+                    file1.translated_source_count,
                 )
                 self.assertEqual(
-                    (file1_target1_c + file1_target2_c), file1.checked_source_count,
+                    (file1_target1_c + file1_target2_c),
+                    file1.checked_source_count,
                 )
                 file1_target1.reload()
                 self.assertEqual(file1_target1_t, file1_target1.translated_source_count)
@@ -2894,10 +2997,12 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
                     file2_source2_target2_tra2.reload()
             else:
                 self.assertEqual(
-                    (file2_target1_t + file2_target2_t), file2.translated_source_count,
+                    (file2_target1_t + file2_target2_t),
+                    file2.translated_source_count,
                 )
                 self.assertEqual(
-                    (file2_target1_c + file2_target2_c), file2.checked_source_count,
+                    (file2_target1_c + file2_target2_c),
+                    file2.checked_source_count,
                 )
                 file2_target1.reload()
                 self.assertEqual(file2_target1_t, file2_target1.translated_source_count)
@@ -2917,7 +3022,8 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
                     dir1_target2.reload()
             else:
                 self.assertEqual(
-                    dir1_target1_t + dir1_target2_t, dir1.translated_source_count,
+                    dir1_target1_t + dir1_target2_t,
+                    dir1.translated_source_count,
                 )
                 self.assertEqual(
                     dir1_target1_c + dir1_target2_c, dir1.checked_source_count
@@ -2940,7 +3046,8 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
                     dir2_target2.reload()
             else:
                 self.assertEqual(
-                    dir2_target1_t + dir2_target2_t, dir2.translated_source_count,
+                    dir2_target1_t + dir2_target2_t,
+                    dir2.translated_source_count,
                 )
                 self.assertEqual(
                     dir2_target1_c + dir2_target2_c, dir2.checked_source_count
@@ -2963,7 +3070,10 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
             team=team,
             creator=user1,
             source_language=Language.by_code("en"),
-            target_languages=[Language.by_code("zh-CN"), Language.by_code("ja"),],
+            target_languages=[
+                Language.by_code("zh-CN"),
+                Language.by_code("ja"),
+            ],
         )
         user1.join(project, role=ProjectRole.by_system_code("admin"))
         """
@@ -3242,24 +3352,29 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
             )
             target1.reload()
             self.assertEqual(
-                (file1_target1_t + file2_target1_t), target1.translated_source_count,
+                (file1_target1_t + file2_target1_t),
+                target1.translated_source_count,
             )
             self.assertEqual(
-                (file1_target1_c + file2_target1_c), target1.checked_source_count,
+                (file1_target1_c + file2_target1_c),
+                target1.checked_source_count,
             )
             target2.reload()
             self.assertEqual(
-                (file1_target2_t + file2_target2_t), target2.translated_source_count,
+                (file1_target2_t + file2_target2_t),
+                target2.translated_source_count,
             )
             self.assertEqual(
-                (file1_target2_c + file2_target2_c), target2.checked_source_count,
+                (file1_target2_c + file2_target2_c),
+                target2.checked_source_count,
             )
             # file1和它的两个Cache
             file1.reload()
             file1_target1 = file1.cache(target1)
             file1_target2 = file1.cache(target2)
             self.assertEqual(
-                (file1_target1_t + file1_target2_t), file1.translated_source_count,
+                (file1_target1_t + file1_target2_t),
+                file1.translated_source_count,
             )
             self.assertEqual(
                 (file1_target1_c + file1_target2_c), file1.checked_source_count
@@ -3275,7 +3390,8 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
             file2_target1 = file2.cache(target1)
             file2_target2 = file2.cache(target2)
             self.assertEqual(
-                (file2_target1_t + file2_target2_t), file2.translated_source_count,
+                (file2_target1_t + file2_target2_t),
+                file2.translated_source_count,
             )
             self.assertEqual(
                 (file2_target1_c + file2_target2_c), file2.checked_source_count
@@ -3322,7 +3438,10 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
             team=team,
             creator=user1,
             source_language=Language.by_code("en"),
-            target_languages=[Language.by_code("zh-CN"), Language.by_code("ja"),],
+            target_languages=[
+                Language.by_code("zh-CN"),
+                Language.by_code("ja"),
+            ],
         )
         user1.join(project, role=ProjectRole.by_system_code("admin"))
         """
@@ -3639,24 +3758,29 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
             )
             target1.reload()
             self.assertEqual(
-                (file1_target1_t + file2_target1_t), target1.translated_source_count,
+                (file1_target1_t + file2_target1_t),
+                target1.translated_source_count,
             )
             self.assertEqual(
-                (file1_target1_c + file2_target1_c), target1.checked_source_count,
+                (file1_target1_c + file2_target1_c),
+                target1.checked_source_count,
             )
             target2.reload()
             self.assertEqual(
-                (file1_target2_t + file2_target2_t), target2.translated_source_count,
+                (file1_target2_t + file2_target2_t),
+                target2.translated_source_count,
             )
             self.assertEqual(
-                (file1_target2_c + file2_target2_c), target2.checked_source_count,
+                (file1_target2_c + file2_target2_c),
+                target2.checked_source_count,
             )
             # file1和它的两个Cache
             file1.reload()
             file1_target1 = file1.cache(target1)
             file1_target2 = file1.cache(target2)
             self.assertEqual(
-                (file1_target1_t + file1_target2_t), file1.translated_source_count,
+                (file1_target1_t + file1_target2_t),
+                file1.translated_source_count,
             )
             self.assertEqual(
                 (file1_target1_c + file1_target2_c), file1.checked_source_count
@@ -3672,7 +3796,8 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
             file2_target1 = file2.cache(target1)
             file2_target2 = file2.cache(target2)
             self.assertEqual(
-                (file2_target1_t + file2_target2_t), file2.translated_source_count,
+                (file2_target1_t + file2_target2_t),
+                file2.translated_source_count,
             )
             self.assertEqual(
                 (file2_target1_c + file2_target2_c), file2.checked_source_count
@@ -3719,7 +3844,10 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
             team=team,
             creator=user1,
             source_language=Language.by_code("en"),
-            target_languages=[Language.by_code("zh-CN"), Language.by_code("ja"),],
+            target_languages=[
+                Language.by_code("zh-CN"),
+                Language.by_code("ja"),
+            ],
         )
         user1.join(project, role=ProjectRole.by_system_code("admin"))
         """
@@ -4155,21 +4283,29 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
             revision_b.sources()[5].create_translation(
                 "5-2", target1, user=user
             )  # 同用户，翻译覆盖
-            revision_b.sources()[5].create_tip("5-2", target1, user=user)  # 同用户，提示新增
+            revision_b.sources()[5].create_tip(
+                "5-2", target1, user=user
+            )  # 同用户，提示新增
             revision_b.sources()[5].create_translation(
                 "5-3", target1, user=user2
             )  # 不同用户，翻译新增
-            revision_b.sources()[5].create_tip("5-3", target1, user=user2)  # 不同用户，提示新增
+            revision_b.sources()[5].create_tip(
+                "5-3", target1, user=user2
+            )  # 不同用户，提示新增
             revision_b.sources()[5].create_translation("5-1", target2, user=user)
             revision_b.sources()[5].create_tip("5-1", target2, user=user)
             revision_b.sources()[5].create_translation(
                 "5-2", target2, user=user
             )  # 同用户，翻译覆盖
-            revision_b.sources()[5].create_tip("5-2", target2, user=user)  # 同用户，提示新增
+            revision_b.sources()[5].create_tip(
+                "5-2", target2, user=user
+            )  # 同用户，提示新增
             revision_b.sources()[5].create_translation(
                 "5-3", target2, user=user2
             )  # 不同用户，翻译新增
-            revision_b.sources()[5].create_tip("5-3", target2, user=user2)  # 不同用户，提示新增
+            revision_b.sources()[5].create_tip(
+                "5-3", target2, user=user2
+            )  # 不同用户，提示新增
             # 检查激活修订版
             revision_a.reload()
             self.assertFalse(revision_a.activated)
@@ -4271,7 +4407,16 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
                 ],
             )
             self.assertEqual(
-                [["0"], ["1"], [], ["3"], [], [], ["5-3", "5-2", "5-1"], ["1"],],
+                [
+                    ["0"],
+                    ["1"],
+                    [],
+                    ["3"],
+                    [],
+                    [],
+                    ["5-3", "5-2", "5-1"],
+                    ["1"],
+                ],
                 [
                     [item.content for item in source.tips(target=target1)]
                     for source in revision_c.sources()
@@ -4339,22 +4484,27 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
             )
             target1.reload()
             self.assertEqual(
-                (file1_target1_t + file2_target1_t), target1.translated_source_count,
+                (file1_target1_t + file2_target1_t),
+                target1.translated_source_count,
             )
             self.assertEqual(
-                (file1_target1_c + file2_target1_c), target1.checked_source_count,
+                (file1_target1_c + file2_target1_c),
+                target1.checked_source_count,
             )
             target2.reload()
             self.assertEqual(
-                (file1_target2_t + file2_target2_t), target2.translated_source_count,
+                (file1_target2_t + file2_target2_t),
+                target2.translated_source_count,
             )
             self.assertEqual(
-                (file1_target2_c + file2_target2_c), target2.checked_source_count,
+                (file1_target2_c + file2_target2_c),
+                target2.checked_source_count,
             )
             # file1和它的两个Cache
             file1.reload()
             self.assertEqual(
-                (file1_target1_t + file1_target2_t), file1.translated_source_count,
+                (file1_target1_t + file1_target2_t),
+                file1.translated_source_count,
             )
             self.assertEqual(
                 (file1_target1_c + file1_target2_c), file1.checked_source_count
@@ -4368,7 +4518,8 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
             # file2和它的两个Cache
             file2.reload()
             self.assertEqual(
-                (file2_target1_t + file2_target2_t), file2.translated_source_count,
+                (file2_target1_t + file2_target2_t),
+                file2.translated_source_count,
             )
             self.assertEqual(
                 (file2_target1_c + file2_target2_c), file2.checked_source_count
@@ -4391,17 +4542,21 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
             )
             dir1_target1.reload()
             self.assertEqual(
-                file1_target1_t + file2_target1_t, dir1_target1.translated_source_count,
+                file1_target1_t + file2_target1_t,
+                dir1_target1.translated_source_count,
             )
             self.assertEqual(
-                file1_target1_c + file2_target1_c, dir1_target1.checked_source_count,
+                file1_target1_c + file2_target1_c,
+                dir1_target1.checked_source_count,
             )
             dir1_target2.reload()
             self.assertEqual(
-                file1_target2_t + file2_target2_t, dir1_target2.translated_source_count,
+                file1_target2_t + file2_target2_t,
+                dir1_target2.translated_source_count,
             )
             self.assertEqual(
-                file1_target2_c + file2_target2_c, dir1_target2.checked_source_count,
+                file1_target2_c + file2_target2_c,
+                dir1_target2.checked_source_count,
             )
             # dir2 和他两个Cache
             dir2.reload()
@@ -4429,7 +4584,10 @@ class MultiTargetCacheTestCase(MoeAPITestCase):
             team=team,
             creator=user1,
             source_language=Language.by_code("en"),
-            target_languages=[Language.by_code("zh-CN"), Language.by_code("ja"),],
+            target_languages=[
+                Language.by_code("zh-CN"),
+                Language.by_code("ja"),
+            ],
         )
         user1.join(project, role=ProjectRole.by_system_code("admin"))
         """

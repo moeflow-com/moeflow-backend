@@ -9,10 +9,14 @@ from app.validators.custom_validate import JoinValidate, object_id
 
 class CreateInvitationSchema(DefaultSchema):
     user_id = fields.Str(
-        required=True, validate=[object_id], error_messages={**required_message},
+        required=True,
+        validate=[object_id],
+        error_messages={**required_message},
     )
     role_id = fields.Str(
-        required=True, validate=[object_id], error_messages={**required_message},
+        required=True,
+        validate=[object_id],
+        error_messages={**required_message},
     )
     message = fields.Str(
         required=True,

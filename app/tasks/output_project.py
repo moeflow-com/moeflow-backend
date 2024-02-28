@@ -123,7 +123,7 @@ def output_project_task(output_id):
                     + "/",
                     txt_download_name,
                     txt,
-                    headers={"Content-Disposition": f'attachment;"'.encode("utf8")},
+                    headers={"Content-Disposition": 'attachment;"'.encode("utf8")},
                 )
         elif type == OutputTypes.ALL:
             output.update(status=OutputStatus.DOWNLOADING)
@@ -198,7 +198,7 @@ def output_project_task(output_id):
                     + "/",
                     zip_download_name,
                     zip_file,
-                    headers={"Content-Disposition": f'attachment;"'.encode("utf8")},
+                    headers={"Content-Disposition": 'attachment;"'.encode("utf8")},
                 )
     except Exception:
         output.update(status=OutputStatus.ERROR)

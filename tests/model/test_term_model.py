@@ -22,13 +22,9 @@ class TermModelTestCase(MoeTestCase):
         """测试增加、删除 术语、术语库"""
         # 术语库原语言和目标语言不能相同
         with self.assertRaises(TargetAndSourceLanguageSameError):
-            TermBank.create(
-                "term", self.team, self.JA, self.JA, user=self.user
-            )
+            TermBank.create("term", self.team, self.JA, self.JA, user=self.user)
         # 增加术语库
-        term_bank = TermBank.create(
-            "term", self.team, self.JA, self.CN, user=self.user
-        )
+        term_bank = TermBank.create("term", self.team, self.JA, self.CN, user=self.user)
         self.assertEqual(TermBank.objects.count(), 1)
         self.assertEqual(term_bank.team, self.team)
         # 增加术语
@@ -36,9 +32,7 @@ class TermModelTestCase(MoeTestCase):
         self.assertEqual(Term.objects.count(), 1)
         self.assertEqual(term.term_bank, term_bank)
         self.assertEqual(term.term_bank.team, self.team)
-        term2 = Term.create(
-            term_bank, "原文2", "译文2", user=self.user, tip="小提示2"
-        )
+        term2 = Term.create(term_bank, "原文2", "译文2", user=self.user, tip="小提示2")
         self.assertEqual(Term.objects.count(), 2)
         self.assertEqual(term.term_bank, term_bank)
         self.assertEqual(term.term_bank.team, self.team)
@@ -52,9 +46,7 @@ class TermModelTestCase(MoeTestCase):
 
     def test_set_project_term_bank(self):
         """测试设置项目使用的术语库"""
-        term_bank = TermBank.create(
-            "term", self.team, self.JA, self.CN, user=self.user
-        )
+        term_bank = TermBank.create("term", self.team, self.JA, self.CN, user=self.user)
         self.project.term_banks = [term_bank]
         self.project.save()
         self.assertTrue(self.project.need_find_terms)  # 需要更新术语
@@ -70,9 +62,7 @@ class TermModelTestCase(MoeTestCase):
     def test_find_term_where_set_term(self):
         """测试设置项目所用term时，自动匹配术语"""
         # 创建术语库
-        term_bank = TermBank.create(
-            "term", self.team, self.JA, self.CN, user=self.user
-        )
+        term_bank = TermBank.create("term", self.team, self.JA, self.CN, user=self.user)
         # 创建术语
         term1 = Term.create(term_bank, "Hello", "term1", user=self.user)
         term2 = Term.create(term_bank, "你好", "term2", user=self.user)
@@ -96,9 +86,7 @@ class TermModelTestCase(MoeTestCase):
     def test_find_term_where_upload(self):
         """测试当项目已经指定术语库时匹配术语"""
         # 创建术语库
-        term_bank = TermBank.create(
-            "term", self.team, self.JA, self.CN, user=self.user
-        )
+        term_bank = TermBank.create("term", self.team, self.JA, self.CN, user=self.user)
         # 创建术语
         term1 = Term.create(term_bank, "Hello", "term1", user=self.user)
         term2 = Term.create(term_bank, "你好", "term2", user=self.user)
@@ -125,9 +113,7 @@ class TermModelTestCase(MoeTestCase):
         :return:
         """
         # 创建术语库
-        term_bank = TermBank.create(
-            "term", self.team, self.JA, self.CN, user=self.user
-        )
+        term_bank = TermBank.create("term", self.team, self.JA, self.CN, user=self.user)
         # 创建术语
         term1 = Term.create(term_bank, "Hello", "term1", user=self.user)
         # 先指定术语库
@@ -154,9 +140,7 @@ class TermModelTestCase(MoeTestCase):
     def test_pull_term(self):
         """测试当删除术语库或者术语时，关联的source的可能的术语会字段被pull"""
         # 创建术语库
-        term_bank = TermBank.create(
-            "term", self.team, self.JA, self.CN, user=self.user
-        )
+        term_bank = TermBank.create("term", self.team, self.JA, self.CN, user=self.user)
         # 创建术语
         term1 = Term.create(term_bank, "Hello", "term1", user=self.user)
         term2 = Term.create(term_bank, "你好", "term2", user=self.user)
@@ -209,9 +193,7 @@ class TermModelTestCase(MoeTestCase):
         self.assertFalse(project2.need_find_terms)
         self.assertFalse(project3.need_find_terms)
         # 创建术语库
-        term_bank = TermBank.create(
-            "tb", team, self.JA, self.CN, user=self.user
-        ).save()
+        term_bank = TermBank.create("tb", team, self.JA, self.CN, user=self.user).save()
         term = Term.create(
             term_bank=term_bank, source="s", target="t", user=self.user
         ).save()

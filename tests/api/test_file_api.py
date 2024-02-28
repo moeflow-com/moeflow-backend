@@ -236,7 +236,9 @@ class FileAPITestCase(MoeAPITestCase):
             self.assertErrorEqual(data, NeedTokenError)
             # == user2没有权限 ==
             data = self.put(
-                "/v1/files/{}".format(file1.id), json={"name": "error"}, token=token2,
+                "/v1/files/{}".format(file1.id),
+                json={"name": "error"},
+                token=token2,
             )
             self.assertErrorEqual(data, NoPermissionError)
             # == 缺少filename ==
@@ -253,14 +255,18 @@ class FileAPITestCase(MoeAPITestCase):
             self.assertEqual("1.txt", file1.name)
             # == 不同的后缀 ==
             data = self.put(
-                "/v1/files/{}".format(file1.id), json={"name": "1.jpg"}, token=token,
+                "/v1/files/{}".format(file1.id),
+                json={"name": "1.jpg"},
+                token=token,
             )
             self.assertErrorEqual(data, SuffixNotInFileTypeError)
             file1.reload()
             self.assertEqual("1.txt", file1.name)
             # == 正确修改 ==
             data = self.put(
-                "/v1/files/{}".format(file1.id), json={"name": "2.txt"}, token=token,
+                "/v1/files/{}".format(file1.id),
+                json={"name": "2.txt"},
+                token=token,
             )
             self.assertErrorEqual(data)
             file1.reload()
@@ -298,7 +304,9 @@ class FileAPITestCase(MoeAPITestCase):
             self.assertErrorEqual(data, ValidateError)
             # == 缺少parent_id，null等同于缺少 ==
             data = self.put(
-                "/v1/files/{}".format(file1.id), json={"parent_id": None}, token=token,
+                "/v1/files/{}".format(file1.id),
+                json={"parent_id": None},
+                token=token,
             )
             self.assertErrorEqual(data, ValidateError)
             file1.reload()
@@ -341,7 +349,9 @@ class FileAPITestCase(MoeAPITestCase):
             self.assertEqual(dir1, dir2.parent)
             # == dir2移动到回根目录 ==
             data = self.put(
-                "/v1/files/{}".format(dir2.id), json={"parent_id": "root"}, token=token,
+                "/v1/files/{}".format(dir2.id),
+                json={"parent_id": "root"},
+                token=token,
             )
             self.assertErrorEqual(data)
             dir2.reload()
@@ -377,7 +387,9 @@ class FileAPITestCase(MoeAPITestCase):
             self.assertEqual(2, project.files().count())
             # == 删除dir1 ==
             data = self.delete(
-                "/v1/files/{}".format(dir1.id), json={"parent_id": "root"}, token=token,
+                "/v1/files/{}".format(dir1.id),
+                json={"parent_id": "root"},
+                token=token,
             )
             self.assertErrorEqual(data)
             self.assertEqual(0, project.files().count())
@@ -517,4 +529,3 @@ class FileAPITestCase(MoeAPITestCase):
                 )
                 self.assertEqual(file3.safe_status, FileSafeStatus.BLOCK)
                 self.assertEqual(file3.file_not_exist_reason, FileNotExistReason.BLOCK)
-

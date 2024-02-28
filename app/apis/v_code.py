@@ -55,7 +55,9 @@ class ConfirmEmailVCodeAPI(MoeAPIView):
         @apiUse ValidateError
         @apiUse VCodeCoolingError
         """
-        wait = current_app.config.get("CONFIRM_EMAIL_WAIT_SECONDS", 60)  # 重新发送等待的秒数
+        wait = current_app.config.get(
+            "CONFIRM_EMAIL_WAIT_SECONDS", 60
+        )  # 重新发送等待的秒数
         data = self.get_json(ConfirmEmailVCodeSchema())
         email = data["email"].lower()
         v_code = VCode.create(VCodeType.CONFIRM_EMAIL, email, wait=wait)
@@ -83,7 +85,9 @@ class ResetEmailVCodeAPI(MoeAPIView):
 
         @apiUse VCodeCoolingError
         """
-        wait = current_app.config.get("RESET_EMAIL_WAIT_SECONDS", 60)  # 重新发送等待的秒数
+        wait = current_app.config.get(
+            "RESET_EMAIL_WAIT_SECONDS", 60
+        )  # 重新发送等待的秒数
         email = self.current_user.email.lower()
         v_code = VCode.create(VCodeType.RESET_EMAIL, email, wait=wait)
         v_code.to_email(email)
@@ -118,7 +122,9 @@ class ResetPasswordVCodeAPI(MoeAPIView):
 
         @apiUse VCodeCoolingError
         """
-        wait = current_app.config.get("RESET_PASSWORD_WAIT_SECONDS", 60)  # 重新发送等待的秒数
+        wait = current_app.config.get(
+            "RESET_PASSWORD_WAIT_SECONDS", 60
+        )  # 重新发送等待的秒数
         data = self.get_json(ResetPasswordVCodeSchema())
         email = data["email"].lower()
         v_code = VCode.create(VCodeType.RESET_PASSWORD, email, wait=wait)

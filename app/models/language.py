@@ -871,7 +871,6 @@ class Language(Document):
             raise LanguageNotExistError
         return languages
 
-
     @classmethod
     def get(cls) -> QuerySet:
         """返回所有语言"""

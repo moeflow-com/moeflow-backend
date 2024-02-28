@@ -288,25 +288,17 @@ class MongoengineTestCase(MoeTestCase):
         Sort(rank=4).save()
         Sort(rank=5).save()
         # 不排序，从第3个开始取2个，为3，4
-        self.assertEqual(
-            [3, 4], [item.rank for item in Sort.objects.skip(2).limit(2)]
-        )
+        self.assertEqual([3, 4], [item.rank for item in Sort.objects.skip(2).limit(2)])
         # 先倒序，从第3个开始取2个，为3，2
         self.assertEqual(
             [3, 2],
-            [
-                item.rank
-                for item in Sort.objects.order_by("-rank").skip(2).limit(2)
-            ],
+            [item.rank for item in Sort.objects.order_by("-rank").skip(2).limit(2)],
         )
         # 先从第3个取2个，再倒序
         # 因为排序永远在第一优先级，所以和上面结果一样为3，2，而不是4，3
         self.assertEqual(
             [3, 2],
-            [
-                item.rank
-                for item in Sort.objects.skip(2).limit(2).order_by("-rank")
-            ],
+            [item.rank for item in Sort.objects.skip(2).limit(2).order_by("-rank")],
         )
 
     def test_order_false_first(self):

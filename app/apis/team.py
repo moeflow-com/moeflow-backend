@@ -1,12 +1,8 @@
-import datetime
-import zipfile
 from marshmallow import ValidationError
-from app.constants.output import OutputTypes
 from app.exceptions.auth import UserNotExistError
 from app.exceptions.project import ProjectNotExistError
 from typing import List
 from app.exceptions.team import OnlyAllowAdminCreateTeamError
-from app.models.output import Output
 from app.models.site_setting import SiteSetting
 from app.models.user import User
 from app.models.language import Language
@@ -218,7 +214,9 @@ class TeamAPI(MoeAPIView):
             raise NoPermissionError
         # 检查是否有未完结的项目
         if team.projects(status=ProjectStatus.WORKING).count() > 0:
-            raise NoPermissionError(gettext("此团队含有未完结的项目，不能解散（请先完结或者转移项目）"))
+            raise NoPermissionError(
+                gettext("此团队含有未完结的项目，不能解散（请先完结或者转移项目）")
+            )
         team.clear()
         return {"message": gettext("解散成功")}
 

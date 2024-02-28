@@ -1,21 +1,9 @@
-import os
-
-from app.constants.file import FileType
 from app.exceptions import (
-    FilenameIllegalError,
-    FolderNotExistError,
     NeedTokenError,
     NoPermissionError,
-    SuffixNotInFileTypeError,
-    UploadFileNotFoundError,
 )
-from app.exceptions.project import ProjectFinishedError
-from app.models.language import Language
-from app.models.project import Project
-from app.models.team import Team
 from app.models.user import User
-from flask_apikit.exceptions import ValidateError
-from tests import TEST_FILE_PATH, MoeAPITestCase
+from tests import MoeAPITestCase
 
 
 class AdminFileAPITestCase(MoeAPITestCase):

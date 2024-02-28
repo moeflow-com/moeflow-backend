@@ -3,9 +3,8 @@
 """
 import os
 from PIL import Image, ImageOps
-from flask import Flask
 
-from app import STORAGE_PATH, TMP_PATH, celery
+from app import STORAGE_PATH, celery
 from app.constants.storage import StorageType
 from app.exceptions.file import FileNotExistError
 from app import oss

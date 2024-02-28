@@ -156,7 +156,9 @@ class RoleValidate:
         """团队名唯一"""
         if not (min < level < max):
             raise ValidationError(
-                gettext("等级需要大于{min}，小于{max}(您的等级)".format(min=min, max=max)),
+                gettext(
+                    "等级需要大于{min}，小于{max}(您的等级)".format(min=min, max=max)
+                ),
                 field_names=field_name,
             )
 

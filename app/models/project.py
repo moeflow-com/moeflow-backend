@@ -56,7 +56,6 @@ from app.constants.file import (
     FileNotExistReason,
     FileType,
     FindTermsStatus,
-    ParseStatus,
 )
 from app.constants.project import (
     ImportFromLabelplusErrorType,
@@ -283,7 +282,9 @@ class ProjectSet(Document):
     edit_time = DateTimeField(
         db_field="et", required=True, default=datetime.datetime.utcnow
     )
-    default = BooleanField(db_field="d", required=True, default=False)  # 是否是默认项目集
+    default = BooleanField(
+        db_field="d", required=True, default=False
+    )  # 是否是默认项目集
 
     @classmethod
     def create(cls, name, team, default=False):
@@ -500,7 +501,9 @@ class Project(GroupMixin, Document):
         if len(self._term_banks) > 0:
             for file in self.files(type_exclude=FileType.FOLDER):
                 # celery任务
-                run_sync = current_app.config.get("TESTING", False)  # 如果测试则同步执行
+                run_sync = current_app.config.get(
+                    "TESTING", False
+                )  # 如果测试则同步执行
                 result = find_terms(str(file.id), run_sync=run_sync)
                 # 设置文件状态
                 file.update(
@@ -710,7 +713,8 @@ class Project(GroupMixin, Document):
         # 其他类型直接报错
         else:
             raise ValueError(
-                "folder参数 需要是 字符串、ObjectId或File对象，所给值为" + f"[{type(folder)}]{folder}"
+                "folder参数 需要是 字符串、ObjectId或File对象，所给值为"
+                + f"[{type(folder)}]{folder}"
             )
         return folder
 
@@ -951,7 +955,7 @@ class Project(GroupMixin, Document):
         ):
             data += file.to_labelplus(target=target)
         return data
-    
+
     def to_output_json(self):
         data = {
             "name": self.name,

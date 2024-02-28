@@ -42,8 +42,16 @@ class ImportFromLabelplusErrorType(IntType):
     PARSE_FAILED = 3  # 解析失败
 
     details = {
-        "UNKNOWN": {"name": lazy_gettext("从 Labelplus 文本导入中断，请重试，如仍出现同样错误，请联系开发团队")},
-        "NO_TARGET": {"name": lazy_gettext("从 Labelplus 文本导入时，没有有效的翻译目标语言")},
+        "UNKNOWN": {
+            "name": lazy_gettext(
+                "从 Labelplus 文本导入中断，请重试，如仍出现同样错误，请联系开发团队"
+            )
+        },
+        "NO_TARGET": {
+            "name": lazy_gettext("从 Labelplus 文本导入时，没有有效的翻译目标语言")
+        },
         "NO_CREATOR": {"name": lazy_gettext("从 Labelplus 文本导入时，项目没有创建人")},
-        "PARSE_FAILED": {"name": lazy_gettext("Labelplus 文本解析失败，请联系开发团队")},
+        "PARSE_FAILED": {
+            "name": lazy_gettext("Labelplus 文本解析失败，请联系开发团队")
+        },
     }

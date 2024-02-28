@@ -1,5 +1,4 @@
 from flask import Blueprint
-import os
 
 from app.apis.application import ApplicationAPI, ApplicationListAPI
 from app.apis.file import (

@@ -81,17 +81,25 @@ class CreateProjectSchema(DefaultSchema):
         error_messages={**required_message},
     )
     default_role = fields.Str(
-        required=True, validate=[object_id], error_messages={**required_message},
+        required=True,
+        validate=[object_id],
+        error_messages={**required_message},
     )
     project_set = fields.Str(
-        required=True, validate=[object_id], error_messages={**required_message},
+        required=True,
+        validate=[object_id],
+        error_messages={**required_message},
     )
     source_language = fields.Str(
-        required=True, validate=[need_in(Language.codes)], error_messages={**required_message},
+        required=True,
+        validate=[need_in(Language.codes)],
+        error_messages={**required_message},
     )
     target_languages = fields.List(
         fields.Str(
-            required=True, validate=[need_in(Language.codes)], error_messages={**required_message}
+            required=True,
+            validate=[need_in(Language.codes)],
+            error_messages={**required_message},
         ),
         required=True,
     )
@@ -159,16 +167,24 @@ class ImportProjectSchema(DefaultSchema):
         error_messages={**required_message},
     )
     default_role = fields.Str(
-        required=True, validate=[object_id], error_messages={**required_message},
+        required=True,
+        validate=[object_id],
+        error_messages={**required_message},
     )
     project_set = fields.Str(
-        required=True, validate=[object_id], error_messages={**required_message},
+        required=True,
+        validate=[object_id],
+        error_messages={**required_message},
     )
     source_language = fields.Str(
-        required=True, validate=[need_in(Language.codes)], error_messages={**required_message},
+        required=True,
+        validate=[need_in(Language.codes)],
+        error_messages={**required_message},
     )
     output_language = fields.Str(
-        required=True, validate=[need_in(Language.codes)], error_messages={**required_message},
+        required=True,
+        validate=[need_in(Language.codes)],
+        error_messages={**required_message},
     )
     labelplus_txt = fields.Str(missing=None)
 
@@ -214,10 +230,12 @@ class EditProjectSchema(DefaultSchema):
     """修改项目验证器"""
 
     name = fields.Str(
-        validate=[ProjectValidate.name_length], error_messages={**required_message},
+        validate=[ProjectValidate.name_length],
+        error_messages={**required_message},
     )
     intro = fields.Str(
-        validate=[ProjectValidate.intro_length], error_messages={**required_message},
+        validate=[ProjectValidate.intro_length],
+        error_messages={**required_message},
     )
     allow_apply_type = fields.Int(
         validate=[need_in(Project.allow_apply_type_cls.ids())]
@@ -265,7 +283,9 @@ class ChangeProjectUserSchema(DefaultSchema):
     """修改项目用户验证器"""
 
     role = fields.Str(
-        required=True, validate=[object_id], error_messages={**required_message},
+        required=True,
+        validate=[object_id],
+        error_messages={**required_message},
     )
 
 
@@ -273,7 +293,9 @@ class CreateProjectTargetSchema(DefaultSchema):
     """创建项目目标验证器"""
 
     language = fields.Str(
-        required=True, validate=[need_in(Language.codes)], error_messages={**required_message},
+        required=True,
+        validate=[need_in(Language.codes)],
+        error_messages={**required_message},
     )
 
     @post_load

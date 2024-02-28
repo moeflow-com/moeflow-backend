@@ -76,7 +76,7 @@ class FileSourceListAPI(MoeAPIView):
                 translation = source.translations().filter(id=translation_id).first()
                 if translation:
                     translation.select(user=self.current_user)
-        file.update_cache('edit_time', datetime.datetime.utcnow())
+        file.update_cache("edit_time", datetime.datetime.utcnow())
         return
 
     @token_required
@@ -111,7 +111,7 @@ class FileSourceListAPI(MoeAPIView):
             y=data["y"],
             position_type=data["position_type"],
         )
-        file.update_cache('edit_time', datetime.datetime.utcnow())
+        file.update_cache("edit_time", datetime.datetime.utcnow())
         return source.to_api()
 
 
@@ -143,7 +143,7 @@ class SourceAPI(MoeAPIView):
             raise NoPermissionError
         data = self.get_json(EditImageSourceSchema())
         source.update(**data)
-        source.update_cache('edit_time', datetime.datetime.utcnow())
+        source.update_cache("edit_time", datetime.datetime.utcnow())
         source.reload()
         return source.to_api()
 
@@ -169,7 +169,7 @@ class SourceAPI(MoeAPIView):
             source.file.project, ProjectPermission.DELETE_LABEL
         ):
             raise NoPermissionError
-        source.update_cache('edit_time', datetime.datetime.utcnow())
+        source.update_cache("edit_time", datetime.datetime.utcnow())
         source.clear()
 
 

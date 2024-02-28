@@ -58,21 +58,21 @@ class TeamAPITestCase(MoeAPITestCase):
 
             # user1 获取团队
             # team1 加入的
-            data = self.get(f"/v1/teams", query_string={"word": "t1"}, token=token)
+            data = self.get("/v1/teams", query_string={"word": "t1"}, token=token)
             self.assertErrorEqual(data)
             self.assertTrue(data.json[0]["joined"])
             # team2 未加入
-            data = self.get(f"/v1/teams", query_string={"word": "t2"}, token=token)
+            data = self.get("/v1/teams", query_string={"word": "t2"}, token=token)
             self.assertErrorEqual(data)
             self.assertFalse(data.json[0]["joined"])
 
             # user2 获取团队
             # team1 未加入
-            data = self.get(f"/v1/teams", query_string={"word": "t1"}, token=token2)
+            data = self.get("/v1/teams", query_string={"word": "t1"}, token=token2)
             self.assertErrorEqual(data)
             self.assertFalse(data.json[0]["joined"])
             # team2 加入的
-            data = self.get(f"/v1/teams", query_string={"word": "t2"}, token=token2)
+            data = self.get("/v1/teams", query_string={"word": "t2"}, token=token2)
             self.assertErrorEqual(data)
             self.assertTrue(data.json[0]["joined"])
 
@@ -110,14 +110,14 @@ class TeamAPITestCase(MoeAPITestCase):
                 token=token,
             )
             # 没有 word，报错
-            data = self.get(f"/v1/teams", token=token)
+            data = self.get("/v1/teams", token=token)
             self.assertErrorEqual(data, RequestDataEmptyError)
             # word = t，搜到 2 个
-            data = self.get(f"/v1/teams", query_string={"word": "t"}, token=token)
+            data = self.get("/v1/teams", query_string={"word": "t"}, token=token)
             self.assertErrorEqual(data)
             self.assertEqual(2, len(data.json))
             # word = 1，搜到 1 个
-            data = self.get(f"/v1/teams", query_string={"word": "1"}, token=token)
+            data = self.get("/v1/teams", query_string={"word": "1"}, token=token)
             self.assertErrorEqual(data)
             self.assertEqual(1, len(data.json))
 
@@ -1075,7 +1075,9 @@ class TeamProjectSetAPITestCase(MoeAPITestCase):
             self.assertErrorEqual(data1)
             team1 = Team.objects(id=data1.json["team"]["id"]).first()
             # == 测试开始 ==
-            self.assertEqual(DEFAULT_PROJECT_SETS_COUNT + 1, ProjectSet.objects.count())  # team1带有一个默认项目集
+            self.assertEqual(
+                DEFAULT_PROJECT_SETS_COUNT + 1, ProjectSet.objects.count()
+            )  # team1带有一个默认项目集
             # 创建project set
             data = self.post(
                 f"/v1/teams/{str(team1.id)}/project-sets",

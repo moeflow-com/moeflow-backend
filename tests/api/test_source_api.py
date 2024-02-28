@@ -197,12 +197,16 @@ class SourceAPITestCase(MoeAPITestCase):
             self.assertErrorEqual(data, ValidateError)
             # 类型不符报错
             data = self.put(
-                "/v1/sources/{}".format(source.id), token=token, json={"content": 2},
+                "/v1/sources/{}".format(source.id),
+                token=token,
+                json={"content": 2},
             )
             self.assertErrorEqual(data, ValidateError)
             # 类型不符报错
             data = self.put(
-                "/v1/sources/{}".format(source.id), token=token, json={"x": "dsfaa"},
+                "/v1/sources/{}".format(source.id),
+                token=token,
+                json={"x": "dsfaa"},
             )
             self.assertErrorEqual(data, ValidateError)
             # 原文的初始化状态

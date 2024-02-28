@@ -10,7 +10,9 @@ from flask_apikit.exceptions import ValidateError
 class CreateTranslationSchema(DefaultSchema):
     content = fields.Str(required=True, error_messages={**required_message})
     target_id = fields.Str(
-        required=True, validate=[object_id], error_messages={**required_message},
+        required=True,
+        validate=[object_id],
+        error_messages={**required_message},
     )
 
 

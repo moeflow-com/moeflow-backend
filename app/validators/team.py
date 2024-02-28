@@ -24,7 +24,8 @@ class CreateTeamSchema(DefaultSchema):
         required=True, validate=[need_in(Team.allow_apply_type_cls.ids())]
     )
     application_check_type = fields.Int(
-        required=True, validate=[need_in(Team.application_check_type_cls.ids())],
+        required=True,
+        validate=[need_in(Team.application_check_type_cls.ids())],
     )
     default_role = fields.Str(required=True, validate=[object_id])
 
@@ -48,7 +49,8 @@ class EditTeamSchema(DefaultSchema):
 
     name = fields.Str(error_messages={**required_message})
     intro = fields.Str(
-        validate=[TeamValidate.intro_length], error_messages={**required_message},
+        validate=[TeamValidate.intro_length],
+        error_messages={**required_message},
     )
     allow_apply_type = fields.Int(validate=[need_in(Team.allow_apply_type_cls.ids())])
     application_check_type = fields.Int(

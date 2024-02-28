@@ -362,7 +362,9 @@ class ProjectOCRAPI(MoeAPIView):
         """
         # 检查用户权限
         if not self.current_user.can(project.team, TeamPermission.USE_OCR_QUOTA):
-            raise NoPermissionError(gettext("您没有此项目所在团队使用自动标记限额的权限"))
+            raise NoPermissionError(
+                gettext("您没有此项目所在团队使用自动标记限额的权限")
+            )
         if not project.source_language.g_ocr_code:
             raise NoPermissionError(gettext("源语言不支持自动标记"))
         if project.ocring:

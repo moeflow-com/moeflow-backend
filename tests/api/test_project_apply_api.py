@@ -83,16 +83,22 @@ class JoinProcessAPITestCase(MoeAPITestCase):
         application = Application.objects.first()
         # user3和user2都没有权限拒绝
         data = self.patch(
-            f"/v1/applications/{application.id}", json={"allow": False}, token=token2,
+            f"/v1/applications/{application.id}",
+            json={"allow": False},
+            token=token2,
         )
         self.assertErrorEqual(data, NoPermissionError)
         data = self.patch(
-            f"/v1/applications/{application.id}", json={"allow": False}, token=token3,
+            f"/v1/applications/{application.id}",
+            json={"allow": False},
+            token=token3,
         )
         self.assertErrorEqual(data, NoPermissionError)
         # user1 有权限拒绝
         data = self.patch(
-            f"/v1/applications/{application.id}", json={"allow": False}, token=token1,
+            f"/v1/applications/{application.id}",
+            json={"allow": False},
+            token=token1,
         )
         self.assertErrorEqual(data)
         # 申请变成deny
@@ -142,16 +148,22 @@ class JoinProcessAPITestCase(MoeAPITestCase):
         application = Application.objects.first()
         # user3和user2都没有权限同意
         data = self.patch(
-            f"/v1/applications/{application.id}", json={"allow": True}, token=token2,
+            f"/v1/applications/{application.id}",
+            json={"allow": True},
+            token=token2,
         )
         self.assertErrorEqual(data, NoPermissionError)
         data = self.patch(
-            f"/v1/applications/{application.id}", json={"allow": True}, token=token3,
+            f"/v1/applications/{application.id}",
+            json={"allow": True},
+            token=token3,
         )
         self.assertErrorEqual(data, NoPermissionError)
         # user1 有权限同意
         data = self.patch(
-            f"/v1/applications/{application.id}", json={"allow": True}, token=token1,
+            f"/v1/applications/{application.id}",
+            json={"allow": True},
+            token=token1,
         )
         self.assertErrorEqual(data)
         # 申请变成allow
@@ -345,7 +357,9 @@ class JoinProcessAPITestCase(MoeAPITestCase):
         application = Application.objects.first()
         # user1 有权限同意
         data = self.patch(
-            f"/v1/applications/{application.id}", json={"allow": True}, token=token1,
+            f"/v1/applications/{application.id}",
+            json={"allow": True},
+            token=token1,
         )
         self.assertErrorEqual(data)
         # 申请变成allow

@@ -118,7 +118,9 @@ class Filename:
             "\u007c",
         }
         if len(invalid_chars & set(self.name)):
-            raise FilenameIllegalError(gettext(r'文件名不能包含下列任何字符: \ / : * ? " < > |'))
+            raise FilenameIllegalError(
+                gettext(r'文件名不能包含下列任何字符: \ / : * ? " < > |')
+            )
 
     def _get_prefix_and_suffix(self):
         """获取前后缀"""
@@ -156,11 +158,15 @@ class File(Document):
     # == 归属 ==
     project = ReferenceField("Project", db_field="p", required=True)  # 所属项目
     parent = ReferenceField("File", db_field="f")  # 父级文件夹
-    ancestors = ListField(ReferenceField("File"), db_field="a", default=list)  # 祖先文件夹
+    ancestors = ListField(
+        ReferenceField("File"), db_field="a", default=list
+    )  # 祖先文件夹
 
     # == 排序 ==
     sort_name = StringField(db_field="sn", required=True)  # 用于排序的文件名
-    dir_sort_name = StringField(db_field="dn", required=True, default="")  # 用于排序的路径名
+    dir_sort_name = StringField(
+        db_field="dn", required=True, default=""
+    )  # 用于排序的路径名
 
     # == 源文件相关 ==
     save_name = StringField(db_field="sa", default="")  # 上传的文件名
@@ -178,7 +184,9 @@ class File(Document):
     source_count = IntField(db_field="sc", default=0)  # 原文数量
     translated_source_count = IntField(db_field="tsc", default=0)  # 已翻译的原文数量
     checked_source_count = IntField(db_field="csc", default=0)  # 已审核的原文数量
-    edit_time = DateTimeField(db_field="et", default=datetime.datetime.utcnow)  # 修改时间
+    edit_time = DateTimeField(
+        db_field="et", default=datetime.datetime.utcnow
+    )  # 修改时间
 
     # == 修订版相关 ==
     # 上一个修订版，仅用于解析时从上一个修订版获取翻译
@@ -190,12 +198,18 @@ class File(Document):
     safe_status = IntField(
         db_field="ss", default=FileSafeStatus.NEED_MACHINE_CHECK
     )  # 任务状态
-    safe_task_id = StringField(db_field="sti")  # 文件安全检测任务celery id，用于查询状态
-    safe_result_id = StringField(db_field="sri")  # 文件安全检测任务id，用于向阿里云查询结果
+    safe_task_id = StringField(
+        db_field="sti"
+    )  # 文件安全检测任务celery id，用于查询状态
+    safe_result_id = StringField(
+        db_field="sri"
+    )  # 文件安全检测任务id，用于向阿里云查询结果
     safe_start_time = DateTimeField(db_field="sst")  # 文件安全检测开始时间
 
     # == 解析原文 ==
-    parse_status = IntField(db_field="ps", default=ParseStatus.NOT_START)  # 是否完成文件解析
+    parse_status = IntField(
+        db_field="ps", default=ParseStatus.NOT_START
+    )  # 是否完成文件解析
     # ocr/解析的次数，用于多次请求ocr、解析不成功暂时屏蔽
     parse_times = IntField(db_field="pt", default=0)
     parse_task_id = StringField(db_field="pti")  # ocr/解析的任务celery id，用于查询状态
@@ -207,7 +221,9 @@ class File(Document):
     find_terms_status = IntField(
         db_field="ft", default=FindTermsStatus.QUEUING
     )  # 寻找术语的状态
-    find_terms_task_id = StringField(db_field="ftt")  # 寻找术语的任务celery id，用于查询状态
+    find_terms_task_id = StringField(
+        db_field="ftt"
+    )  # 寻找术语的任务celery id，用于查询状态
     find_terms_start_time = DateTimeField(db_field="fts")  # 寻找术语开始时间
 
     # == 锁 ==
@@ -903,7 +919,9 @@ class File(Document):
         elif self.type == FileType.IMAGE:
             return self._create_image_source(*args, **kwargs)
         else:
-            raise RuntimeError(f"没有为FileType({self.type}),设置相应create_source处理方案")
+            raise RuntimeError(
+                f"没有为FileType({self.type}),设置相应create_source处理方案"
+            )
 
     @only(FileType.TEXT)
     @need_activated
@@ -1174,7 +1192,9 @@ class Source(Document):
     position_type = IntField(db_field="p", default=SourcePositionType.IN)
     # === 文本独有的参数 ===
     line_feed = BooleanField(db_field="lf", default=True)  # 区分人工分段，导出时不换行
-    blank = BooleanField(db_field="b", default=False)  # 是否时空白，用于加速检索无空白的字段
+    blank = BooleanField(
+        db_field="b", default=False
+    )  # 是否时空白，用于加速检索无空白的字段
     # === 独有参数结束 ===
     # 由自动标记、上传文件自动解析添加，用户手动标记的点为False
     machine = BooleanField(db_field="cm", default=True)
@@ -1244,14 +1264,10 @@ class Source(Document):
             ).save()
             # 判断是否要新增计数
             # 有翻译则新增
-            need_inc_targets[translation.target][
-                "inc_translated_source_count"
-            ] = True  # noqa: E501
+            need_inc_targets[translation.target]["inc_translated_source_count"] = True  # noqa: E501
             if translation.selected:
                 # 有选定的翻译则新增
-                need_inc_targets[translation.target][
-                    "inc_checked_source_count"
-                ] = True  # noqa: E501
+                need_inc_targets[translation.target]["inc_checked_source_count"] = True  # noqa: E501
         for target, flag in need_inc_targets.items():
             # 更新计数缓存
             if flag["inc_translated_source_count"]:
@@ -1530,8 +1546,12 @@ class Translation(Document):
 
 
 class Tip(Document):
-    source = ReferenceField("Source", db_field="o", reverse_delete_rule=CASCADE)  # 所属原文
-    target = ReferenceField(Target, db_field="t", reverse_delete_rule=CASCADE)  # 所属目标语言
+    source = ReferenceField(
+        "Source", db_field="o", reverse_delete_rule=CASCADE
+    )  # 所属原文
+    target = ReferenceField(
+        Target, db_field="t", reverse_delete_rule=CASCADE
+    )  # 所属目标语言
     content = StringField(db_field="c", default="")
     user = ReferenceField("User", db_field="u")
     edit_time = DateTimeField(db_field="et", default=datetime.datetime.utcnow)

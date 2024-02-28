@@ -86,11 +86,15 @@ class TeamPermission(PermissionMixin):
         },
         "CHANGE_TERM": {
             "name": lazy_gettext("修改他人术语"),
-            "intro": lazy_gettext("若无此权限只能修改自己创建的术语或自己术语库中的术语"),
+            "intro": lazy_gettext(
+                "若无此权限只能修改自己创建的术语或自己术语库中的术语"
+            ),
         },
         "DELETE_TERM": {
             "name": lazy_gettext("删除他人术语"),
-            "intro": lazy_gettext("若无此权限只能删除自己创建的术语或自己术语库中的术语"),
+            "intro": lazy_gettext(
+                "若无此权限只能删除自己创建的术语或自己术语库中的术语"
+            ),
         },
         "CREATE_PROJECT": {
             "name": lazy_gettext("创建项目"),

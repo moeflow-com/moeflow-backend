@@ -5,7 +5,7 @@ import random
 from io import BytesIO
 from typing import Literal, NoReturn, Union
 
-from flask import current_app, url_for
+from flask import current_app
 from flask_babel import gettext
 from mongoengine import DateTimeField, Document, IntField, StringField
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
