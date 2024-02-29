@@ -5,6 +5,8 @@ on:
   push:
     tags:
       - "v**"
+    branches:
+      - main
 
 env:
   REGISTRY: ghcr.io
@@ -34,6 +36,8 @@ jobs:
         uses: docker/metadata-action@v4.0.1
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=sha,prefix={{branch}}-
 
       - name: Setup docker buildx
         uses: docker/setup-buildx-action@v2
