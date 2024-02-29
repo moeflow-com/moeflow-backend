@@ -128,7 +128,7 @@ def delete_about_to_shutdown_flag():
         pass
 
 
-def create_celery():
+def create_celery() -> Celery:
     delete_about_to_shutdown_flag()
     # 为celery创建app
     app = Flask(__name__)
