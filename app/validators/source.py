@@ -1,19 +1,20 @@
 from flask_babel import gettext
-from marshmallow import Schema, fields, validates_schema
+from marshmallow import fields, validates_schema
 from marshmallow.validate import Range
 
 from app.validators.custom_message import required_message
+from app.validators.custom_schema import DefaultSchema
 from app.validators.custom_validate import need_in, object_id
 from flask_apikit.exceptions import ValidateError
 from app.constants.source import SourcePositionType
 
 
-class SourceSearchSchema(Schema):
+class SourceSearchSchema(DefaultSchema):
     paging = fields.Bool(missing=True)
     target_id = fields.Str(required=True, validate=[object_id])
 
 
-class CreateImageSourceSchema(Schema):
+class CreateImageSourceSchema(DefaultSchema):
     content = fields.Str(missing="")
     x = fields.Float(missing=0, validate=Range(min=0, max=1))
     y = fields.Float(missing=0, validate=Range(min=0, max=1))
@@ -22,12 +23,12 @@ class CreateImageSourceSchema(Schema):
     )
 
 
-class BatchSelectTranslationSchema(Schema):
+class BatchSelectTranslationSchema(DefaultSchema):
     source_id = fields.Str(required=True, validate=[object_id])
     translation_id = fields.Str(required=True, validate=[object_id])
 
 
-class EditImageSourceSchema(Schema):
+class EditImageSourceSchema(DefaultSchema):
     content = fields.Str()
     x = fields.Float(validate=Range(min=0, max=1))
     y = fields.Float(validate=Range(min=0, max=1))
@@ -40,7 +41,7 @@ class EditImageSourceSchema(Schema):
             raise ValidateError(gettext("没有有效参数"))
 
 
-class EditImageSourceRankSchema(Schema):
+class EditImageSourceRankSchema(DefaultSchema):
     next_source_id = fields.Str(required=True, error_messages={**required_message})
 
     @validates_schema

@@ -1,10 +1,11 @@
-from marshmallow import Schema, fields
+from marshmallow import fields
 
 from app.validators.custom_message import required_message
 from app.validators.custom_validate import object_id
+from app.validators.custom_schema import DefaultSchema
 
 
-class AdminStatusSchema(Schema):
+class AdminStatusSchema(DefaultSchema):
     user_id = fields.Str(
         required=True,
         validate=[object_id],

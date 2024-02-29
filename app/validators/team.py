@@ -1,12 +1,13 @@
-from marshmallow import Schema, fields, post_load, validates_schema
+from marshmallow import fields, post_load, validates_schema
 
 from app.models.team import Team
 from app.constants.role import RoleType
 from app.validators.custom_message import required_message
+from app.validators.custom_schema import DefaultSchema
 from app.validators.custom_validate import TeamValidate, need_in, object_id
 
 
-class CreateTeamSchema(Schema):
+class CreateTeamSchema(DefaultSchema):
     """创建团队验证器"""
 
     name = fields.Str(
@@ -42,7 +43,7 @@ class CreateTeamSchema(Schema):
         return in_data
 
 
-class EditTeamSchema(Schema):
+class EditTeamSchema(DefaultSchema):
     """修改团队验证器"""
 
     name = fields.Str(error_messages={**required_message})

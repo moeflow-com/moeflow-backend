@@ -1,4 +1,4 @@
-from marshmallow import Schema, fields, validates_schema
+from marshmallow import fields, validates_schema
 
 from app.models.v_code import VCodeType
 from app.constants.locale import Locale
@@ -8,10 +8,11 @@ from app.validators.custom_message import (
 )
 
 from .custom_validate import UserValidate, cant_empty, need_in
+from .custom_schema import DefaultSchema
 from .v_code import captcha_validator, password_validator, v_code_validator
 
 
-class RegisterSchema(Schema):
+class RegisterSchema(DefaultSchema):
     """注册验证"""
 
     email = fields.Email(
@@ -41,7 +42,7 @@ class RegisterSchema(Schema):
         v_code_validator(VCodeType.CONFIRM_EMAIL, data["email"].lower(), data["v_code"])
 
 
-class LoginSchema(Schema):
+class LoginSchema(DefaultSchema):
     """登录验证"""
 
     email = fields.Email(
@@ -64,7 +65,7 @@ class LoginSchema(Schema):
         password_validator(data["email"], data["password"])
 
 
-class ChangeInfoSchema(Schema):
+class ChangeInfoSchema(DefaultSchema):
     """修改信息验证"""
 
     name = fields.Str(required=True, error_messages={**required_message})
@@ -86,7 +87,7 @@ class ChangeInfoSchema(Schema):
             UserValidate.valid_new_name(data["name"], field_name="name")
 
 
-class ChangeEmailSchema(Schema):
+class ChangeEmailSchema(DefaultSchema):
     """修改Email验证"""
 
     old_email_v_code = fields.Str(required=True, error_messages={**required_message})
@@ -118,7 +119,7 @@ class ChangeEmailSchema(Schema):
         )
 
 
-class ChangePasswordSchema(Schema):
+class ChangePasswordSchema(DefaultSchema):
     """修改密码验证"""
 
     old_password = fields.Str(
@@ -137,7 +138,7 @@ class ChangePasswordSchema(Schema):
         password_validator(self.context["email"], data["old_password"], "old_password")
 
 
-class ResetPasswordSchema(Schema):
+class ResetPasswordSchema(DefaultSchema):
     """重置密码验证"""
 
     email = fields.Email(
@@ -159,7 +160,7 @@ class ResetPasswordSchema(Schema):
         )
 
 
-class AdminRegisterSchema(Schema):
+class AdminRegisterSchema(DefaultSchema):
     """注册验证"""
 
     email = fields.Email(
@@ -179,7 +180,7 @@ class AdminRegisterSchema(Schema):
     )
 
 
-class AdminEditUserPasswordSchema(Schema):
+class AdminEditUserPasswordSchema(DefaultSchema):
     """管理后台修改密码验证"""
 
     password = fields.Str(

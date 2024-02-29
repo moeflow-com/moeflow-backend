@@ -1,10 +1,11 @@
-from marshmallow import Schema, fields, validates_schema
+from marshmallow import fields, validates_schema
 
 from app.validators.custom_message import required_message
+from app.validators.custom_schema import DefaultSchema
 from app.validators.custom_validate import RoleValidate
 
 
-class RoleSchema(Schema):
+class RoleSchema(DefaultSchema):
     name = fields.Str(
         required=True,
         validate=[RoleValidate.name_length],

@@ -1,5 +1,5 @@
 from flask_babel import gettext
-from marshmallow import Schema, ValidationError, fields, validates_schema
+from marshmallow import ValidationError, fields, validates_schema
 
 from app.exceptions import VCodeRootError
 from app.models.user import User
@@ -8,6 +8,7 @@ from app.validators.custom_message import (
     email_invalid_message,
     required_message,
 )
+from app.validators.custom_schema import DefaultSchema
 from app.validators.custom_validate import UserValidate
 
 
@@ -66,7 +67,7 @@ def v_code_validator(
         raise ValidationError(e.message, [field_name])
 
 
-class ConfirmEmailVCodeSchema(Schema):
+class ConfirmEmailVCodeSchema(DefaultSchema):
     """发送确认邮箱邮件验证"""
 
     email = fields.Email(
@@ -84,7 +85,7 @@ class ConfirmEmailVCodeSchema(Schema):
         captcha_validator(data["captcha_info"], data["captcha"])
 
 
-class ResetPasswordVCodeSchema(Schema):
+class ResetPasswordVCodeSchema(DefaultSchema):
     """发送重置密码邮件验证"""
 
     email = fields.Email(
