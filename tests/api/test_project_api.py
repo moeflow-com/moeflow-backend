@@ -1,4 +1,3 @@
-import pytest
 from app.constants.project import ProjectStatus
 from app.constants.source import SourcePositionType
 from app.exceptions import (
@@ -1588,7 +1587,9 @@ class ProjectAPITestCase(MoeAPITestCase):
                 token=token4,
             )
             self.assertErrorEqual(data)
-            self.assertEqual(project1.users().count(), 3)  # 3个人，剩下2个管理员和创建者
+            self.assertEqual(
+                project1.users().count(), 3
+            )  # 3个人，剩下2个管理员和创建者
             # == 管理员可以删除自己 ==
             self.assertErrorEqual(data)
             data = self.delete(

@@ -2,22 +2,13 @@
 导出项目
 """
 import datetime
-import json
-import os
-import re
-import oss2
-import shutil
-from zipfile import ZipFile
 from flask import Flask
 
-from app import FILE_PATH, TMP_PATH, celery
+from app import celery
 
-from app.constants.output import OutputStatus, OutputTypes
-from app.constants.file import FileType
-from app import oss
+from app.constants.output import OutputTypes
 from app.constants.project import ProjectStatus
 from app.models import connect_db
-from app.regexs import SAFE_FILENAME_REGEX
 from app.tasks.output_project import output_project
 from . import SyncResult
 from celery.utils.log import get_task_logger

@@ -27,8 +27,12 @@ class TermBank(Document):
     )  # 目标语言
     tip = StringField(db_field="ti", default="")
     user = ReferenceField("User", db_field="u")  # 创建人
-    create_time = DateTimeField(db_field="c", default=datetime.datetime.utcnow)  # 创建时间
-    edit_time = DateTimeField(db_field="e", default=datetime.datetime.utcnow)  # 修改时间
+    create_time = DateTimeField(
+        db_field="c", default=datetime.datetime.utcnow
+    )  # 创建时间
+    edit_time = DateTimeField(
+        db_field="e", default=datetime.datetime.utcnow
+    )  # 修改时间
 
     @classmethod
     def create(cls, name, team, source_language, target_language, user, tip=""):
@@ -106,13 +110,21 @@ class Term(Document):
     target = StringField(db_field="t", default="")  # 所属目标语言
     tip = StringField(db_field="ti", default="")
     user = ReferenceField("User", db_field="u")
-    create_time = DateTimeField(db_field="c", default=datetime.datetime.utcnow)  # 创建时间
-    edit_time = DateTimeField(db_field="e", default=datetime.datetime.utcnow)  # 修改时间
+    create_time = DateTimeField(
+        db_field="c", default=datetime.datetime.utcnow
+    )  # 创建时间
+    edit_time = DateTimeField(
+        db_field="e", default=datetime.datetime.utcnow
+    )  # 修改时间
 
     @classmethod
     def create(cls, term_bank, source, target, user, tip=""):
         term = cls(
-            term_bank=term_bank, source=source, target=target, tip=tip, user=user,
+            term_bank=term_bank,
+            source=source,
+            target=target,
+            tip=tip,
+            user=user,
         )
         term.edit_time = datetime.datetime.utcnow()
         term.save()

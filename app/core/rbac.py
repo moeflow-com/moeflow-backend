@@ -2,9 +2,7 @@
 权限,角色,团体,关系Minix类
 并集成加入流程功能
 """
-from app.utils import default
 import datetime
-from typing import ClassVar
 from app.exceptions import UserNotExistError, CreatorCanNotLeaveError
 
 from flask_babel import gettext, lazy_gettext
@@ -43,8 +41,14 @@ class AllowApplyType(IntType):
     ALL = 2
 
     details = {
-        "NONE": {"name": lazy_gettext("关闭申请加入"), "intro": lazy_gettext("只能通过邀请新增成员")},
-        "ALL": {"name": lazy_gettext("所有人"), "intro": lazy_gettext("所以用户都可以申请加入")},
+        "NONE": {
+            "name": lazy_gettext("关闭申请加入"),
+            "intro": lazy_gettext("只能通过邀请新增成员"),
+        },
+        "ALL": {
+            "name": lazy_gettext("所有人"),
+            "intro": lazy_gettext("所以用户都可以申请加入"),
+        },
     }
 
 
@@ -120,7 +124,9 @@ class RoleMixin:
     intro: str = StringField(db_field="m_i", default="")
     permissions: List[int] = ListField(IntField(), db_field="m_p", default=list)
     system: bool = BooleanField(db_field="m_s", required=True, default=False)
-    system_code: str = StringField(db_field="m_o")  # 用于代码中调用此角色，用户创建的没有
+    system_code: str = StringField(
+        db_field="m_o"
+    )  # 用于代码中调用此角色，用户创建的没有
     create_time: datetime = DateTimeField(
         db_field="m_c", default=datetime.datetime.utcnow
     )
@@ -276,7 +282,11 @@ class GroupMixin:
                 raise NoPermissionError(gettext("角色权限不能多于自己的角色权限"))
         permissions = list(set(permissions))
         role = self.role_cls(
-            _name=name, level=level, intro=intro, group=self, permissions=permissions,
+            _name=name,
+            level=level,
+            intro=intro,
+            group=self,
+            permissions=permissions,
         ).save()
         return role
 

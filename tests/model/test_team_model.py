@@ -519,7 +519,9 @@ class TeamModelTestCase(MoeTestCase):
             self.assertEqual(Language.objects().count(), 106)  # 语言不影响
             # 团队部分（team1）
             self.assertEqual(Team.objects.count(), DEFAULT_TEAMS_COUNT + 1)
-            self.assertEqual(TeamUserRelation.objects.count(), DEFAULT_TEAM_USER_RELATIONS + 2)
+            self.assertEqual(
+                TeamUserRelation.objects.count(), DEFAULT_TEAM_USER_RELATIONS + 2
+            )
             self.assertEqual(TeamRole.objects.count(), 5 + 1)  # 5个系统角色
             self.assertEqual(Application.objects(group__in=[team, team2]).count(), 1)
             self.assertEqual(Invitation.objects(group__in=[team, team2]).count(), 1)

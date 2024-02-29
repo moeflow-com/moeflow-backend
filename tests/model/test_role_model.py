@@ -216,7 +216,10 @@ class RoleModelTestCase(MoeTestCase):
             role = team.create_role(
                 name="r1",
                 level=99,
-                permissions=[TeamPermission.ACCESS, TeamPermission.CREATE_TERM_BANK,],
+                permissions=[
+                    TeamPermission.ACCESS,
+                    TeamPermission.CREATE_TERM_BANK,
+                ],
                 operator=user,
             )
             role.reload()

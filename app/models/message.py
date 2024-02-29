@@ -18,7 +18,9 @@ class Message(Document):
     sender = ReferenceField("User", db_field="s", required=True)  # 发送者
     receiver = ReferenceField("User", db_field="r", required=True)  # 接收人
     content = StringField(db_field="c", default="")  # 内容
-    type = IntField(db_field="t", required=True)  # 站内信类型，根据不同类型，前端显示不同
+    type = IntField(
+        db_field="t", required=True
+    )  # 站内信类型，根据不同类型，前端显示不同
     read = BooleanField(db_field="rd", default=False)  # 是否已读
     create_time = DateTimeField(db_field="ct", default=datetime.datetime.utcnow)
 
@@ -32,7 +34,10 @@ class Message(Document):
         ]:
             raise MessageTypeError(gettext("非系统消息类型"))
         message = cls(
-            sender=sender, receiver=receiver, content=content, type=message_type,
+            sender=sender,
+            receiver=receiver,
+            content=content,
+            type=message_type,
         ).save()
         return message
 
@@ -40,6 +45,9 @@ class Message(Document):
     def send_user_message(cls, sender, receiver, content):
         """发送用户消息"""
         message = cls(
-            sender=sender, receiver=receiver, content=content, type=MessageType.USER,
+            sender=sender,
+            receiver=receiver,
+            content=content,
+            type=MessageType.USER,
         ).save()
         return message

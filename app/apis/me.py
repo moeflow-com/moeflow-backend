@@ -1,19 +1,14 @@
 """
 关于用户个人的API
 """
-from bson import ObjectId
-from flask import current_app, request
+from flask import request
 
-from app import oss
 from app.core.responses import MoePagination
 from app.core.views import MoeAPIView
-from app.decorators.auth import admin_required, token_required
-from app.exceptions import UploadFileNotFoundError
-from app.exceptions import UserNotExistError
+from app.decorators.auth import token_required
 from app.models.user import User
 from app.models.team import TeamUserRelation
 from app.validators import ChangeInfoSchema
-from app.validators.admin import AdminStatusSchema
 from app.validators.auth import (
     ChangeEmailSchema,
     ChangePasswordSchema,
@@ -361,11 +356,15 @@ class MeProjectListAPI(MoeAPIView):
         """
         # 获取查询参数
         query = self.get_query(
-            {"status": [QueryParser.int]}, SearchUserProjectSchema(),
+            {"status": [QueryParser.int]},
+            SearchUserProjectSchema(),
         )
         p = MoePagination()
         projects = self.current_user.projects(
-            status=query["status"], word=query["word"], skip=p.skip, limit=p.limit,
+            status=query["status"],
+            word=query["word"],
+            skip=p.skip,
+            limit=p.limit,
         )
         data = Project.batch_to_api(projects, self.current_user)
         p.set_data(data, count=projects.count())

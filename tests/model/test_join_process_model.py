@@ -20,10 +20,18 @@ class InviteApplyModelTestCase(MoeTestCase):
         team2 = Team.create(name="t2")
         # 把用户加入
         i1 = Invitation(
-            user=user1, group=team1, message="", operator=user3, role=role_admin,
+            user=user1,
+            group=team1,
+            message="",
+            operator=user3,
+            role=role_admin,
         ).save()
         i2 = Invitation(
-            user=user2, group=team1, message="", operator=user3, role=role_member,
+            user=user2,
+            group=team1,
+            message="",
+            operator=user3,
+            role=role_member,
         ).save()
         # 使用Invitation的get方法获取邀请
         self.assertEqual(Invitation.get().count(), 2)
@@ -47,13 +55,16 @@ class InviteApplyModelTestCase(MoeTestCase):
         self.assertEqual(Invitation.get(user=user1).count(), 1)
         self.assertEqual(Invitation.get(group=team1).count(), 2)
         self.assertEqual(
-            Invitation.get(group=team1, status=InvitationStatus.PENDING).count(), 0,
+            Invitation.get(group=team1, status=InvitationStatus.PENDING).count(),
+            0,
         )
         self.assertEqual(
-            Invitation.get(group=team1, status=InvitationStatus.DENY).count(), 1,
+            Invitation.get(group=team1, status=InvitationStatus.DENY).count(),
+            1,
         )
         self.assertEqual(
-            Invitation.get(group=team1, status=InvitationStatus.ALLOW).count(), 1,
+            Invitation.get(group=team1, status=InvitationStatus.ALLOW).count(),
+            1,
         )
 
     def test_apply_base(self):
@@ -102,13 +113,16 @@ class InviteApplyModelTestCase(MoeTestCase):
         self.assertEqual(Application.get(user=user1).count(), 1)
         self.assertEqual(Application.get(group=team1).count(), 3)
         self.assertEqual(
-            Application.get(group=team1, status=ApplicationStatus.PENDING).count(), 0,
+            Application.get(group=team1, status=ApplicationStatus.PENDING).count(),
+            0,
         )
         self.assertEqual(
-            Application.get(group=team1, status=ApplicationStatus.DENY).count(), 1,
+            Application.get(group=team1, status=ApplicationStatus.DENY).count(),
+            1,
         )
         self.assertEqual(
-            Application.get(group=team1, status=ApplicationStatus.ALLOW).count(), 2,
+            Application.get(group=team1, status=ApplicationStatus.ALLOW).count(),
+            2,
         )
 
     def test_related_applications(self):
@@ -139,4 +153,3 @@ class InviteApplyModelTestCase(MoeTestCase):
             self.assertCountEqual(
                 application.user_ids_can_check_user, [user1.id, user2.id, user3.id]
             )
-

@@ -2,7 +2,7 @@ import os
 
 from celery import Celery
 from celery.signals import worker_shutting_down
-from flask import Flask, g, request, render_template
+from flask import Flask, g, request
 from flask_apikit import APIKit
 from flask_babel import Babel
 
@@ -34,7 +34,7 @@ def create_default_team(admin_user):
 
     logger.info("-" * 50)
     if Team.objects().count() == 0:
-        logger.info(f"已建立默认团队")
+        logger.info("已建立默认团队")
         team = Team.create(
             name="默认团队",
             creator=admin_user,
@@ -48,7 +48,7 @@ def create_default_team(admin_user):
         site_setting.auto_join_team_ids = [team.id]
         site_setting.save()
     else:
-        logger.info(f"已有团队，跳过建立默认团队")
+        logger.info("已有团队，跳过建立默认团队")
 
 
 def create_or_override_default_admin(app):
@@ -70,13 +70,17 @@ def create_or_override_default_admin(app):
         )
         admin_user.admin = True
         admin_user.save()
-        logger.info("已创建管理员 {}, 默认密码为 123123，请及时修改！".format(admin_user.email))
+        logger.info(
+            "已创建管理员 {}, 默认密码为 123123，请及时修改！".format(admin_user.email)
+        )
     return admin_user
 
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_envvar(config_path_env)  # 获取配置文件,仅从环境变量读取,均需要配置环境变量
+    app.config.from_envvar(
+        config_path_env
+    )  # 获取配置文件,仅从环境变量读取,均需要配置环境变量
     configure_logger(app)  # 配置日志记录(放在最前,会被下面调用)
 
     logger.info("-" * 50)
@@ -128,7 +132,9 @@ def create_celery():
     delete_about_to_shutdown_flag()
     # 为celery创建app
     app = Flask(__name__)
-    app.config.from_envvar(config_path_env)  # 获取配置文件,仅从环境变量读取,均需要配置环境变量
+    app.config.from_envvar(
+        config_path_env
+    )  # 获取配置文件,仅从环境变量读取,均需要配置环境变量
     # 通过app配置创建celery实例
     celery = Celery(
         app.name,

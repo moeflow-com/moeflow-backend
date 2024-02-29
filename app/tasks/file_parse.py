@@ -61,7 +61,8 @@ def parse_text_task(file_id, old_revision_id=None):
         return f"跳过，文件解析中，File <{file_id}>"
     # 将所有File设置成处理中，并设置开始时间
     file.update(
-        parse_status=ParseStatus.PARSING, parse_start_time=datetime.datetime.utcnow(),
+        parse_status=ParseStatus.PARSING,
+        parse_start_time=datetime.datetime.utcnow(),
     )
     # 下载文件，并获取内容
     text_file = oss.download(oss_file_prefix, file.save_name)

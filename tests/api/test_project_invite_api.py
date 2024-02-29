@@ -96,7 +96,9 @@ class JoinProcessAPITestCase(MoeAPITestCase):
         # user2同意这个邀请
         invitation = Invitation.objects().first()
         data = self.patch(
-            f"/v1/invitations/{invitation.id}", json={"allow": True}, token=token2,
+            f"/v1/invitations/{invitation.id}",
+            json={"allow": True},
+            token=token2,
         )
         self.assertErrorEqual(data)
         # user2加入了project1，并且是成员权限
@@ -137,7 +139,9 @@ class JoinProcessAPITestCase(MoeAPITestCase):
         # user2拒绝这个邀请
         invitation = Invitation.objects(status=InvitationStatus.PENDING).first()
         data = self.patch(
-            f"/v1/invitations/{invitation.id}", json={"allow": False}, token=token2,
+            f"/v1/invitations/{invitation.id}",
+            json={"allow": False},
+            token=token2,
         )
         self.assertErrorEqual(data)
         # user2没加入project1
@@ -162,7 +166,9 @@ class JoinProcessAPITestCase(MoeAPITestCase):
         # user2同意这个邀请
         invitation = Invitation.objects(status=InvitationStatus.PENDING).first()
         data = self.patch(
-            f"/v1/invitations/{invitation.id}", json={"allow": True}, token=token2,
+            f"/v1/invitations/{invitation.id}",
+            json={"allow": True},
+            token=token2,
         )
         self.assertErrorEqual(data)
         # user2加入了project1，并且是成员权限
@@ -203,7 +209,9 @@ class JoinProcessAPITestCase(MoeAPITestCase):
         # user2拒绝这个邀请
         invitation = Invitation.objects().first()
         data = self.patch(
-            f"/v1/invitations/{invitation.id}", json={"allow": False}, token=token2,
+            f"/v1/invitations/{invitation.id}",
+            json={"allow": False},
+            token=token2,
         )
         self.assertErrorEqual(data)
         # user2没加入project1
@@ -213,7 +221,9 @@ class JoinProcessAPITestCase(MoeAPITestCase):
         self.assertEqual(invitation.status, InvitationStatus.DENY)
         # user2再同意这个邀请，报错不能进行操作
         data = self.patch(
-            f"/v1/invitations/{invitation.id}", json={"allow": True}, token=token2,
+            f"/v1/invitations/{invitation.id}",
+            json={"allow": True},
+            token=token2,
         )
         self.assertErrorEqual(data, InvitationFinishedError)
         self.assertEqual(Invitation.objects(status=InvitationStatus.DENY).count(), 1)
@@ -233,14 +243,18 @@ class JoinProcessAPITestCase(MoeAPITestCase):
         # user2同意
         invitation = Invitation.objects(status=InvitationStatus.PENDING).first()
         data = self.patch(
-            f"/v1/invitations/{invitation.id}", json={"allow": True}, token=token2,
+            f"/v1/invitations/{invitation.id}",
+            json={"allow": True},
+            token=token2,
         )
         self.assertErrorEqual(data)
         self.assertEqual(Invitation.objects(status=InvitationStatus.DENY).count(), 1)
         self.assertEqual(Invitation.objects(status=InvitationStatus.ALLOW).count(), 1)
         # 此时这个ALLOW的邀请也不能操作
         data = self.patch(
-            f"/v1/invitations/{invitation.id}", json={"allow": False}, token=token2,
+            f"/v1/invitations/{invitation.id}",
+            json={"allow": False},
+            token=token2,
         )
         self.assertErrorEqual(data, InvitationFinishedError)
 
@@ -406,7 +420,9 @@ class JoinProcessAPITestCase(MoeAPITestCase):
         self.assertEqual(invitation.role, admin_role)
         # user2同意，角色变成admin_role
         data = self.patch(
-            f"/v1/invitations/{invitation.id}", json={"allow": True}, token=token2,
+            f"/v1/invitations/{invitation.id}",
+            json={"allow": True},
+            token=token2,
         )
         self.assertErrorEqual(data)
         # user2加入了project1，并且是成员权限
@@ -476,7 +492,9 @@ class JoinProcessAPITestCase(MoeAPITestCase):
         self.assertEqual(data.json, data2.json)
         # user3拒绝
         data = self.patch(
-            f"/v1/invitations/{invitation.id}", json={"allow": False}, token=token3,
+            f"/v1/invitations/{invitation.id}",
+            json={"allow": False},
+            token=token3,
         )
         self.assertErrorEqual(data)
         # 拒绝之后不能修改
@@ -632,7 +650,9 @@ class JoinProcessAPITestCase(MoeAPITestCase):
         invitation = Invitation.objects.first()
         # user2同意，角色变成member_role
         data = self.patch(
-            f"/v1/invitations/{invitation.id}", json={"allow": True}, token=token2,
+            f"/v1/invitations/{invitation.id}",
+            json={"allow": True},
+            token=token2,
         )
         self.assertErrorEqual(data)
         # user2加入了project1，并且是成员权限

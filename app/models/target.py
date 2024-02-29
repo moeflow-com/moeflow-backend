@@ -31,7 +31,9 @@ class Target(Document):
     translated_source_count = IntField(db_field="tsc", default=0)  # 已翻译的原文数量
     checked_source_count = IntField(db_field="csc", default=0)  # 已校对的原文数量
     create_time = DateTimeField(db_field="ct", default=datetime.datetime.utcnow)
-    edit_time = DateTimeField(db_field="et", default=datetime.datetime.utcnow)  # 修改时间
+    edit_time = DateTimeField(
+        db_field="et", default=datetime.datetime.utcnow
+    )  # 修改时间
     intro = StringField(db_field="i", default="")  # 目标介绍
 
     @classmethod

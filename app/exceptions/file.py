@@ -96,4 +96,3 @@ class TranslationNotUniqueError(FileRootError):
 
     code = 8007
     message = lazy_gettext("翻译不唯一")
-

@@ -271,7 +271,11 @@ class SourceTestCase(MoeAPITestCase):
         t1 = Team.create("t1")
         p1 = Project.create("p1", t1)
         file = File(
-            name="1", save_name="1", sort_name="1", project=p1, type=FileType.TEXT,
+            name="1",
+            save_name="1",
+            sort_name="1",
+            project=p1,
+            type=FileType.TEXT,
         ).save()
         s1 = file.create_source("1")
         self.assertEqual(s1.rank, 0)

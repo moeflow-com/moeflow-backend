@@ -246,13 +246,15 @@ class TranslationAPITestCase(MoeAPITestCase):
             self.assertErrorEqual(data, NoPermissionError)
             # 校对不能删除他人原文
             data = self.delete(
-                "/v1/translations/{}".format(translation.id), token=proofreader_token,
+                "/v1/translations/{}".format(translation.id),
+                token=proofreader_token,
             )
             self.assertErrorEqual(data, NoPermissionError)
             self.assertEqual(1, Translation.objects().count())
             # 可以删除自己的译文
             data = self.delete(
-                "/v1/translations/{}".format(translation.id), token=translator_token,
+                "/v1/translations/{}".format(translation.id),
+                token=translator_token,
             )
             self.assertErrorEqual(data)
             self.assertEqual(0, Translation.objects().count())
@@ -261,7 +263,8 @@ class TranslationAPITestCase(MoeAPITestCase):
             self.assertEqual(1, Translation.objects().count())
             # 协调者可以删除他人译文
             data = self.delete(
-                "/v1/translations/{}".format(translation.id), token=coordinator_token,
+                "/v1/translations/{}".format(translation.id),
+                token=coordinator_token,
             )
             self.assertErrorEqual(data)
             self.assertEqual(0, Translation.objects().count())

@@ -5,29 +5,11 @@ from bson import ObjectId
 from flask import current_app, request
 
 from app import oss
-from app.core.responses import MoePagination
 from app.core.views import MoeAPIView
 from app.decorators.auth import token_required
 from app.exceptions import UploadFileNotFoundError
-from app.models.user import User
-from app.models.team import Team, TeamPermission, TeamUserRelation
-from app.validators import ChangeInfoSchema
-from app.validators.auth import (
-    ChangeEmailSchema,
-    ChangePasswordSchema,
-    LoginSchema,
-    ResetPasswordSchema,
-)
-from app.validators.avatar import EditAvatarSchema
-from app.validators.join_process import (
-    SearchInvitationSchema,
-    SearchRelatedApplicationSchema,
-)
-from flask_apikit.utils import QueryParser
+from app.models.team import Team, TeamPermission
 from flask_babel import gettext, lazy_gettext
-from app.validators.project import SearchUserProjectSchema
-from app.models.project import Project
-from app.models.application import Application
 from app.utils.logging import logger
 import oss2
 from app.exceptions.base import NoPermissionError, RequestDataWrongError
@@ -79,11 +61,12 @@ class AvatarAPI(MoeAPIView):
         if avatar_owner.has_avatar():
             try:
                 oss.delete(
-                    avatar_prefix, avatar_owner._avatar,
+                    avatar_prefix,
+                    avatar_owner._avatar,
                 )
-            except (oss2.exceptions.NoSuchKey) as e:
+            except oss2.exceptions.NoSuchKey as e:
                 logger.error(e)
-            except (Exception) as e:
+            except Exception as e:
                 logger.error(e)
         # 设置新的头像
         avatar_owner.avatar = filename

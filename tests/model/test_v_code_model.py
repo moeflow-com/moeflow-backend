@@ -82,12 +82,18 @@ class VCodeTestCase(MoeTestCase):
         # 验证两次未删除
         self.assertTrue(
             VCode.verify(
-                VCodeType.CONFIRM_EMAIL, "5", v5.content, delete_after_verified=False,
+                VCodeType.CONFIRM_EMAIL,
+                "5",
+                v5.content,
+                delete_after_verified=False,
             )
         )
         self.assertTrue(
             VCode.verify(
-                VCodeType.CONFIRM_EMAIL, "5", v5.content, delete_after_verified=False,
+                VCodeType.CONFIRM_EMAIL,
+                "5",
+                v5.content,
+                delete_after_verified=False,
             )
         )
         # 设置删除

@@ -75,9 +75,7 @@ class ConfirmEmailVCodeSchema(DefaultSchema):
         validate=[UserValidate.valid_new_email],
         error_messages={**required_message, **email_invalid_message},
     )
-    captcha_info = fields.Str(
-        required=True, error_messages={**required_message}
-    )
+    captcha_info = fields.Str(required=True, error_messages={**required_message})
     captcha = fields.Str(required=True, error_messages={**required_message})
 
     @validates_schema
@@ -93,9 +91,7 @@ class ResetPasswordVCodeSchema(DefaultSchema):
         validate=[UserValidate.exist_email],
         error_messages={**required_message, **email_invalid_message},
     )
-    captcha_info = fields.Str(
-        required=True, error_messages={**required_message}
-    )
+    captcha_info = fields.Str(required=True, error_messages={**required_message})
     captcha = fields.Str(required=True, error_messages={**required_message})
 
     @validates_schema

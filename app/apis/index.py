@@ -4,11 +4,8 @@ from urllib.parse import unquote
 
 from flask import (
     current_app,
-    redirect,
-    request,
     send_from_directory,
     url_for,
-    render_template,
 )
 
 from app.core.views import MoeAPIView
@@ -31,7 +28,6 @@ class UrlListAPI(MoeAPIView):
     def get(self):
         output = "<table>"
         for rule in current_app.url_map.iter_rules():
-
             options = {}
             for arg in sorted(rule.arguments):
                 options[arg] = "<{0}>".format(arg)

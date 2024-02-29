@@ -36,12 +36,8 @@ class TermBankSchema(DefaultSchema):
     def to_model(self, in_data):
         """通过id获取模型，以供直接使用"""
         # 获取语言模型对象
-        in_data["source_language"] = Language.by_id(
-            in_data["source_language_id"]
-        )
-        in_data["target_language"] = Language.by_id(
-            in_data["target_language_id"]
-        )
+        in_data["source_language"] = Language.by_id(in_data["source_language_id"])
+        in_data["target_language"] = Language.by_id(in_data["target_language_id"])
         return in_data
 
 

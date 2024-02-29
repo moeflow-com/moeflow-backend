@@ -1,15 +1,20 @@
 from app.exceptions.base import RequestDataWrongError
 from app.validators.custom_message import required_message
-from app.validators.custom_validate import JoinValidate, object_id
+from app.validators.custom_validate import object_id
 from app.validators.custom_schema import DefaultSchema
 from flask_babel import lazy_gettext
 from marshmallow import fields, validates_schema
 
 
 class EditAvatarSchema(DefaultSchema):
-    type = fields.Str(required=True, error_messages={**required_message},)
+    type = fields.Str(
+        required=True,
+        error_messages={**required_message},
+    )
     id = fields.Str(
-        missing=None, validate=[object_id], error_messages={**required_message},
+        missing=None,
+        validate=[object_id],
+        error_messages={**required_message},
     )
 
     @validates_schema

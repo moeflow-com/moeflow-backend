@@ -7,12 +7,12 @@ from app.constants.project import (
 )
 from flask import Flask
 
-from app import FILE_PATH, TMP_PATH, celery
+from app import celery
 
 from app.models import connect_db
 from . import SyncResult
 from celery.utils.log import get_task_logger
-from app.utils.labelplus import LPFile, load_from_labelplus
+from app.utils.labelplus import load_from_labelplus
 from app.constants.source import SourcePositionType
 
 logger = get_task_logger(__name__)
@@ -83,7 +83,7 @@ def import_from_labelplus_task(project_id):
                             (file_index / file_count) * 100
                         )
                     )
-    except (Exception):
+    except Exception:
         logger.exception(Exception)
         project.update(
             import_from_labelplus_txt="",

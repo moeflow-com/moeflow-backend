@@ -1,6 +1,5 @@
-from flask_apikit.exceptions import ValidateError
 from app.exceptions.base import NoPermissionError
-from tests import TEST_FILE_PATH, MoeAPITestCase
+from tests import MoeAPITestCase
 
 
 class AdminAPITestCase(MoeAPITestCase):

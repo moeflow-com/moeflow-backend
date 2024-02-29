@@ -67,7 +67,9 @@ class FileModelTestCase(MoeTestCase):
         self.assertEqual(get_sort_name(file), file.sort_name)
         self.assertEqual(parent, file.parent)
         self.assertEqual(ancestors, file.ancestors)  # 祖先
-        self.assertEqual(get_dir_sort_name(ancestors), file.dir_sort_name)  # 文件夹排序名
+        self.assertEqual(
+            get_dir_sort_name(ancestors), file.dir_sort_name
+        )  # 文件夹排序名
 
     def test_image_only(self):
         """测试image_only装饰器"""
@@ -378,12 +380,14 @@ class FileModelTestCase(MoeTestCase):
                 # png2kb的源文件已经删除
                 self.assertFalse(
                     oss.is_exist(
-                        self.app.config["OSS_FILE_PREFIX"], png2kb_old_save_name,
+                        self.app.config["OSS_FILE_PREFIX"],
+                        png2kb_old_save_name,
                     )
                 )
                 # 从oss下载下来对比下md5，和新的png3kb一样了
                 png3kb_from_oss = oss.download(
-                    self.app.config["OSS_FILE_PREFIX"], png3kb_replace_png2kb.save_name,
+                    self.app.config["OSS_FILE_PREFIX"],
+                    png3kb_replace_png2kb.save_name,
                 )
                 self.assertEqual(get_file_md5(png3kb_from_oss), png3kb_md5)
 
@@ -475,11 +479,15 @@ class FileModelTestCase(MoeTestCase):
             revision_b.sources()[5].create_translation(
                 "5-2", target, user=user
             )  # 同用户，翻译覆盖
-            revision_b.sources()[5].create_tip("5-2", target, user=user)  # 同用户，提示新增
+            revision_b.sources()[5].create_tip(
+                "5-2", target, user=user
+            )  # 同用户，提示新增
             revision_b.sources()[5].create_translation(
                 "5-3", target, user=user2
             )  # 不同用户，翻译新增
-            revision_b.sources()[5].create_tip("5-3", target, user=user2)  # 不同用户，提示新增
+            revision_b.sources()[5].create_tip(
+                "5-3", target, user=user2
+            )  # 不同用户，提示新增
             # 检查激活修订版
             revision_a.reload()
             self.assertFalse(revision_a.activated)
@@ -3038,4 +3046,3 @@ class FileModelTestCase(MoeTestCase):
         file.create_source("2", x=0, y=0, rank=8)  # file 中 rank 最大的 source
         file2.create_source("3", x=0, y=0, rank=3)
         self.assertEqual(9, file.next_source_rank())
-

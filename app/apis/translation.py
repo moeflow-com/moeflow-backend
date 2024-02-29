@@ -85,7 +85,8 @@ class TranslationAPI(MoeAPIView):
             translation.update_cache("edit_time", datetime.datetime.utcnow())
         if "proofread_content" in data:  # 检查是否有校对权限
             if not self.current_user.can(
-                translation.source.file.project, ProjectPermission.PROOFREAD_TRA,
+                translation.source.file.project,
+                ProjectPermission.PROOFREAD_TRA,
             ):
                 raise NoPermissionError
             if data["proofread_content"] == "" and translation.content == "":

@@ -94,7 +94,12 @@ class TestUtilsCase(MoeTestCase):
                             "position_type": 2,
                             "translation": "",
                         },
-                        {"x": 0.0, "y": 0.184, "position_type": 1, "translation": "",},
+                        {
+                            "x": 0.0,
+                            "y": 0.184,
+                            "position_type": 1,
+                            "translation": "",
+                        },
                     ],
                 },
                 {

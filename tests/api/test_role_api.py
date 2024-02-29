@@ -37,7 +37,8 @@ class RoleAPITestCase(MoeAPITestCase):
             self.assertErrorEqual(data)
             system_role_count = TeamRole.objects(system=True).count()
             self.assertEqual(
-                system_role_count + 1, int(data.headers.get("X-Pagination-Count")),
+                system_role_count + 1,
+                int(data.headers.get("X-Pagination-Count")),
             )
 
     def test_create_role(self):
@@ -95,7 +96,10 @@ class RoleAPITestCase(MoeAPITestCase):
                 json={
                     "name": "1",
                     "level": 1,
-                    "permissions": [TeamPermission.ACCESS, TeamPermission.DELETE,],
+                    "permissions": [
+                        TeamPermission.ACCESS,
+                        TeamPermission.DELETE,
+                    ],
                     "intro": "",
                 },
                 token=token,
@@ -131,7 +135,10 @@ class RoleAPITestCase(MoeAPITestCase):
             self.assertEqual(0, team.roles(type=RoleType.CUSTOM).count())
             # == 创建一个角色 ==
             role = team.create_role(
-                name="99", level=99, permissions=[TeamPermission.ACCESS], operator=user,
+                name="99",
+                level=99,
+                permissions=[TeamPermission.ACCESS],
+                operator=user,
             )
             self.assertEqual("99", role.name)
             self.assertEqual(99, role.level)
@@ -141,7 +148,9 @@ class RoleAPITestCase(MoeAPITestCase):
             self.assertErrorEqual(data, NeedTokenError)
             # == 没有权限，不能修改 ==
             data = self.put(
-                f"/v1/teams/{str(team.id)}/roles/{str(role.id)}", json={}, token=token2,
+                f"/v1/teams/{str(team.id)}/roles/{str(role.id)}",
+                json={},
+                token=token2,
             )
             self.assertErrorEqual(data, NoPermissionError)
             # == 系统权限，不能修改（不能被找到） ==
@@ -161,7 +170,9 @@ class RoleAPITestCase(MoeAPITestCase):
             self.assertErrorEqual(data, RoleNotExistError)
             # == 缺少参数无法修改 ==
             data = self.put(
-                f"/v1/teams/{str(team.id)}/roles/{str(role.id)}", json={}, token=token,
+                f"/v1/teams/{str(team.id)}/roles/{str(role.id)}",
+                json={},
+                token=token,
             )
             self.assertErrorEqual(data, ValidateError)
             # == level超出范围，无法修改 ==
@@ -199,7 +210,10 @@ class RoleAPITestCase(MoeAPITestCase):
                 json={
                     "name": "1",
                     "level": 1,
-                    "permissions": [TeamPermission.ACCESS, TeamPermission.DELETE,],
+                    "permissions": [
+                        TeamPermission.ACCESS,
+                        TeamPermission.DELETE,
+                    ],
                     "intro": "",
                 },
                 token=token,
@@ -242,7 +256,10 @@ class RoleAPITestCase(MoeAPITestCase):
             self.assertEqual(0, team.roles(type=RoleType.CUSTOM).count())
             # == 创建一个角色 ==
             role = team.create_role(
-                name="99", level=99, permissions=[TeamPermission.ACCESS], operator=user,
+                name="99",
+                level=99,
+                permissions=[TeamPermission.ACCESS],
+                operator=user,
             )
             self.assertEqual("99", role.name)
             self.assertEqual(99, role.level)
@@ -258,7 +275,8 @@ class RoleAPITestCase(MoeAPITestCase):
             self.assertErrorEqual(data, NoPermissionError)
             # == 系统权限，不能删除（不能被找到） ==
             data = self.delete(
-                f"/v1/teams/{str(team.id)}/roles/{str(admin_role.id)}", token=token,
+                f"/v1/teams/{str(team.id)}/roles/{str(admin_role.id)}",
+                token=token,
             )
             self.assertErrorEqual(data, RoleNotExistError)
             # == 正常删除 ==

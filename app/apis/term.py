@@ -69,7 +69,9 @@ class TermBankAPI(MoeAPIView):
         """
         # 权限检查
         if not self.current_user.can(team, TeamPermission.CREATE_TERM_BANK):
-            raise NoPermissionError(gettext("您没有「创建术语库」权限，不能在此团队创建术语库"))
+            raise NoPermissionError(
+                gettext("您没有「创建术语库」权限，不能在此团队创建术语库")
+            )
         data = self.get_json(TermBankSchema())
         TermBank.create(
             name=data["name"],
@@ -107,7 +109,9 @@ class TermBankAPI(MoeAPIView):
             self.current_user.can(term_bank.team, TeamPermission.CHANGE_TERM_BANK)
             or term_bank.user == self.current_user
         ):
-            raise NoPermissionError(gettext("您没有「设置他人术语库」权限，只能设置自己创建的术语库"))
+            raise NoPermissionError(
+                gettext("您没有「设置他人术语库」权限，只能设置自己创建的术语库")
+            )
         data = self.get_json(TermBankSchema())
         term_bank.edit(
             name=data["name"],
@@ -140,7 +144,9 @@ class TermBankAPI(MoeAPIView):
             self.current_user.can(term_bank.team, TeamPermission.DELETE_TERM_BANK)
             or term_bank.user == self.current_user
         ):
-            raise NoPermissionError(gettext("您没有「删除他人术语库」权限，只能删除自己创建的术语库"))
+            raise NoPermissionError(
+                gettext("您没有「删除他人术语库」权限，只能删除自己创建的术语库")
+            )
         term_bank.clear()
         return {"message": gettext("删除成功")}
 
@@ -170,7 +176,11 @@ class TermListAPI(MoeAPIView):
             self.current_user.can(term_bank.team, TeamPermission.ACCESS_TERM_BANK)
             or term_bank.user == self.current_user
         ):
-            raise NoPermissionError(gettext("您没有「查看他人术语库」权限，只能查看自己创建的术语库中的术语"))
+            raise NoPermissionError(
+                gettext(
+                    "您没有「查看他人术语库」权限，只能查看自己创建的术语库中的术语"
+                )
+            )
         # 获取查询参数
         word = request.args.get("word")
         # 分页
@@ -211,7 +221,11 @@ class TermListAPI(MoeAPIView):
             self.current_user.can(term_bank.team, TeamPermission.CREATE_TERM)
             or term_bank.user == self.current_user
         ):
-            raise NoPermissionError(gettext("您没有「在他人术语库中增加术语」权限，只能在自己创建的术语库中增加术语"))
+            raise NoPermissionError(
+                gettext(
+                    "您没有「在他人术语库中增加术语」权限，只能在自己创建的术语库中增加术语"
+                )
+            )
         # 获取data
         data = self.get_json(TermSchema())
         Term.create(
@@ -253,7 +267,11 @@ class TermAPI(MoeAPIView):
             or term_bank.user == self.current_user
             or term.user == self.current_user
         ):
-            raise NoPermissionError(gettext("您没有「修改他人术语」权限，只能修改自己创建的术语或自己术语库中的术语"))
+            raise NoPermissionError(
+                gettext(
+                    "您没有「修改他人术语」权限，只能修改自己创建的术语或自己术语库中的术语"
+                )
+            )
         # 获取data
         data = self.get_json(TermSchema())
         term.edit(source=data["source"], target=data["target"], tip=data["tip"])
@@ -284,6 +302,10 @@ class TermAPI(MoeAPIView):
             or term_bank.user == self.current_user
             or term.user == self.current_user
         ):
-            raise NoPermissionError(gettext("您没有「删除他人术语」权限，只能删除自己创建的术语或自己术语库中的术语"))
+            raise NoPermissionError(
+                gettext(
+                    "您没有「删除他人术语」权限，只能删除自己创建的术语或自己术语库中的术语"
+                )
+            )
         term.clear()
         return {"message": gettext("删除成功")}

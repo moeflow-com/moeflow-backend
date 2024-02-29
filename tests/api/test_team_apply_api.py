@@ -32,7 +32,9 @@ class JoinProcessAPITestCase(MoeAPITestCase):
         user1.join(team1, admin_role)
         # user2 申请加入
         data = self.post(
-            f"/v1/teams/{team1.id}/applications", json={"message": "hi"}, token=token2,
+            f"/v1/teams/{team1.id}/applications",
+            json={"message": "hi"},
+            token=token2,
         )
         self.assertErrorEqual(data, NoPermissionError)
         self.assertEqual(0, Application.objects.count())
@@ -66,23 +68,31 @@ class JoinProcessAPITestCase(MoeAPITestCase):
         user3.join(team1, member_role)
         # user2 申请加入
         data = self.post(
-            f"/v1/teams/{team1.id}/applications", json={"message": "hi"}, token=token2,
+            f"/v1/teams/{team1.id}/applications",
+            json={"message": "hi"},
+            token=token2,
         )
         self.assertErrorEqual(data)
         self.assertEqual(1, Application.objects.count())
         application = Application.objects.first()
         # user3和user2都没有权限拒绝
         data = self.patch(
-            f"/v1/applications/{application.id}", json={"allow": False}, token=token2,
+            f"/v1/applications/{application.id}",
+            json={"allow": False},
+            token=token2,
         )
         self.assertErrorEqual(data, NoPermissionError)
         data = self.patch(
-            f"/v1/applications/{application.id}", json={"allow": False}, token=token3,
+            f"/v1/applications/{application.id}",
+            json={"allow": False},
+            token=token3,
         )
         self.assertErrorEqual(data, NoPermissionError)
         # user1 有权限拒绝
         data = self.patch(
-            f"/v1/applications/{application.id}", json={"allow": False}, token=token1,
+            f"/v1/applications/{application.id}",
+            json={"allow": False},
+            token=token1,
         )
         self.assertErrorEqual(data)
         # 申请变成deny
@@ -123,23 +133,31 @@ class JoinProcessAPITestCase(MoeAPITestCase):
         user3.join(team1, member_role)
         # user2 申请加入
         data = self.post(
-            f"/v1/teams/{team1.id}/applications", json={"message": "hi"}, token=token2,
+            f"/v1/teams/{team1.id}/applications",
+            json={"message": "hi"},
+            token=token2,
         )
         self.assertErrorEqual(data)
         self.assertEqual(1, Application.objects.count())
         application = Application.objects.first()
         # user3和user2都没有权限同意
         data = self.patch(
-            f"/v1/applications/{application.id}", json={"allow": True}, token=token2,
+            f"/v1/applications/{application.id}",
+            json={"allow": True},
+            token=token2,
         )
         self.assertErrorEqual(data, NoPermissionError)
         data = self.patch(
-            f"/v1/applications/{application.id}", json={"allow": True}, token=token3,
+            f"/v1/applications/{application.id}",
+            json={"allow": True},
+            token=token3,
         )
         self.assertErrorEqual(data, NoPermissionError)
         # user1 有权限同意
         data = self.patch(
-            f"/v1/applications/{application.id}", json={"allow": True}, token=token1,
+            f"/v1/applications/{application.id}",
+            json={"allow": True},
+            token=token1,
         )
         self.assertErrorEqual(data)
         # 申请变成allow
@@ -179,7 +197,9 @@ class JoinProcessAPITestCase(MoeAPITestCase):
         user3.join(team1, member_role)
         # user2 申请加入
         data = self.post(
-            f"/v1/teams/{team1.id}/applications", json={"message": "hi"}, token=token2,
+            f"/v1/teams/{team1.id}/applications",
+            json={"message": "hi"},
+            token=token2,
         )
         self.assertErrorEqual(data)
         self.assertEqual(1, Application.objects.count())
@@ -229,7 +249,9 @@ class JoinProcessAPITestCase(MoeAPITestCase):
         user3.join(team1, member_role)
         # user2 申请加入
         data = self.post(
-            f"/v1/teams/{team1.id}/applications", json={"message": "hi"}, token=token2,
+            f"/v1/teams/{team1.id}/applications",
+            json={"message": "hi"},
+            token=token2,
         )
         self.assertErrorEqual(data)
         self.assertEqual(1, Application.objects.count())
@@ -266,12 +288,16 @@ class JoinProcessAPITestCase(MoeAPITestCase):
         user1.join(team1, admin_role)
         # user2 申请加入
         data = self.post(
-            f"/v1/teams/{team1.id}/applications", json={"message": "hi"}, token=token2,
+            f"/v1/teams/{team1.id}/applications",
+            json={"message": "hi"},
+            token=token2,
         )
         self.assertErrorEqual(data, TargetIsFullError)
         # user2 加入，现在两个人，还是不能加入
         user3.join(team1)
         data = self.post(
-            f"/v1/teams/{team1.id}/applications", json={"message": "hi"}, token=token2,
+            f"/v1/teams/{team1.id}/applications",
+            json={"message": "hi"},
+            token=token2,
         )
         self.assertErrorEqual(data, TargetIsFullError)

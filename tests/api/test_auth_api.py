@@ -1659,7 +1659,11 @@ class AuthAPITestCase(MoeAPITestCase):
         team2 = self.create_team("team2")
         team2.default_role = team_admin_role
         team2.save()
-        site_setting.auto_join_team_ids = [team1.id, team2.id, ObjectId()]  # 第三个为不存在的团队
+        site_setting.auto_join_team_ids = [
+            team1.id,
+            team2.id,
+            ObjectId(),
+        ]  # 第三个为不存在的团队
         site_setting.save()
         site_setting.reload()
         # 注册

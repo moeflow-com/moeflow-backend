@@ -319,7 +319,11 @@ def google_vision(image_file: BinaryIO):
         if reverse_proxy_auth and "googleapis.com" not in ocr_api_url:
             auth = reverse_proxy_auth
         result = requests.post(
-            ocr_api_url, json=request_data, proxies=proxies, auth=auth, timeout=80,
+            ocr_api_url,
+            json=request_data,
+            proxies=proxies,
+            auth=auth,
+            timeout=80,
         )
         json_data = result.json()
         # 处理返回的数据
@@ -355,7 +359,8 @@ def _draw(im, blocks):
         label_position = block_data["label_position"]
         for symbol_vertices in block_data["symbols_vertices"]:
             draw.line(
-                symbol_vertices, fill=(128, 128, 0, 40),
+                symbol_vertices,
+                fill=(128, 128, 0, 40),
             )
         # draw.line(
         #     block_data["vertices"], fill=(128, 128, 128, 20),
@@ -363,11 +368,26 @@ def _draw(im, blocks):
         # 标记点
         draw.line(
             [
-                (label_position["point_x"] - 1, label_position["point_y"] - 1,),
-                (label_position["point_x"] + 1, label_position["point_y"] - 1,),
-                (label_position["point_x"] + 1, label_position["point_y"] + 1,),
-                (label_position["point_x"] - 1, label_position["point_y"] + 1,),
-                (label_position["point_x"] - 1, label_position["point_y"] - 1,),
+                (
+                    label_position["point_x"] - 1,
+                    label_position["point_y"] - 1,
+                ),
+                (
+                    label_position["point_x"] + 1,
+                    label_position["point_y"] - 1,
+                ),
+                (
+                    label_position["point_x"] + 1,
+                    label_position["point_y"] + 1,
+                ),
+                (
+                    label_position["point_x"] - 1,
+                    label_position["point_y"] + 1,
+                ),
+                (
+                    label_position["point_x"] - 1,
+                    label_position["point_y"] - 1,
+                ),
             ],
             fill=128,
         )
@@ -435,7 +455,9 @@ def merge_and_ocr(parsing_images, /, *, parse_alone=False):
                             str(downloading_image.id), "oss_download_error"
                         )
                 else:
-                    logger.error(f"ImageFile<{str(downloading_image.id)}> 下载失败且超过重试次数")
+                    logger.error(
+                        f"ImageFile<{str(downloading_image.id)}> 下载失败且超过重试次数"
+                    )
                     downloading_image.update(
                         parse_status=ParseStatus.PARSE_FAILED,
                         parse_error_type=ParseErrorType.IMAGE_CAN_NOT_DOWNLOAD_FROM_OSS,
@@ -623,7 +645,8 @@ def recover_ocr_tasks():
     logger.info("-" * 50)
     # 恢复图片
     parsing_images = File.objects(
-        type=FileType.IMAGE, parse_status=ParseStatus.PARSING,
+        type=FileType.IMAGE,
+        parse_status=ParseStatus.PARSING,
     )
     logger.info(f"共 {parsing_images.count()} 张图片已恢复 QUEUING")
     parsing_images.update(parse_status=ParseStatus.QUEUING)

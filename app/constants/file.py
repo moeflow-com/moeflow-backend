@@ -88,11 +88,19 @@ class ParseErrorType(IntType):
     details = {
         "UNKNOWN": {"name": lazy_gettext("其他错误")},
         "TEXT_UNKNOWN_CHARSET": {"name": lazy_gettext("未知字符集")},
-        "FILE_CAN_NOT_READ": {"name": lazy_gettext("文件无法读取，请确认文件完好或尝试重新上传")},
-        "IMAGE_PARSE_ALONE_ERROR": {"name": lazy_gettext("图片读取失败，请稍后再试（1）")},
-        "IMAGE_CAN_NOT_DOWNLOAD_FROM_OSS": {"name": lazy_gettext("图片读取失败，请稍后再试（2）")},
+        "FILE_CAN_NOT_READ": {
+            "name": lazy_gettext("文件无法读取，请确认文件完好或尝试重新上传")
+        },
+        "IMAGE_PARSE_ALONE_ERROR": {
+            "name": lazy_gettext("图片读取失败，请稍后再试（1）")
+        },
+        "IMAGE_CAN_NOT_DOWNLOAD_FROM_OSS": {
+            "name": lazy_gettext("图片读取失败，请稍后再试（2）")
+        },
         "IMAGE_TOO_LARGE": {"name": lazy_gettext("图片超过 20MB 无法标记")},
-        "IMAGE_OCR_SERVER_DISCONNECT": {"name": lazy_gettext("自动标记服务离线，请稍后再试")},
+        "IMAGE_OCR_SERVER_DISCONNECT": {
+            "name": lazy_gettext("自动标记服务离线，请稍后再试")
+        },
     }
 
 
