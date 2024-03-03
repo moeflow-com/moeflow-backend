@@ -14,6 +14,7 @@ from . import SyncResult
 from celery.utils.log import get_task_logger
 from app.utils.labelplus import load_from_labelplus
 from app.constants.source import SourcePositionType
+from celery.result import AsyncResult
 
 logger = get_task_logger(__name__)
 
@@ -99,7 +100,7 @@ def import_from_labelplus_task(project_id):
     return f"成功：Project {project_id}"
 
 
-def import_from_labelplus(project_id, /, *, run_sync=False):
+def import_from_labelplus(project_id, /, *, run_sync=False) -> SyncResult | AsyncResult:
     alive_workers = celery.control.ping()
     if len(alive_workers) == 0 or run_sync:
         # 同步执行

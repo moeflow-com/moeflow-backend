@@ -1,7 +1,6 @@
 import os
 
 from celery import Celery
-from celery.signals import worker_shutting_down
 from flask import Flask, g, request
 from flask_apikit import APIKit
 from flask_babel import Babel
@@ -118,32 +117,21 @@ def create_app():
     return app
 
 
-CELERY_ABOUT_TO_SHUTDOWN_FLAG = "CELERY_ABOUT_TO_SHUTDOWN_FLAG"
-
-
-def delete_about_to_shutdown_flag():
-    try:
-        os.rmdir(CELERY_ABOUT_TO_SHUTDOWN_FLAG)
-    except Exception:
-        pass
-
-
-def create_celery():
-    delete_about_to_shutdown_flag()
+def create_celery() -> Celery:
     # 为celery创建app
     app = Flask(__name__)
     app.config.from_envvar(
         config_path_env
     )  # 获取配置文件,仅从环境变量读取,均需要配置环境变量
     # 通过app配置创建celery实例
-    celery = Celery(
+    created = Celery(
         app.name,
         broker=app.config["CELERY_BROKER_URL"],
         backend=app.config["CELERY_BACKEND_URL"],
         mongodb_backend_settings=app.config["CELERY_MONGODB_BACKEND_SETTINGS"],
     )
-    celery.conf.update({"app_config": app.config})
-    celery.autodiscover_tasks(
+    created.conf.update({"app_config": app.config})
+    created.autodiscover_tasks(
         packages=[
             "app.tasks.email",
             "app.tasks.file_parse",
@@ -155,32 +143,15 @@ def create_celery():
         ],
         related_name=None,
     )
-    celery.conf.task_routes = {
+    created.conf.task_routes = {
         "tasks.ocr_task": {"queue": "ocr"},
         "tasks.output_project_task": {"queue": "output"},
         "tasks.import_from_labelplus_task": {"queue": "output"},
     }
-    return celery
+    return created
 
 
 celery = create_celery()
-
-
-def create_about_to_shutdown_flag():
-    try:
-        os.mkdir(CELERY_ABOUT_TO_SHUTDOWN_FLAG)
-    except Exception:
-        pass
-
-
-@worker_shutting_down.connect
-def when_shutdown(**kwargs):
-    create_about_to_shutdown_flag()
-
-
-def about_to_shutdown():
-    """检测 Celery 是否将要关闭"""
-    return os.path.isdir(CELERY_ABOUT_TO_SHUTDOWN_FLAG)
 
 
 @babel.localeselector
