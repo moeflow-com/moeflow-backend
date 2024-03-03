@@ -128,7 +128,7 @@ def delete_about_to_shutdown_flag():
         pass
 
 
-def create_celery():
+def create_celery() -> Celery:
     delete_about_to_shutdown_flag()
     # 为celery创建app
     app = Flask(__name__)
@@ -136,14 +136,14 @@ def create_celery():
         config_path_env
     )  # 获取配置文件,仅从环境变量读取,均需要配置环境变量
     # 通过app配置创建celery实例
-    celery = Celery(
+    created = Celery(
         app.name,
         broker=app.config["CELERY_BROKER_URL"],
         backend=app.config["CELERY_BACKEND_URL"],
         mongodb_backend_settings=app.config["CELERY_MONGODB_BACKEND_SETTINGS"],
     )
-    celery.conf.update({"app_config": app.config})
-    celery.autodiscover_tasks(
+    created.conf.update({"app_config": app.config})
+    created.autodiscover_tasks(
         packages=[
             "app.tasks.email",
             "app.tasks.file_parse",
@@ -155,12 +155,12 @@ def create_celery():
         ],
         related_name=None,
     )
-    celery.conf.task_routes = {
+    created.conf.task_routes = {
         "tasks.ocr_task": {"queue": "ocr"},
         "tasks.output_project_task": {"queue": "output"},
         "tasks.import_from_labelplus_task": {"queue": "output"},
     }
-    return celery
+    return created
 
 
 celery = create_celery()
