@@ -4,6 +4,6 @@ line-length = 88
 indent-width = 4
 
 lint.external = ['F403']
-exclude = [
+extend-exclude = [
     "./tests"
 ]
