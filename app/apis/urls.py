@@ -246,7 +246,7 @@ project_set.add_url_rule(
     methods=["GET", "PUT", "DELETE", "OPTIONS"],
     view_func=ProjectSetAPI.as_view("team_project_set"),
 )
-# 术语库模块
+# 术语库模块 TODO: not used (yet?) in moeflow v1.1.0
 term_bank = Blueprint("term_bank", __name__, url_prefix=v1_prefix + "/term-banks")
 term_bank.add_url_rule(
     "/<term_bank_id>",
