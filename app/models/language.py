@@ -780,14 +780,14 @@ class Language(Document):
             logger.info("已存在语言表，跳过初始化")
             return
         sort = 0
-        for l in cls.SYSTEM_LANGUAGES_DATA:
+        for lang in cls.SYSTEM_LANGUAGES_DATA:
             cls(
-                en_name=l["en_name"],
-                lo_name=l["lo_name"],
-                no_space=l.get("no_space", False),
-                code=l["code"],
-                g_tra_code=l["g_tra_code"],
-                g_ocr_code=l["g_ocr_code"],
+                en_name=lang["en_name"],
+                lo_name=lang["lo_name"],
+                no_space=lang.get("no_space", False),
+                code=lang["code"],
+                g_tra_code=lang["g_tra_code"],
+                g_ocr_code=lang["g_ocr_code"],
                 sort=sort,
             ).save()
             sort += 1
