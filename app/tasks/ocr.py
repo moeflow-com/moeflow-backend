@@ -8,7 +8,7 @@ from typing import BinaryIO, List, Optional
 from uuid import uuid4
 
 import requests
-from app import celery, gs_vision, oss, about_to_shutdown
+from app import celery, gs_vision, oss
 from app.constants.file import FileType, ImageOCRPercent, ParseErrorType, ParseStatus
 from app.models import connect_db
 from app.tasks import SyncResult
@@ -416,6 +416,8 @@ class ErrorCounts:
 
 
 def merge_and_ocr(parsing_images, /, *, parse_alone=False):
+    if 2 > 1:
+        raise NotImplementedError("OCR under reconstruction")
     if not parsing_images:
         return
     oss_file_prefix = celery.conf.app_config["OSS_FILE_PREFIX"]
@@ -532,8 +534,6 @@ def merge_and_ocr(parsing_images, /, *, parse_alone=False):
                     parse_error_type=ParseErrorType.IMAGE_OCR_SERVER_DISCONNECT,
                 )
             continue
-        if about_to_shutdown() is True:
-            raise AboutToShutdownError
         for image_data in merged_images_data:
             image = image_data["image"]
             image.update(image_ocr_percent=ImageOCRPercent.LABELING)

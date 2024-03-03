@@ -1,7 +1,6 @@
 import os
 
 from celery import Celery
-from celery.signals import worker_shutting_down
 from flask import Flask, g, request
 from flask_apikit import APIKit
 from flask_babel import Babel
@@ -118,18 +117,7 @@ def create_app():
     return app
 
 
-CELERY_ABOUT_TO_SHUTDOWN_FLAG = "CELERY_ABOUT_TO_SHUTDOWN_FLAG"
-
-
-def delete_about_to_shutdown_flag():
-    try:
-        os.rmdir(CELERY_ABOUT_TO_SHUTDOWN_FLAG)
-    except Exception:
-        pass
-
-
 def create_celery() -> Celery:
-    delete_about_to_shutdown_flag()
     # 为celery创建app
     app = Flask(__name__)
     app.config.from_envvar(
@@ -164,23 +152,6 @@ def create_celery() -> Celery:
 
 
 celery = create_celery()
-
-
-def create_about_to_shutdown_flag():
-    try:
-        os.mkdir(CELERY_ABOUT_TO_SHUTDOWN_FLAG)
-    except Exception:
-        pass
-
-
-@worker_shutting_down.connect
-def when_shutdown(**kwargs):
-    create_about_to_shutdown_flag()
-
-
-def about_to_shutdown():
-    """检测 Celery 是否将要关闭"""
-    return os.path.isdir(CELERY_ABOUT_TO_SHUTDOWN_FLAG)
 
 
 @babel.localeselector
