@@ -59,7 +59,7 @@ class Target(Document):
             file.create_target_cache(target)
         return target
 
-    def outputs(self):
+    def outputs(self) -> list[Output]:
         """所有导出"""
         outputs = Output.objects(project=self.project, target=self).order_by(
             "-create_time"
