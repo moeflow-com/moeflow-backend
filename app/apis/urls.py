@@ -457,3 +457,16 @@ admin.add_url_rule(
     methods=["GET", "OPTIONS"],
     view_func=AdminVCodeListAPI.as_view("admin_v_code_list"),
 )
+
+# temp
+temp = Blueprint("temp", __name__, url_prefix=v1_prefix + "/temp")
+temp.add_url_rule(
+    '/mit_preprocess',
+    methods=['POST', 'OPTIONS'],
+    view_func=SiteSettingAPI.as_view("temp_mit_preprocess_tasks")
+)
+temp.add_url_rule(
+    '/mit_preprocess/<task_id>',
+    methods=['GET', 'OPTIONS'],
+    view_func=SiteSettingAPI.as_view("temp_mit_preprocess_task")
+)
