@@ -34,6 +34,6 @@ async def wait_result(task_id: str, timeout: int = 10) -> Awaitable[Any]:
     while not result.ready():
         if (datetime.datetime.now().timestamp() - start) > timeout:
             result.forget()
-            return None  # type: ignore
+            raise TimeoutError
         await asyncio.sleep(0.5e3)
     return result.get()  # type: ignore
