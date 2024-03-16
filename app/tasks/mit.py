@@ -94,18 +94,18 @@ def _preprocess_mit(image_path: str, target_lang: str):
         _run_mit_translate(t["text"], target_lang=target_lang) for t in ocred
     ]
     quads = [
-        MitTextQuad(
-            pts=t["pts"],
-            raw_text=t["text"],
-            translated=translated_texts[i],
-        )
+        {
+            "pts": t["pts"],
+            "raw_text": t["text"],
+            "translated": translated_texts[i],
+        }
         for i, t in enumerate(ocred)
     ]
-    return MitPreprocessedImage(
-        image_path=image_path,
-        target_lang=target_lang,
-        text_quads=quads,
-    )
+    return {
+        "image_path": image_path,
+        "target_lang": target_lang,
+        "text_quads": quads,
+    }
 
 
 @dataclass(frozen=True)
@@ -114,12 +114,42 @@ class MitTextQuad:
     raw_text: str
     translated: str
 
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "pts": self.pts,
+            "raw_text": self.raw_text,
+            "translated": self.translated,
+        }
+
+    @classmethod
+    def from_dict(cls, d: dict[str, Any]) -> "MitTextQuad":
+        return cls(
+            pts=d["pts"],
+            raw_text=d["raw_text"],
+            translated=d["translated"],
+        )
+
 
 @dataclass(frozen=True)
 class MitPreprocessedImage:
     image_path: str
     target_lang: str
     text_quads: list[MitTextQuad]
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "image_path": self.image_path,
+            "target_lang": self.target_lang,
+            "text_quads": [t.to_dict() for t in self.text_quads],
+        }
+
+    @classmethod
+    def from_dict(cls, d: dict[str, Any]) -> "MitPreprocessedImage":
+        return cls(
+            image_path=d["image_path"],
+            target_lang=d["target_lang"],
+            text_quads=[MitTextQuad.from_dict(t) for t in d["text_quads"]],
+        )
 
 
 # export tasks with a better type

@@ -1,4 +1,5 @@
 import os
+import re
 
 import click
 
@@ -85,20 +86,39 @@ def local(action):
         )
 
 
-@click.command("poc-mit")
-def dummy_call_mit():
-    from app.tasks.mit import preprocess_mit
+@click.command("mit_file")
+@click.option("--file", help="path to image file")
+def mit_preprocess_file(file: str):
+    from app.tasks.mit import preprocess_mit, MitPreprocessedImage
 
-    sample_img = "/var/lib/moeflow-storage/bj001-112.png"
+    proprocessed = preprocess_mit.delay(file, "CHT")
+    proprocessed_result: dict = proprocessed.get()
 
-    proprocessed = preprocess_mit.delay(sample_img, "CHT")
-    print('proprocessed', proprocessed.get())
+    print("proprocessed", proprocessed_result)
+    print("proprocessed", MitPreprocessedImage.from_dict(proprocessed_result))
+
+
+@click.command("mit_dir")
+@click.option("--dir", help="absolute path to a dir containing image files")
+def mit_preprocess_dir(dir: str):
+    from app.tasks.mit import preprocess_mit, MitPreprocessedImage
+
+    for file in os.listdir(dir):
+        if not re.match(r".*\.(jpg|png|jpeg)$", file):
+            continue
+        full_path = os.path.join(dir, file)
+        proprocessed = preprocess_mit.delay(full_path, "CHT")
+        proprocessed_result: dict = proprocessed.get()
+
+        print("proprocessed", proprocessed_result)
+        print("proprocessed", MitPreprocessedImage.from_dict(proprocessed_result))
 
 
 main.add_command(run)
 main.add_command(local)
 main.add_command(docs)
-main.add_command(dummy_call_mit)
+main.add_command(mit_preprocess_file)
+main.add_command(mit_preprocess_dir)
 
 
 if __name__ == "__main__":
