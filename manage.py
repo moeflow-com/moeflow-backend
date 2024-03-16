@@ -3,6 +3,7 @@ import os
 import click
 
 from app import create_app
+from celery.result import AsyncResult
 import logging
 
 logger = logging.Logger(__name__)
@@ -84,30 +85,20 @@ def local(action):
         )
 
 
-@click.command("poc-mit-text")
-def dummy_call_mit_text():
-    from app.tasks.mit import mit_detection
+@click.command("poc-mit")
+def dummy_call_mit():
+    from app.tasks.mit import preprocess_mit
 
-    run = mit_detection.delay(
-        "/var/lib/moeflow-storage/bj001-112.png",
-        detector_key="default",
-        # mostly defaults from manga-image-translator/args.py
-        detect_size=2560,
-        text_threshold=0.5,
-        box_threshold=0.7,
-        unclip_ratio=2.3,
-        invert=False,
-        gamma_correct=False,
-        rotate=False,
-        verbose=True,
-    )
-    logger.info("finished: %s", run.get())
+    sample_img = "/var/lib/moeflow-storage/bj001-112.png"
+
+    proprocessed = preprocess_mit.delay(sample_img, "CHT")
+    print('proprocessed', proprocessed.get())
 
 
 main.add_command(run)
 main.add_command(local)
 main.add_command(docs)
-main.add_command(dummy_call_mit_text)
+main.add_command(dummy_call_mit)
 
 
 if __name__ == "__main__":
