@@ -16,3 +16,4 @@ jobs:
         cache: 'pip'
     - run: pip install -r requirements.txt
     - run: ruff .
+    - run: ruff format --diff .

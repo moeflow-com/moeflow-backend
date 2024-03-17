@@ -32,3 +32,4 @@ click==7.0                        # 命令行工具
 google-cloud-storage==1.33.0
 pipdeptree==2.13.2                # 將pip包 freeze成樹狀txt 方便查看
 ruff
+asgiref==3.7.2
