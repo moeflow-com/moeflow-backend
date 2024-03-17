@@ -3,10 +3,9 @@ Text segmentation + OCR using manga-image-translator
 """
 
 from dataclasses import dataclass
-from typing import Any, Awaitable, Optional
+from typing import Any
 from app import celery as celery_app
-from app.tasks import queue_task, wait_result
-from celery import Task, chain
+from celery import Task
 from celery.result import AsyncResult
 from app.utils.logging import logger
 

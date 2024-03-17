@@ -9,10 +9,11 @@ flower --port=5555 --broker=redis://localhost:6379/1
 
 import asyncio
 import datetime
-from typing import Any, Awaitable
+from typing import Any
 from celery import Task
 from celery.result import AsyncResult
 from app import celery as celery_app
+from asgiref.sync import async_to_sync
 
 
 class SyncResult:
@@ -27,7 +28,8 @@ def queue_task(task: Task, *args, **kwargs) -> str:
     return result.id
 
 
-async def wait_result(task_id: str, timeout: int = 10) -> Awaitable[Any]:
+@async_to_sync
+async def wait_result(task_id: str, timeout: int = 10) -> Any:
     start = datetime.datetime.now().timestamp()
     result = AsyncResult(id=task_id, app=celery_app)
     while not result.ready():
