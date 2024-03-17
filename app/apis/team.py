@@ -342,6 +342,7 @@ class TeamProjectImportAPI(MoeAPIView):
     """
     Create new Project in current ProjectSet/Team, from exported Project JSON
     """
+
     @token_required
     @fetch_model(Team)
     @fetch_model(ProjectSet)
