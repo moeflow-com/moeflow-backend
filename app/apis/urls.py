@@ -461,12 +461,12 @@ admin.add_url_rule(
 # temp
 temp = Blueprint("temp", __name__, url_prefix=v1_prefix + "/temp")
 temp.add_url_rule(
-    '/mit_preprocess',
-    methods=['POST', 'OPTIONS'],
-    view_func=SiteSettingAPI.as_view("temp_mit_preprocess_tasks")
+    "/mit_preprocess",
+    methods=["POST", "OPTIONS"],
+    view_func=SiteSettingAPI.as_view("temp_mit_preprocess_tasks"),
 )
 temp.add_url_rule(
-    '/mit_preprocess/<task_id>',
-    methods=['GET', 'OPTIONS'],
-    view_func=SiteSettingAPI.as_view("temp_mit_preprocess_task")
+    "/mit_preprocess/<task_id>",
+    methods=["GET", "OPTIONS"],
+    view_func=SiteSettingAPI.as_view("temp_mit_preprocess_task"),
 )

@@ -108,10 +108,13 @@ def mit_preprocess_dir(dir: str):
             continue
         full_path = os.path.join(dir, file)
         proprocessed = preprocess_mit.delay(full_path, "CHT")
-        proprocessed_result: dict = proprocessed.get()
+        proprocessed_result = MitPreprocessedImage.from_dict(proprocessed.get())
 
         print("proprocessed", proprocessed_result)
-        print("proprocessed", MitPreprocessedImage.from_dict(proprocessed_result))
+        for q in proprocessed_result.text_quads:
+            print("text block", q.pts)
+            print("  ", q.raw_text)
+            print("  ", q.translated)
 
 
 main.add_command(run)

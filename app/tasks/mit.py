@@ -83,7 +83,7 @@ def _run_mit_translate(
 
     result: str = t.get(disable_sync_subtasks=False)
     logger.info("translated %s %s", text, result)
-    return result
+    return result[0]
 
 
 @celery_app.task(name="tasks.preprocess_mit")
