@@ -68,6 +68,9 @@ from app.apis.v_code import (
 )
 from app.apis.language import LanguageListAPI
 from app.apis.target import TargetAPI
+from app.apis.mit_preprocess import (
+    MitPreprocessTaskApi
+)
 
 v1_prefix = "/v1"
 # api主页
@@ -459,14 +462,14 @@ admin.add_url_rule(
 )
 
 # temp
-temp = Blueprint("temp", __name__, url_prefix=v1_prefix + "/temp")
-temp.add_url_rule(
-    "/mit_preprocess",
+mit = Blueprint("manga-image-translator", __name__, url_prefix=v1_prefix + "/mit")
+mit.add_url_rule(
+    "/preprocess/tasks",
     methods=["POST", "OPTIONS"],
-    view_func=SiteSettingAPI.as_view("temp_mit_preprocess_tasks"),
+    view_func=MitPreprocessTaskApi.as_view("mit_preprocess_tasks"),
 )
-temp.add_url_rule(
-    "/mit_preprocess/<task_id>",
+mit.add_url_rule(
+    "/preprocess/tasks/<task_id>",
     methods=["GET", "OPTIONS"],
-    view_func=SiteSettingAPI.as_view("temp_mit_preprocess_task"),
+    view_func=MitPreprocessTaskApi.as_view("mit_preprocess_task"),
 )

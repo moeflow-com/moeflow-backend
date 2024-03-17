@@ -7,7 +7,6 @@ export CONFIG_PATH="../configs/dev.py" && celery -A app.celery worker --loglevel
 flower --port=5555 --broker=redis://localhost:6379/1
 """
 
-
 import asyncio
 import datetime
 from typing import Any, Awaitable
