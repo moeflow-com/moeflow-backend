@@ -5,7 +5,7 @@ from flask import current_app, request
 from app.exceptions.base import UploadFileNotFoundError, FileTypeNotSupportError
 from app.utils.logging import logger
 from app.tasks.mit import preprocess_mit
-from app.tasks import queue_task, wait_result
+from app.tasks import queue_task, wait_result_sync
 from werkzeug.datastructures import FileStorage
 from tempfile import NamedTemporaryFile
 import os
@@ -30,14 +30,19 @@ class MitPreprocessTaskApi(MoeAPIView):
 
     def get(self, task_id: str):
         try:
-            result = wait_result(task_id, timeout=1)
+            result = wait_result_sync(task_id, timeout=1)
             return {
                 'id': task_id,
-                'status': 'done',
+                'status': 'success',
                 'result': result
             }
         except TimeoutError:
             return {
                 'id': task_id,
-                'status': 'running',
+                'status': 'pending',
+            }
+        except:
+            return {
+                'id': task_id,
+                'status': 'fail',
             }

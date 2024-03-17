@@ -12,6 +12,7 @@ import datetime
 from typing import Any
 from celery import Task
 from celery.result import AsyncResult
+from celery.exceptions import TimeoutError as CeleryTimeoutError
 from app import celery as celery_app
 from asgiref.sync import async_to_sync
 
@@ -26,6 +27,14 @@ def queue_task(task: Task, *args, **kwargs) -> str:
     result = task.delay(*args, **kwargs)
     result.forget()
     return result.id
+
+
+def wait_result_sync(task_id: str, timeout: int = 10) -> Any:
+    result = AsyncResult(id=task_id, app=celery_app)
+    try:
+        return result.get(timeout=timeout)
+    except CeleryTimeoutError:
+        raise TimeoutError
 
 
 @async_to_sync
