@@ -68,6 +68,9 @@ from app.apis.v_code import (
 )
 from app.apis.language import LanguageListAPI
 from app.apis.target import TargetAPI
+from app.apis.mit_preprocess import (
+    MitPreprocessTaskApi
+)
 
 v1_prefix = "/v1"
 # api主页
@@ -246,7 +249,7 @@ project_set.add_url_rule(
     methods=["GET", "PUT", "DELETE", "OPTIONS"],
     view_func=ProjectSetAPI.as_view("team_project_set"),
 )
-# 术语库模块
+# 术语库模块 TODO: not used (yet?) in moeflow v1.1.0
 term_bank = Blueprint("term_bank", __name__, url_prefix=v1_prefix + "/term-banks")
 term_bank.add_url_rule(
     "/<term_bank_id>",
@@ -456,4 +459,17 @@ admin.add_url_rule(
     "/v-codes",
     methods=["GET", "OPTIONS"],
     view_func=AdminVCodeListAPI.as_view("admin_v_code_list"),
+)
+
+# temp
+mit = Blueprint("manga-image-translator", __name__, url_prefix=v1_prefix + "/mit")
+mit.add_url_rule(
+    "/preprocess/tasks",
+    methods=["POST", "OPTIONS"],
+    view_func=MitPreprocessTaskApi.as_view("mit_preprocess_tasks"),
+)
+mit.add_url_rule(
+    "/preprocess/tasks/<task_id>",
+    methods=["GET", "OPTIONS"],
+    view_func=MitPreprocessTaskApi.as_view("mit_preprocess_task"),
 )
