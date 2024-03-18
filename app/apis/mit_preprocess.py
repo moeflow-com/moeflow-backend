@@ -11,7 +11,7 @@ from tempfile import NamedTemporaryFile
 import os
 
 
-tmpfile_prefix = "/var/lib/moeflow-storage"
+tmpfile_prefix = "/var/lib/moeflow-storage/mit-temp"
 
 
 class MitPreprocessTaskApi(MoeAPIView):
