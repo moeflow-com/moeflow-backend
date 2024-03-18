@@ -1,15 +1,13 @@
 # Translation preprocess API backed by manga-image-translator worker
 from app.core.views import MoeAPIView
-from flask import current_app, request
+from flask import request
 
-from app.exceptions.base import UploadFileNotFoundError, FileTypeNotSupportError
-from app.utils.logging import logger
+from app.exceptions.base import UploadFileNotFoundError
 from app.tasks.mit import preprocess_mit
 from app.tasks import queue_task, wait_result_sync
 from werkzeug.datastructures import FileStorage
 from tempfile import NamedTemporaryFile
 import os
-
 
 tmpfile_prefix = "/var/lib/moeflow-storage/mit-temp"
 
@@ -41,8 +39,9 @@ class MitPreprocessTaskApi(MoeAPIView):
                 'id': task_id,
                 'status': 'pending',
             }
-        except:
+        except Exception as e:
             return {
                 'id': task_id,
                 'status': 'fail',
+                'message': str(e)
             }
