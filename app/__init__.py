@@ -12,7 +12,12 @@ from app.services.oss import OSS
 from app.utils.logging import configure_logger, logger
 
 from .apis import register_apis
-import app.config as app_config
+import app.config as _app_config
+
+app_config = {
+    k: getattr(_app_config, k)
+    for k in dir(_app_config) if not k.startswith("_")
+}
 
 # 基本路径
 APP_PATH = os.path.abspath(os.path.dirname(__file__))
