@@ -90,6 +90,18 @@ def create_app():
     connect_db(app.config)
     # 注册api蓝本
     register_apis(app)
+    # 初始化插件
+    babel.init_app(app)
+    apikit.init_app(app)
+
+    logger.info("-" * 50)
+    logger.info("站点支持语言: " + str([str(i) for i in babel.list_translations()]))
+    oss.init(app.config)  # 文件储存
+
+    return app
+
+
+def init_db(app: Flask):
     # 初始化角色，语言
     from app.models.language import Language
     from app.models.project import ProjectRole
@@ -100,21 +112,8 @@ def create_app():
     ProjectRole.init_system_roles()
     Language.init_system_languages()
     SiteSetting.init_site_setting()
-    # 初始化插件
-    babel.init_app(app)
-    apikit.init_app(app)
-
-    logger.info("-" * 50)
-    logger.info("站点支持语言: " + str([str(i) for i in babel.list_translations()]))
-    oss.init(app.config)  # 文件储存
-
     admin_user = create_or_override_default_admin(app)
     create_default_team(admin_user)
-
-    # from app.tasks.ocr import recover_ocr_tasks
-
-    # recover_ocr_tasks()
-    return app
 
 
 def create_celery() -> Celery:
