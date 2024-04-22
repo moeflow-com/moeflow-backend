@@ -1,6 +1,7 @@
 """
 所有的API编写在此
 """
+
 from flask import Blueprint, Flask
 
 from app.utils.logging import logger

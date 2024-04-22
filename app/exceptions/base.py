@@ -2,6 +2,7 @@
 """
 基础错误1-99为flask-apikit预留的错误code
 """
+
 from flask_apikit.exceptions import APIError
 from flask_babel import lazy_gettext
 

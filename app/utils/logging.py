@@ -3,6 +3,7 @@
 from app.utils.logging import logger
 使用 logger 记录即可
 """
+
 import os
 import logging
 from logging.handlers import SMTPHandler

@@ -15,8 +15,7 @@ from .apis import register_apis
 import app.config as _app_config
 
 app_config = {
-    k: getattr(_app_config, k)
-    for k in dir(_app_config) if not k.startswith("_")
+    k: getattr(_app_config, k) for k in dir(_app_config) if not k.startswith("_")
 }
 
 # 基本路径
