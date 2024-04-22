@@ -1,7 +1,6 @@
 import os
-
+import re
 import click
-
 import logging
 
 from app import create_app, init_db

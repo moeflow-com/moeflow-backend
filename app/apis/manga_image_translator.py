@@ -3,7 +3,7 @@ from app.core.views import MoeAPIView
 from flask import request
 
 from app.exceptions.base import UploadFileNotFoundError
-from app.tasks.mit import preprocess_mit, mit_ocr, mit_detect_text, mit_translate
+from app.tasks.mit import mit_ocr, mit_detect_text, mit_translate
 from app.tasks import queue_task, wait_result_sync
 from app import app_config
 from werkzeug.datastructures import FileStorage
