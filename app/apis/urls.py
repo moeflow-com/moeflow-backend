@@ -68,6 +68,8 @@ from app.apis.v_code import (
 )
 from app.apis.language import LanguageListAPI
 from app.apis.target import TargetAPI
+from app.apis.manga_image_translator import MitImageApi, MitImageTaskApi, MitTranslateTaskApi
+from app import app_config
 
 v1_prefix = "/v1"
 # api主页
@@ -246,7 +248,7 @@ project_set.add_url_rule(
     methods=["GET", "PUT", "DELETE", "OPTIONS"],
     view_func=ProjectSetAPI.as_view("team_project_set"),
 )
-# 术语库模块
+# 术语库模块 TODO: not used (yet?) in moeflow v1.1.0
 term_bank = Blueprint("term_bank", __name__, url_prefix=v1_prefix + "/term-banks")
 term_bank.add_url_rule(
     "/<term_bank_id>",
@@ -457,3 +459,31 @@ admin.add_url_rule(
     methods=["GET", "OPTIONS"],
     view_func=AdminVCodeListAPI.as_view("admin_v_code_list"),
 )
+
+if "MIT_STORAGE_ROOT" in app_config:
+    mit = Blueprint("manga-image-translator", __name__, url_prefix=v1_prefix + "/mit")
+    mit.add_url_rule(
+        '/images',
+        methods=['POST', 'OPTIONS'],
+        view_func=MitImageApi.as_view('mit_images')
+    )
+    mit.add_url_rule(
+        "/image-tasks",
+        methods=["POST", "OPTIONS"],
+        view_func=MitImageTaskApi.as_view("mit_image_tasks"),
+    )
+    mit.add_url_rule(
+        "/image-tasks/<task_id>",
+        methods=["GET", "OPTIONS"],
+        view_func=MitImageTaskApi.as_view("mit_image_tasks"),
+    )
+    mit.add_url_rule(
+        "/translate-tasks",
+        methods=["POST", "OPTIONS"],
+        view_func=MitTranslateTaskApi.as_view("mit_translate_tasks"),
+    )
+    mit.add_url_rule(
+        "/translate-tasks/<task_id>",
+        methods=["GET", "OPTIONS"],
+        view_func=MitTranslateTaskApi.as_view("mit_translate_tasks"),
+    )
