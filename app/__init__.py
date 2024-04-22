@@ -12,6 +12,7 @@ from app.services.oss import OSS
 from app.utils.logging import configure_logger, logger
 
 from .apis import register_apis
+import app.config as app_config
 
 # 基本路径
 APP_PATH = os.path.abspath(os.path.dirname(__file__))
@@ -77,13 +78,10 @@ def create_or_override_default_admin(app):
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_envvar(
-        config_path_env
-    )  # 获取配置文件,仅从环境变量读取,均需要配置环境变量
+    app.config.from_mapping(app_config)
     configure_logger(app)  # 配置日志记录(放在最前,会被下面调用)
 
     logger.info("-" * 50)
-    logger.info("使用配置文件: {}".format(os.environ.get(config_path_env)))
     # 连接数据库
     from app.models import connect_db
 
@@ -120,9 +118,7 @@ def create_app():
 def create_celery() -> Celery:
     # 为celery创建app
     app = Flask(__name__)
-    app.config.from_envvar(
-        config_path_env
-    )  # 获取配置文件,仅从环境变量读取,均需要配置环境变量
+    app.config.from_mapping(app_config)
     # 通过app配置创建celery实例
     created = Celery(
         app.name,
