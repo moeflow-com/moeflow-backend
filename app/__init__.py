@@ -142,11 +142,16 @@ def create_celery() -> Celery:
         ],
         related_name=None,
     )
-    created.conf.task_routes = {
-        "tasks.ocr_task": {"queue": "ocr"},
-        "tasks.output_project_task": {"queue": "output"},
-        "tasks.import_from_labelplus_task": {"queue": "output"},
-    }
+    created.conf.task_routes = (
+        [
+            # TODO 'output' should be named better.
+            #  its original purpose was cpu-intensive jobs that may block light ones.
+            ("tasks.output_project_task", {"queue": "output"}),
+            ("tasks.import_from_labelplus_task", {"queue": "output"}),
+            ("tasks.mit.*", {"queue": "mit"}),
+            ("*", {"queue": "default"}),  # default queue for all other tasks
+        ],
+    )
     return created
 
 
