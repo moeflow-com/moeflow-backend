@@ -130,3 +130,5 @@ APIKIT_ACCESS_CONTROL_ALLOW_HEADERS = [
     "Content-Type",
     "X-Requested-With",
 ]
+# manga-image-translator worker
+MIT_STORAGE_ROOT = env.get("MIT_STORAGE_ROOT", None)
