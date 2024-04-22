@@ -4,16 +4,17 @@ import click
 
 import logging
 
+from app import create_app, init_db
+
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s %(levelname)s %(name)s %(message)s', datefmt='%Y-%m-%dT%H:%M:%S%z',
-    force=True
+    format="%(asctime)s %(levelname)s %(name)s %(message)s",
+    datefmt="%Y-%m-%dT%H:%M:%S%z",
+    force=True,
 )
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
-
-from app import create_app, init_db
 
 
 @click.group()
