@@ -1,6 +1,7 @@
 """
 关于用户的API
 """
+
 from flask_babel import gettext
 
 from app.core.responses import MoePagination

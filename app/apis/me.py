@@ -1,6 +1,7 @@
 """
 关于用户个人的API
 """
+
 from flask import request
 
 from app.core.responses import MoePagination

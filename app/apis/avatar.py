@@ -1,6 +1,7 @@
 """
 关于用户个人的API
 """
+
 from bson import ObjectId
 from flask import current_app, request
 

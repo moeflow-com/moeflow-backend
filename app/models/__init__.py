@@ -1,6 +1,7 @@
 """
 模型
 """
+
 from mongoengine import connect
 
 from app.utils.logging import logger
