@@ -2,7 +2,19 @@ import os
 
 import click
 
-from app import create_app
+import logging
+
+from app import create_app, init_db
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(name)s %(message)s",
+    datefmt="%Y-%m-%dT%H:%M:%S%z",
+    force=True,
+)
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
 
 @click.group()
@@ -19,12 +31,12 @@ def docs():
 
 
 @click.command()
-def run():
+def migrate():
     """
-    运行开发服务器
+    Initialize the database
     """
     app = create_app()
-    app.run(host="0.0.0.0", port=5001)
+    init_db(app)
 
 
 @click.command()
@@ -79,9 +91,9 @@ def local(action):
         )
 
 
-main.add_command(run)
 main.add_command(local)
 main.add_command(docs)
+main.add_command(migrate)
 
 if __name__ == "__main__":
     main()
