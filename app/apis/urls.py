@@ -470,20 +470,20 @@ if "MIT_STORAGE_ROOT" in app_config:
     mit.add_url_rule(
         "/image-tasks",
         methods=["POST", "OPTIONS"],
-        view_func=MitImageTaskApi.as_view("mit_image_tasks"),
+        view_func=MitImageTaskApi.as_view("mit_image_tasks_create"),
     )
     mit.add_url_rule(
         "/image-tasks/<task_id>",
         methods=["GET", "OPTIONS"],
-        view_func=MitImageTaskApi.as_view("mit_image_tasks"),
+        view_func=MitImageTaskApi.as_view("mit_image_tasks_query"),
     )
     mit.add_url_rule(
         "/translate-tasks",
         methods=["POST", "OPTIONS"],
-        view_func=MitTranslateTaskApi.as_view("mit_translate_tasks"),
+        view_func=MitTranslateTaskApi.as_view("mit_translate_tasks_create"),
     )
     mit.add_url_rule(
         "/translate-tasks/<task_id>",
         methods=["GET", "OPTIONS"],
-        view_func=MitTranslateTaskApi.as_view("mit_translate_tasks"),
+        view_func=MitTranslateTaskApi.as_view("mit_translate_tasks_query"),
     )
