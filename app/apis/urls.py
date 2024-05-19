@@ -68,7 +68,11 @@ from app.apis.v_code import (
 )
 from app.apis.language import LanguageListAPI
 from app.apis.target import TargetAPI
-from app.apis.manga_image_translator import MitImageApi, MitImageTaskApi, MitTranslateTaskApi
+from app.apis.manga_image_translator import (
+    MitImageApi,
+    MitImageTaskApi,
+    MitTranslateTaskApi,
+)
 from app import app_config
 
 v1_prefix = "/v1"
@@ -460,12 +464,12 @@ admin.add_url_rule(
     view_func=AdminVCodeListAPI.as_view("admin_v_code_list"),
 )
 
-if "MIT_STORAGE_ROOT" in app_config:
+if app_config["MIT_STORAGE_ROOT"]:
     mit = Blueprint("manga-image-translator", __name__, url_prefix=v1_prefix + "/mit")
     mit.add_url_rule(
-        '/images',
-        methods=['POST', 'OPTIONS'],
-        view_func=MitImageApi.as_view('mit_images')
+        "/images",
+        methods=["POST", "OPTIONS"],
+        view_func=MitImageApi.as_view("mit_image_upload"),
     )
     mit.add_url_rule(
         "/image-tasks",

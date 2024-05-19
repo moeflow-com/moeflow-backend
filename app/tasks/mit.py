@@ -35,19 +35,28 @@ def _mit_inpaint(path_or_url: str, **kwargs):
     pass
 
 
+def to_dict(**kwargs) -> dict[str, Any]:
+    return kwargs
+
+
+mit_detect_text_default_params = to_dict(
+    detector_key="default",
+    # mostly defaults from manga-image-translator/args.py
+    detect_size=2560,
+    text_threshold=0.5,
+    box_threshold=0.7,
+    unclip_ratio=2.3,
+    invert=False,
+    gamma_correct=False,
+    rotate=False,
+    verbose=True,
+)
+
+
 def _run_mit_detect_text(image_path: str) -> dict:
     detect_text: AsyncResult = mit_detect_text.delay(
         image_path,
-        detector_key="default",
-        # mostly defaults from manga-image-translator/args.py
-        detect_size=2560,
-        text_threshold=0.5,
-        box_threshold=0.7,
-        unclip_ratio=2.3,
-        invert=False,
-        gamma_correct=False,
-        rotate=False,
-        verbose=True,
+        **mit_detect_text_default_params,
         **gpu_options,
     )
     # XXX unrecommended but should not cause dead lock
@@ -56,15 +65,20 @@ def _run_mit_detect_text(image_path: str) -> dict:
     return result
 
 
+mit_ocr_default_params = to_dict(
+    ocr_key="48px",  # recommended by rowland
+    # ocr_key="48px_ctc",
+    # ocr_key="mocr",  # XXX: mocr may have different output format
+    # use_mocr_merge=True,
+    verbose=True,
+)
+
+
 def _run_mit_ocr(image_path: str, regions: list[dict]) -> list[dict]:
     ocr: AsyncResult = mit_ocr.delay(
         image_path,
-        ocr_key="48px",  # recommended by rowland
-        # ocr_key="48px_ctc",
-        # ocr_key="mocr",  # XXX: mocr may have different output format
-        # use_mocr_merge=True,
         regions=regions,
-        verbose=True,
+        **mit_ocr_default_params,
         **gpu_options,
     )
     # XXX unrecommended but should not cause dead lock
