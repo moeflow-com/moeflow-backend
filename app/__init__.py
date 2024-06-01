@@ -139,6 +139,7 @@ def create_celery() -> Celery:
             "app.tasks.ocr",
             "app.tasks.import_from_labelplus",
             "app.tasks.thumbnail",
+            "app.tasks.mit",  # only included for completeness's sake. its impl is in other repo.
         ],
         related_name=None,
     )

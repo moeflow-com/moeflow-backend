@@ -112,8 +112,11 @@ EMAIL_ERROR_ADDRESS = env.get("EMAIL_ADDRESS", "")
 # -----------
 # Celery
 # -----------
-CELERY_BROKER_URL = f"amqp://{env['RABBITMQ_USER']}:{env['RABBITMQ_PASS']}@moeflow-rabbitmq:5672/{env['RABBITMQ_VHOST_NAME']}"
-CELERY_BACKEND_URL = DB_URI
+CELERY_BROKER_URL = env.get(
+    "CELERY_BROKER_URL",
+    f"amqp://{env['RABBITMQ_USER']}:{env['RABBITMQ_PASS']}@moeflow-rabbitmq:5672/{env['RABBITMQ_VHOST_NAME']}",
+)
+CELERY_BACKEND_URL = env.get("CELERY_BACKEND_URL", DB_URI)
 CELERY_MONGODB_BACKEND_SETTINGS = {
     "database": env["MONGODB_DB_NAME"],
     "taskmeta_collection": "celery_taskmeta",
