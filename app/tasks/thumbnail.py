@@ -18,7 +18,7 @@ logger = get_task_logger(__name__)
 
 
 @celery.task(name="tasks.create_thumbnail_task")
-def create_thumbnail_task(image_id):
+def create_thumbnail_task(image_id: str):
     """
     压缩整个项目
 
