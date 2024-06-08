@@ -60,19 +60,6 @@ def configure_logger(app):
     file_formatter = logging.Formatter(
         "[%(asctime)s %(pathname)s:%(lineno)d] (%(levelname)s) %(message)s"
     )
-    mail_formatter = logging.Formatter(
-        """
-        Message type:       %(levelname)s
-        Location:           %(pathname)s:%(lineno)d
-        Module:             %(module)s
-        Function:           %(funcName)s
-        Time:               %(asctime)s
-
-        Message:
-
-        %(message)s
-        """
-    )
 
     if app.config["DEBUG"]:
         # 控制台输出
@@ -111,22 +98,39 @@ def configure_logger(app):
 
         # === 邮件输出 ===
         if app.config["ENABLE_LOG_EMAIL"]:
-            mail_handler = SMTPSSLHandler(
-                (app.config["EMAIL_SMTP_HOST"], app.config["EMAIL_SMTP_PORT"]),
-                app.config["EMAIL_ADDRESS"],
-                app.config["EMAIL_ERROR_ADDRESS"],
-                "萌翻站点发生错误",
-                credentials=(
-                    app.config["EMAIL_ADDRESS"],
-                    app.config["EMAIL_PASSWORD"],
-                ),
-            )
-            mail_handler.setLevel(logging.ERROR)
-            mail_handler.setFormatter(mail_formatter)
-            logger.addHandler(mail_handler)
-            app.logger.addHandler(mail_handler)
+            _enable_email_log(app)
 
         logger.addHandler(stream_handler)
         logger.addHandler(file_handler)
         app.logger.addHandler(stream_handler)
         app.logger.addHandler(file_handler)
+
+
+def _enable_email_log(app: Flask):
+    mail_formatter = logging.Formatter(
+        """
+        Message type:       %(levelname)s
+        Location:           %(pathname)s:%(lineno)d
+        Module:             %(module)s
+        Function:           %(funcName)s
+        Time:               %(asctime)s
+
+        Message:
+
+        %(message)s
+        """
+    )
+    mail_handler = SMTPSSLHandler(
+        (app.config["EMAIL_SMTP_HOST"], app.config["EMAIL_SMTP_PORT"]),
+        app.config["EMAIL_ADDRESS"],
+        app.config["EMAIL_ERROR_ADDRESS"],
+        "萌翻站点发生错误",
+        credentials=(
+            app.config["EMAIL_ADDRESS"],
+            app.config["EMAIL_PASSWORD"],
+        ),
+    )
+    mail_handler.setLevel(logging.ERROR)
+    mail_handler.setFormatter(mail_formatter)
+    logger.addHandler(mail_handler)
+    app.logger.addHandler(mail_handler)
