@@ -19,7 +19,7 @@ from app.utils.logging import configure_root_logger, configure_extra_logs
 
 configure_root_logger()
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 # 基本路径
 APP_PATH = os.path.abspath(os.path.dirname(__file__))
@@ -37,9 +37,8 @@ def create_default_team(admin_user):
     from app.models.team import Team, TeamRole
     from app.models.site_setting import SiteSetting
 
-    logger.info("-" * 50)
     if Team.objects().count() == 0:
-        logger.info("已建立默认团队")
+        logger.debug("已建立默认团队")
         team = Team.create(
             name="默认团队",
             creator=admin_user,
@@ -53,7 +52,7 @@ def create_default_team(admin_user):
         site_setting.auto_join_team_ids = [team.id]
         site_setting.save()
     else:
-        logger.info("已有团队，跳过建立默认团队")
+        logger.debug("已有团队，跳过建立默认团队")
 
 
 def create_or_override_default_admin(app):
@@ -65,8 +64,7 @@ def create_or_override_default_admin(app):
         if admin_user.admin is False:
             admin_user.admin = True
             admin_user.save()
-            logger.info("-" * 50)
-            logger.info("已将 {} 设置为管理员".format(app.config["ADMIN_EMAIL"]))
+            logger.debug("已将 {} 设置为管理员".format(app.config["ADMIN_EMAIL"]))
     else:
         admin_user = User.create(
             name="Admin",
@@ -75,7 +73,7 @@ def create_or_override_default_admin(app):
         )
         admin_user.admin = True
         admin_user.save()
-        logger.info(
+        logger.debug(
             "已创建管理员 {}, 默认密码为 123123，请及时修改！".format(admin_user.email)
         )
     return admin_user

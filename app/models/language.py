@@ -1,9 +1,12 @@
+import logging
 from flask_babel import gettext
 from mongoengine import Document, BooleanField, StringField, IntField, QuerySet
 
 from app.exceptions.language import LanguageNotExistError
-from app.utils.logging import logger
 from typing import List, Any, Dict
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 
 class Language(Document):
@@ -775,9 +778,8 @@ class Language(Document):
     @classmethod
     def init_system_languages(cls) -> None:
         """初始化语言表"""
-        logger.info("-" * 50)
         if cls.objects.count() > 0:
-            logger.info("已存在语言表，跳过初始化")
+            logger.debug("已存在语言表，跳过初始化")
             return
         sort = 0
         for lang in cls.SYSTEM_LANGUAGES_DATA:
@@ -791,18 +793,18 @@ class Language(Document):
                 sort=sort,
             ).save()
             sort += 1
-        logger.info(f"初始化语言表，共添加{len(cls.SYSTEM_LANGUAGES_DATA)}种语言")
+        logger.debug(f"初始化语言表，共添加{len(cls.SYSTEM_LANGUAGES_DATA)}种语言")
 
     @classmethod
     def create(
-        cls,
-        code: str,
-        en_name: str,
-        lo_name: str,
-        no_space=False,
-        g_tra_code="",
-        g_ocr_code="",
-        sort=0,
+            cls,
+            code: str,
+            en_name: str,
+            lo_name: str,
+            no_space=False,
+            g_tra_code="",
+            g_ocr_code="",
+            sort=0,
     ) -> "Language":
         language = cls(
             en_name=en_name,

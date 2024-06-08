@@ -4,6 +4,7 @@
 """
 
 import datetime
+import logging
 from app.exceptions import UserNotExistError, CreatorCanNotLeaveError
 
 from flask_babel import gettext, lazy_gettext
@@ -28,9 +29,11 @@ from app.models.application import Application
 from app.models.invitation import Invitation
 from app.constants.base import IntType
 from app.constants.role import RoleType
-from app.utils.logging import logger
 from app.utils.mongo import mongo_order, mongo_slice
 from typing import List, Any, Type
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.WARN)
 
 
 class AllowApplyType(IntType):
@@ -292,7 +295,7 @@ class GroupMixin:
         return role
 
     def edit_role(
-        self: Document, id, name, level, permissions, operator=None, intro=""
+            self: Document, id, name, level, permissions, operator=None, intro=""
     ):
         """
         修改角色
@@ -540,12 +543,12 @@ class GroupMixin:
         self._default_role = role
 
     def roles(
-        self: Document,
-        type=RoleType.ALL,
-        without_creator=False,
-        skip=None,
-        limit=None,
-        order_by=None,
+            self: Document,
+            type=RoleType.ALL,
+            without_creator=False,
+            skip=None,
+            limit=None,
+            order_by=None,
     ) -> List[RoleMixin]:
         """
         获得所有角色
