@@ -1,22 +1,27 @@
 import os
+import logging
 
-from celery import Celery
 from flask import Flask, g, request
 from flask_apikit import APIKit
 from flask_babel import Babel
+
+from .factory import app_config, create_celery, init_flask_app
 
 from app.constants.locale import Locale
 from app.core.rbac import AllowApplyType, ApplicationCheckType
 from app.services.google_storage import GoogleStorage
 from app.services.oss import OSS
-from app.utils.logging import configure_logger, logger
+from app.utils.logging import configure_logger, configure_root_logger
 
 from .apis import register_apis
-import app.config as _app_config
 
-app_config = {
-    k: getattr(_app_config, k) for k in dir(_app_config) if not k.startswith("_")
-}
+# configure_root_logger('DEBUG')
+flask_app = init_flask_app(Flask(__name__))
+celery = create_celery(flask_app)
+configure_logger(flask_app)
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
 # 基本路径
 APP_PATH = os.path.abspath(os.path.dirname(__file__))
@@ -28,8 +33,6 @@ babel = Babel()
 oss = OSS()
 gs_vision = GoogleStorage()
 apikit = APIKit()
-
-config_path_env = "CONFIG_PATH"
 
 
 def create_default_team(admin_user):
@@ -81,18 +84,9 @@ def create_or_override_default_admin(app):
 
 
 def create_app():
-    app = Flask(__name__)
-    app.config.from_mapping(app_config)
-    configure_logger(app)  # 配置日志记录(放在最前,会被下面调用)
-
+    app = flask_app
     logger.info("-" * 50)
-    # 连接数据库
-    from app.models import connect_db
-
-    connect_db(app.config)
-    # 注册api蓝本
     register_apis(app)
-    # 初始化插件
     babel.init_app(app)
     apikit.init_app(app)
 
@@ -116,47 +110,6 @@ def init_db(app: Flask):
     SiteSetting.init_site_setting()
     admin_user = create_or_override_default_admin(app)
     create_default_team(admin_user)
-
-
-def create_celery() -> Celery:
-    # 为celery创建app
-    app = Flask(__name__)
-    app.config.from_mapping(app_config)
-    # 通过app配置创建celery实例
-    created = Celery(
-        app.name,
-        broker=app.config["CELERY_BROKER_URL"],
-        backend=app.config["CELERY_BACKEND_URL"],
-        **app.config["CELERY_BACKEND_SETTINGS"],
-    )
-    created.conf.update({"app_config": app.config})
-    created.autodiscover_tasks(
-        packages=[
-            "app.tasks.email",
-            "app.tasks.file_parse",
-            "app.tasks.output_team_projects",
-            "app.tasks.output_project",
-            "app.tasks.ocr",
-            "app.tasks.import_from_labelplus",
-            "app.tasks.thumbnail",
-            "app.tasks.mit",  # only included for completeness's sake. its impl is in other repo.
-        ],
-        related_name=None,
-    )
-    created.conf.task_routes = (
-        [
-            # TODO 'output' should be named better.
-            #  its original purpose was cpu-intensive jobs that may block light ones.
-            ("tasks.output_project_task", {"queue": "output"}),
-            ("tasks.import_from_labelplus_task", {"queue": "output"}),
-            ("tasks.mit.*", {"queue": "mit"}),
-            ("*", {"queue": "default"}),  # default queue for all other tasks
-        ],
-    )
-    return created
-
-
-celery = create_celery()
 
 
 @babel.localeselector

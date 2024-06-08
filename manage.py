@@ -3,7 +3,7 @@ import re
 import click
 import logging
 
-from app import create_app, init_db
+from app import flask_app, init_db
 
 logging.basicConfig(
     level=logging.INFO,
@@ -34,8 +34,7 @@ def migrate():
     """
     Initialize the database
     """
-    app = create_app()
-    init_db(app)
+    init_db(flask_app)
 
 
 @click.command()
