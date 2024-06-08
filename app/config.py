@@ -8,7 +8,6 @@ from os import environ as env
 # 基础设置
 # -----------
 SITE_NAME = env["SITE_NAME"]
-DOMAIN = env["DOMAIN"]
 SECRET_KEY = env["SECRET_KEY"]  # 必填 - 密钥
 DEBUG = False
 TESTING = False
@@ -45,7 +44,7 @@ STORAGE_TYPE = env["STORAGE_TYPE"]
 # 未设置自定义域名则填写阿里云提供的 OSS 域名，格式如：https://<your-bucket-name>.<oss-region>.aliyuncs.com/
 # 如果绑定了 CDN 来加速 OSS，则填写绑定在 CDN 的域名
 # 本地储存填写绑定到服务器的域名，需用 nginx 指向 storage 文件夹，格式如：https://<your-domain>.com/storage/
-STORAGE_DOMAIN = env.get("STORAGE_DOMAIN", "http://" + DOMAIN + "/storage/")
+STORAGE_DOMAIN = env["STORAGE_DOMAIN"]
 OSS_ACCESS_KEY_ID = env.get("OSS_ACCESS_KEY_ID", "")
 OSS_ACCESS_KEY_SECRET = env.get("OSS_ACCESS_KEY_SECRET", "")
 OSS_ENDPOINT = env.get("OSS_ENDPOINT", "")
