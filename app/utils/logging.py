@@ -56,7 +56,7 @@ _logger_configured = False
 def configure_root_logger(override: Optional[str] = None):
     global _logger_configured
     if _logger_configured:
-        return
+        raise AssertionError("configure_root_logger already executed")
     _logger_configured = True
     logging.debug(
         "configuring root logger %s %s",
