@@ -9,7 +9,7 @@ app_config = {
 }
 
 
-def init_flask_app(app: Flask) -> Flask:
+def create_flask_app(app: Flask) -> Flask:
     app.config.from_mapping(app_config)
     connect_db(app.config)
     # print("WTF", app.logger.level)

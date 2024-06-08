@@ -5,7 +5,7 @@ from flask import Flask, g, request
 from flask_apikit import APIKit
 from flask_babel import Babel
 
-from .factory import app_config, create_celery, init_flask_app
+from .factory import app_config, create_celery, create_flask_app
 
 from app.constants.locale import Locale
 from app.core.rbac import AllowApplyType, ApplicationCheckType
@@ -16,9 +16,9 @@ from app.utils.logging import configure_root_logger, configure_extra_logs
 from .apis import register_apis
 
 configure_root_logger()
-flask_app = init_flask_app(Flask(__name__))
-celery = create_celery(flask_app)
+flask_app = create_flask_app(Flask(__name__))
 configure_extra_logs(flask_app)
+celery = create_celery(flask_app)
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)

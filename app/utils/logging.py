@@ -92,10 +92,11 @@ def _enable_file_log(app: Flask):
     if not os.path.isdir(log_folder):
         os.makedirs(log_folder)
     file_handler = logging.FileHandler(log_path)
-    file_handler.setLevel(logging.WARNING)
+    # file_handler.setLevel(logging.DEBUG)
     file_handler.setFormatter(file_formatter)
     logger.addHandler(file_handler)
-    app.logger.addHandler(file_handler)
+    # app.logger.addHandler(file_handler)
+    # logger.info('enabled file log %s', log_path)
 
 
 def _enable_email_error_log(app: Flask):

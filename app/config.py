@@ -11,6 +11,8 @@ import urllib.parse as urlparse
 SITE_NAME = env["SITE_NAME"]
 SECRET_KEY = env["SECRET_KEY"]  # 必填 - 密钥
 LOG_LEVEL = env.get("LOG_LEVEL", "INFO")
+# DEPRECATED: please use modern container logging collector
+LOG_PATH = env.get('LOG_PATH')
 MAX_CONTENT_LENGTH = int(env.get("MAX_CONTENT_LENGTH_MB", 1024)) * 1024 * 1024
 ADMIN_EMAIL = env["ADMIN_EMAIL"]
 # -----------
