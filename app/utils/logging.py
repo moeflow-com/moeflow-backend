@@ -7,8 +7,10 @@ from app.utils.logging import logger
 import os
 import logging
 from logging.handlers import SMTPHandler
+from flask import Flask
+from typing import Optional
 
-logger = logging.Logger(__name__)
+logger = logging.getLogger(__name__)
 
 
 class SMTPSSLHandler(SMTPHandler):
@@ -47,6 +49,28 @@ class SMTPSSLHandler(SMTPHandler):
             self.handleError(record)
 
 
+_logger_configured = False
+
+
+def configure_root_logger(override: Optional[str] = None):
+    global _logger_configured
+    if _logger_configured:
+        return
+    _logger_configured = True
+    root_logger = logging.getLogger('root')
+    logging.error("configuring root logger %s %s", root_logger.level, root_logger.getEffectiveLevel())
+    level = override or os.environ.get('LOG_LEVEL')
+    if not level:
+        return
+    logging.basicConfig(
+        format="[%(asctime)s] (%(levelname)s) %(message)s",
+        # filename=None,
+        force=True,  # why the f is this required?
+        level=getattr(logging, level.upper())
+    )
+    logging.error("configured log level %s", level)
+
+
 def configure_logger(app):
     """
     通过app.config自动配置logger
@@ -54,6 +78,11 @@ def configure_logger(app):
     :param app:
     :return:
     """
+    if 'LOG_LEVEL' in os.environ:
+        configure_root_logger()
+        return
+    if _logger_configured:
+        return
     logger.setLevel(logging.DEBUG)
     # 各种格式
     stream_formatter = logging.Formatter("[%(asctime)s] (%(levelname)s) %(message)s")
