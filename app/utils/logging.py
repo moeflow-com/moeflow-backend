@@ -76,71 +76,31 @@ def configure_root_logger(override: Optional[str] = None):
     logging.debug("reset log level %s", level)
 
 
-def configure_logger(app):
-    """
-    通过app.config自动配置logger
+def configure_extra_logs(app: Flask):
+    if app.config.get("ENABLE_LOG_EMAIL"):
+        _enable_email_error_log(app)
+    if app.config.get("LOG_PATH"):
+        _enable_file_log(app)
 
-    :param app:
-    :return:
-    """
-    if "LOG_LEVEL" in os.environ:
-        configure_root_logger()
-        return
-    if _logger_configured:
-        return
-    logger.setLevel(logging.DEBUG)
-    # 各种格式
-    stream_formatter = logging.Formatter("[%(asctime)s] (%(levelname)s) %(message)s")
+
+def _enable_file_log(app: Flask):
     file_formatter = logging.Formatter(
         "[%(asctime)s %(pathname)s:%(lineno)d] (%(levelname)s) %(message)s"
     )
-
-    if app.config["DEBUG"]:
-        # 控制台输出
-        stream_handler = logging.StreamHandler()
-        # 如果测试只输出ERROR
-        if app.config["TESTING"]:
-            stream_handler.setLevel(logging.ERROR)
-        else:
-            stream_handler.setLevel(logging.DEBUG)
-        stream_handler.setFormatter(stream_formatter)  # 格式设置
-        # 附加到logger
-        logger.addHandler(stream_handler)
-        app.logger.addHandler(stream_handler)
-    else:
-        # 设置了LOG_PATH则使用,否则使用默认的logs文件夹
-        if app.config.get("LOG_PATH"):
-            log_path = app.config.get("LOG_PATH")
-            log_folder = os.path.dirname(log_path)
-        else:
-            log_folder = "./logs"
-            log_file = "log.txt"
-            log_path = os.path.join(log_folder, log_file)
-        # 不存在记录文件夹自动创建
-        if not os.path.isdir(log_folder):
-            os.makedirs(log_folder)
-
-        # === 控制台输出 ===
-        stream_handler = logging.StreamHandler()
-        stream_handler.setLevel(logging.INFO)
-        stream_handler.setFormatter(stream_formatter)
-
-        # === 文件输出 ===
-        file_handler = logging.FileHandler(log_path)
-        file_handler.setLevel(logging.WARNING)
-        file_handler.setFormatter(file_formatter)
-
-        # === 邮件输出 ===
-        if app.config["ENABLE_LOG_EMAIL"]:
-            _enable_email_log(app)
-
-        logger.addHandler(stream_handler)
-        logger.addHandler(file_handler)
-        # app.logger.addHandler(stream_handler)
-        app.logger.addHandler(file_handler)
+    log_path = app.config.get("LOG_PATH")
+    log_folder = os.path.dirname(log_path)
+    if not os.path.isdir(log_folder):
+        os.makedirs(log_folder)
+    file_handler = logging.FileHandler(log_path)
+    file_handler.setLevel(logging.WARNING)
+    file_handler.setFormatter(file_formatter)
+    logger.addHandler(file_handler)
+    app.logger.addHandler(file_handler)
 
 
-def _enable_email_log(app: Flask):
+def _enable_email_error_log(app: Flask):
+    # === 邮件输出 ===
+
     mail_formatter = logging.Formatter(
         """
         Message type:       %(levelname)s

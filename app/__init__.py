@@ -11,14 +11,14 @@ from app.constants.locale import Locale
 from app.core.rbac import AllowApplyType, ApplicationCheckType
 from app.services.google_storage import GoogleStorage
 from app.services.oss import OSS
-from app.utils.logging import configure_logger, configure_root_logger
+from app.utils.logging import configure_root_logger, configure_extra_logs
 
 from .apis import register_apis
 
-# configure_root_logger('DEBUG')
+configure_root_logger()
 flask_app = init_flask_app(Flask(__name__))
 celery = create_celery(flask_app)
-configure_logger(flask_app)
+configure_extra_logs(flask_app)
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
