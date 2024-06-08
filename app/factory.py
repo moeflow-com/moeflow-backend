@@ -1,8 +1,20 @@
+import logging
 from celery import Celery
 from flask import Flask
 from flask.logging import default_handler as flask_default_handler
+from flask_apikit import APIKit
+from flask_babel import Babel
 import app.config as _app_config
+from app.services.oss import OSS
+from .apis import register_apis
+
 from app.models import connect_db
+
+logger = logging.getLogger(__name__)
+babel = Babel()
+apikit = APIKit()
+# 插件
+oss = OSS()
 
 app_config = {
     k: getattr(_app_config, k) for k in dir(_app_config) if not k.startswith("_")
@@ -18,6 +30,15 @@ def create_flask_app(app: Flask) -> Flask:
     # app.logger.removeHandler(flask_default_handler)
     # app.logger.propagate = False
     return app
+
+
+def init_flask_app(app: Flask) -> Flask:
+    register_apis(app)
+    babel.init_app(app)
+    apikit.init_app(app)
+    logger.info("-" * 50)
+    logger.info("站点支持语言: " + str([str(i) for i in babel.list_translations()]))
+    oss.init(app.config)  # 文件储存
 
 
 def create_celery(app: Flask) -> Celery:

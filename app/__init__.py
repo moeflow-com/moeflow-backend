@@ -2,18 +2,13 @@ import os
 import logging
 
 from flask import Flask, g, request
-from flask_apikit import APIKit
-from flask_babel import Babel
 
-from .factory import app_config, create_celery, create_flask_app
+from .factory import app_config, create_celery, create_flask_app, babel, oss
 
 from app.constants.locale import Locale
 from app.core.rbac import AllowApplyType, ApplicationCheckType
 from app.services.google_storage import GoogleStorage
-from app.services.oss import OSS
 from app.utils.logging import configure_root_logger, configure_extra_logs
-
-from .apis import register_apis
 
 configure_root_logger()
 flask_app = create_flask_app(Flask(__name__))
@@ -28,11 +23,7 @@ APP_PATH = os.path.abspath(os.path.dirname(__file__))
 FILE_PATH = os.path.abspath(os.path.join(APP_PATH, "..", "files"))  # 一般文件
 TMP_PATH = os.path.abspath(os.path.join(FILE_PATH, "tmp"))  # 临时文件存放地址
 STORAGE_PATH = os.path.abspath(os.path.join(APP_PATH, "..", "storage"))  # 储存地址
-# 插件
-babel = Babel()
-oss = OSS()
 gs_vision = GoogleStorage()
-apikit = APIKit()
 
 
 def create_default_team(admin_user):
@@ -84,17 +75,7 @@ def create_or_override_default_admin(app):
 
 
 def create_app():
-    app = flask_app
-    logger.info("-" * 50)
-    register_apis(app)
-    babel.init_app(app)
-    apikit.init_app(app)
-
-    logger.info("-" * 50)
-    logger.info("站点支持语言: " + str([str(i) for i in babel.list_translations()]))
-    oss.init(app.config)  # 文件储存
-
-    return app
+    return flask_app
 
 
 def init_db(app: Flask):
