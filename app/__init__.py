@@ -127,7 +127,7 @@ def create_celery() -> Celery:
         app.name,
         broker=app.config["CELERY_BROKER_URL"],
         backend=app.config["CELERY_BACKEND_URL"],
-        mongodb_backend_settings=app.config["CELERY_MONGODB_BACKEND_SETTINGS"],
+        **app.config["CELERY_BACKEND_SETTINGS"],
     )
     created.conf.update({"app_config": app.config})
     created.autodiscover_tasks(

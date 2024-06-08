@@ -3,6 +3,7 @@
 # 开发测试配置可放在 configs 文件夹下（已 gitignore）或项目外
 # ===========
 from os import environ as env
+import urllib.parse as urlparse
 
 # -----------
 # 基础设置
@@ -16,7 +17,13 @@ ADMIN_EMAIL = env["ADMIN_EMAIL"]
 # -----------
 # Mongo 数据库
 # -----------
-DB_URI = f"mongodb://{env['MONGODB_USER']}:{env['MONGODB_PASS']}@moeflow-mongodb:27017/{env['MONGODB_DB_NAME']}?authSource=admin"
+DB_URI = env.get("MONGODB_URI")
+
+DB_URI = (
+    DB_URI
+    or f"mongodb://{env['MONGODB_USER']}:{env['MONGODB_PASS']}@moeflow-mongodb:27017/{env['MONGODB_DB_NAME']}?authSource=admin"
+)
+
 # -----------
 # i18n
 # -----------
@@ -111,14 +118,20 @@ EMAIL_ERROR_ADDRESS = env.get("EMAIL_ADDRESS", "")
 # -----------
 # Celery
 # -----------
-CELERY_BROKER_URL = env.get(
-    "CELERY_BROKER_URL",
-    f"amqp://{env['RABBITMQ_USER']}:{env['RABBITMQ_PASS']}@moeflow-rabbitmq:5672/{env['RABBITMQ_VHOST_NAME']}",
+CELERY_BROKER_URL = env.get("CELERY_BROKER_URL")
+
+CELERY_BROKER_URL = (
+    CELERY_BROKER_URL
+    or f"amqp://{env['RABBITMQ_USER']}:{env['RABBITMQ_PASS']}@moeflow-rabbitmq:5672/{env['RABBITMQ_VHOST_NAME']}"
 )
 CELERY_BACKEND_URL = env.get("CELERY_BACKEND_URL", DB_URI)
-CELERY_MONGODB_BACKEND_SETTINGS = {
-    "database": env["MONGODB_DB_NAME"],
-    "taskmeta_collection": "celery_taskmeta",
+
+_DB_URI_PARSED = urlparse.urlparse(DB_URI)
+CELERY_BACKEND_SETTINGS = {
+    "mongodb_backend_settings": {
+        "database": _DB_URI_PARSED.path[1:],
+        "taskmeta_collection": "celery_taskmeta",
+    }
 }
 # -----------
 # APIKit
