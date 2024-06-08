@@ -4,6 +4,7 @@ from flask import Flask
 from flask.logging import default_handler as flask_default_handler
 from flask_apikit import APIKit
 from flask_babel import Babel
+from app.services.google_storage import GoogleStorage
 import app.config as _app_config
 from app.services.oss import OSS
 from .apis import register_apis
@@ -11,10 +12,12 @@ from .apis import register_apis
 from app.models import connect_db
 
 logger = logging.getLogger(__name__)
+
+# singleton modules
 babel = Babel()
 apikit = APIKit()
-# 插件
 oss = OSS()
+gs_vision = GoogleStorage()
 
 app_config = {
     k: getattr(_app_config, k) for k in dir(_app_config) if not k.startswith("_")
@@ -32,7 +35,7 @@ def create_flask_app(app: Flask) -> Flask:
     return app
 
 
-def init_flask_app(app: Flask) -> Flask:
+def init_flask_app(app: Flask):
     register_apis(app)
     babel.init_app(app)
     apikit.init_app(app)

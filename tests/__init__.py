@@ -6,7 +6,7 @@ from unittest import TestCase
 import os
 from mongoengine import connection
 
-from app import create_app, FILE_PATH
+from app import create_app, FILE_PATH, init_db
 from app.models.site_setting import SiteSetting
 from app.models.user import User
 from app.models.team import Team
@@ -23,14 +23,13 @@ DEFAULT_USERS_COUNT = 1
 
 def create_test_app():
     # 先创建app连接上数据库
-    create_app()
+    app = create_app()
     # 不是_test结尾则停止测试,防止数据覆盖
     if not connection.get_db().name.endswith("_test"):
-        raise RuntimeError("Please use *_test database")
-    # 清库，防止测试交叉影响
+        raise AssertionError("Please use *_test database")
+    # reset the db
     connection.get_db().client.drop_database(connection.get_db().name)
-    # 再次创建app，保证角色之类初始化成功
-    app = create_app()
+    init_db(app)
     return app
 
 

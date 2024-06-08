@@ -3,18 +3,21 @@ import logging
 
 from flask import Flask, g, request
 
-from .factory import app_config, create_celery, create_flask_app, babel, oss
+from .factory import (
+    app_config,
+    create_celery,
+    create_flask_app,
+    init_flask_app,
+    babel,
+    oss,
+    gs_vision,
+)
 
 from app.constants.locale import Locale
 from app.core.rbac import AllowApplyType, ApplicationCheckType
-from app.services.google_storage import GoogleStorage
 from app.utils.logging import configure_root_logger, configure_extra_logs
 
 configure_root_logger()
-flask_app = create_flask_app(Flask(__name__))
-configure_extra_logs(flask_app)
-celery = create_celery(flask_app)
-
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
@@ -23,7 +26,11 @@ APP_PATH = os.path.abspath(os.path.dirname(__file__))
 FILE_PATH = os.path.abspath(os.path.join(APP_PATH, "..", "files"))  # 一般文件
 TMP_PATH = os.path.abspath(os.path.join(FILE_PATH, "tmp"))  # 临时文件存放地址
 STORAGE_PATH = os.path.abspath(os.path.join(APP_PATH, "..", "storage"))  # 储存地址
-gs_vision = GoogleStorage()
+
+flask_app = create_flask_app(Flask(__name__))
+configure_extra_logs(flask_app)
+celery = create_celery(flask_app)
+init_flask_app(flask_app)
 
 
 def create_default_team(admin_user):
