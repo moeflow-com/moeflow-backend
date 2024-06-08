@@ -11,7 +11,7 @@ from flask import Flask
 from typing import Optional
 
 logger = logging.getLogger(__name__)
-root_logger = logging.getLogger('root')
+root_logger = logging.getLogger("root")
 
 
 class SMTPSSLHandler(SMTPHandler):
@@ -58,8 +58,12 @@ def configure_root_logger(override: Optional[str] = None):
     if _logger_configured:
         return
     _logger_configured = True
-    logging.debug("configuring root logger %s %s", root_logger.level, root_logger.getEffectiveLevel())
-    level = override or os.environ.get('LOG_LEVEL')
+    logging.debug(
+        "configuring root logger %s %s",
+        root_logger.level,
+        root_logger.getEffectiveLevel(),
+    )
+    level = override or os.environ.get("LOG_LEVEL")
     if not level:
         return
     logging.basicConfig(
@@ -67,7 +71,7 @@ def configure_root_logger(override: Optional[str] = None):
         datefmt="%Y-%m-%dT%H:%M:%S%z",
         # filename=None,
         force=True,  # why the f is this required?
-        level=getattr(logging, level.upper())
+        level=getattr(logging, level.upper()),
     )
     logging.debug("reset log level %s", level)
 
@@ -79,7 +83,7 @@ def configure_logger(app):
     :param app:
     :return:
     """
-    if 'LOG_LEVEL' in os.environ:
+    if "LOG_LEVEL" in os.environ:
         configure_root_logger()
         return
     if _logger_configured:
