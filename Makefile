@@ -6,7 +6,10 @@ format:
 	venv/bin/ruff format 
 
 test:
-	@bash -c "set -uexo allexport && source .env.test && exec venv/bin/pytest --capture=sys --log-cli-level=DEBUG"
+	@./pytest --html=report.html --self-contained-html
+
+test_p:
+	@./pytest -n 8
 
 test_single:
 	@bash -c "set -uexo allexport && source .env.test && exec venv/bin/pytest --capture=sys --log-cli-level=DEBUG tests/base/test_not_exist_error.py"
