@@ -24,7 +24,7 @@ requirements.txt: deps-top.txt recreate-venv
 test: test_all
 
 test_all_cov:
-	venv/bin/pytest --html=report.html --self-contained-html ${PYTEST_COV_ARGS[@]}
+	venv/bin/pytest --html=report.html --self-contained-html $(PYTEST_COV_ARGS)
 
 test_all:
 	venv/bin/pytest --html=report.html --self-contained-html
