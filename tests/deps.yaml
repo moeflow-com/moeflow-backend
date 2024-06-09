@@ -1,5 +1,6 @@
 # genearted from moeflow-deploy repo like
 # docker-compose -f docker-compose.yml -f docker-compose.dev.yml config moeflow-mongodb moeflow-rabbitmq
+version: '3.3'
 name: moeflow-backend-test-deps
 services:
   moeflow-mongodb:
