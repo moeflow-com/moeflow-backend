@@ -69,7 +69,6 @@ def configure_root_logger(override: Optional[str] = None):
     logging.basicConfig(
         format="[%(asctime)s] %(levelname)s %(name)s %(message)s",
         datefmt="%Y-%m-%dT%H:%M:%S%z",
-        # filename=None,
         force=True,  # why the f is this required?
         level=getattr(logging, level.upper()),
     )
@@ -92,11 +91,8 @@ def _enable_file_log(app: Flask):
     if not os.path.isdir(log_folder):
         os.makedirs(log_folder)
     file_handler = logging.FileHandler(log_path)
-    # file_handler.setLevel(logging.DEBUG)
     file_handler.setFormatter(file_formatter)
     logger.addHandler(file_handler)
-    # app.logger.addHandler(file_handler)
-    # logger.info('enabled file log %s', log_path)
 
 
 def _enable_email_error_log(app: Flask):

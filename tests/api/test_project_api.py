@@ -111,13 +111,13 @@ class ProjectAPITestCase(MoeAPITestCase):
         set1 = team1.default_project_set
         set2 = team2.default_project_set
         # 未登录，没有权限创建
-        data = self.post(f"/v1/teams/{str(team1.id)}/projects")
+        data = self.post(f"/v1/teams/{str(team1.id)}/projects", json={})
         self.assertErrorEqual(data, NeedTokenError)
         # user2没有权限创建
-        data = self.post(f"/v1/teams/{str(team1.id)}/projects", token=token2)
+        data = self.post(f"/v1/teams/{str(team1.id)}/projects", json={}, token=token2)
         self.assertErrorEqual(data, NoPermissionError)
         # 没有参数不能创建
-        data = self.post(f"/v1/teams/{str(team1.id)}/projects", token=token1)
+        data = self.post(f"/v1/teams/{str(team1.id)}/projects", json={}, token=token1)
         self.assertErrorEqual(data, ValidateError)
         # 缺少参数不能创建
         data = self.post(
@@ -377,7 +377,7 @@ class ProjectAPITestCase(MoeAPITestCase):
         data = self.put(f"/v1/projects/{str(project1.id)}", token=token2)
         self.assertErrorEqual(data, NoPermissionError)
         # 没有参数不能修改
-        data = self.put(f"/v1/projects/{str(project1.id)}", token=token1)
+        data = self.put(f"/v1/projects/{str(project1.id)}", json={}, token=token1)
         self.assertErrorEqual(data, RequestDataEmptyError)
         # 创建一个自定义角色
         role1 = project1.create_role(
@@ -1639,7 +1639,9 @@ class ProjectAPITestCase(MoeAPITestCase):
         self.assertErrorEqual(data, NoPermissionError)
         self.assertEqual(project.targets().count(), 1)
         # user1，缺少语言
-        data = self.post(f"/v1/projects/{str(project.id)}/targets", token=token1)
+        data = self.post(
+            f"/v1/projects/{str(project.id)}/targets", json={}, token=token1
+        )
         self.assertErrorEqual(data, ValidateError)
         self.assertEqual(project.targets().count(), 1)
         # user1，语言重复

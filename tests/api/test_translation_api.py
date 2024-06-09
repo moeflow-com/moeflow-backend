@@ -84,7 +84,7 @@ class TranslationAPITestCase(MoeAPITestCase):
             self.assertErrorEqual(data, NoPermissionError)
             # 空参数
             data = self.post(
-                "/v1/sources/{}/translations".format(source.id), token=token
+                "/v1/sources/{}/translations".format(source.id), json={}, token=token
             )
             self.assertErrorEqual(data, ValidateError)
             # === 完整的参数 ===
@@ -173,7 +173,9 @@ class TranslationAPITestCase(MoeAPITestCase):
             )
             self.assertErrorEqual(data, NoPermissionError)
             # 空json报错
-            data = self.put("/v1/translations/{}".format(translation.id), token=token)
+            data = self.put(
+                "/v1/translations/{}".format(translation.id), json={}, token=token
+            )
             self.assertErrorEqual(data, ValidateError)
             # 翻译的初始化状态
             translation.reload()
