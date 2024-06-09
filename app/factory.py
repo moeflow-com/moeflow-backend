@@ -79,7 +79,7 @@ def create_celery(app: Flask) -> Celery:
     return created
 
 
-def create_or_override_default_admin(app):
+def create_or_override_default_admin(app: Flask):
     """创建或覆盖默认管理员"""
     from app.models.user import User
 

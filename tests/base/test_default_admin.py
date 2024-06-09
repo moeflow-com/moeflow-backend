@@ -1,4 +1,5 @@
 from app import create_app
+from app.factory import init_db
 from app.models.user import User
 from tests import MoeTestCase
 
@@ -20,7 +21,7 @@ class TestDefaultAdmin(MoeTestCase):
         admin_user.save()
         admin_user.reload()
         self.assertEqual(admin_user.admin, False)
-        create_app()
+        init_db(create_app())
         admin_user.reload()
         self.assertEqual(admin_user.admin, True)
         # 测试其他用户权限不受影响
@@ -34,7 +35,7 @@ class TestDefaultAdmin(MoeTestCase):
         self.assertEqual(admin_user.email, self.app.config["ADMIN_EMAIL"])
         self.assertEqual(admin_user.admin, True)
         self.assertEqual(user.admin, False)
-        create_app()
+        init_db(create_app())
         admin_user.reload()
         self.assertEqual(admin_user.admin, True)
         # 测试其他用户权限不受影响
