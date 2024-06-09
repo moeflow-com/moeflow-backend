@@ -97,16 +97,22 @@ class SourceAPITestCase(MoeAPITestCase):
         with self.app.test_request_context():
             # === 错误测试 ===
             # 没登录不能获取
-            data = self.post("/v1/files/{}/sources".format(image_file.id))
+            data = self.post("/v1/files/{}/sources".format(image_file.id), json={})
             self.assertErrorEqual(data, NeedTokenError)
             # 其他用户不能登录
-            data = self.post("/v1/files/{}/sources".format(image_file.id), token=token2)
+            data = self.post(
+                "/v1/files/{}/sources".format(image_file.id), json={}, token=token2
+            )
             self.assertErrorEqual(data, NoPermissionError)
             # 文件类型不能创建原文
-            data = self.post("/v1/files/{}/sources".format(text_file.id), token=token)
+            data = self.post(
+                "/v1/files/{}/sources".format(text_file.id), json={}, token=token
+            )
             self.assertErrorEqual(data, FileTypeNotSupportError)
             # === 什么都不携带为空source ===
-            data = self.post("/v1/files/{}/sources".format(image_file.id), token=token)
+            data = self.post(
+                "/v1/files/{}/sources".format(image_file.id), json={}, token=token
+            )
             self.assertErrorEqual(data)
             source = Source.by_id(data.json["id"])
             self.assertEqual("", source.content)
@@ -184,16 +190,18 @@ class SourceAPITestCase(MoeAPITestCase):
         with self.app.test_request_context():
             # === 错误测试 ===
             # 没登录不能获取
-            data = self.put("/v1/sources/{}".format(source.id))
+            data = self.put("/v1/sources/{}".format(source.id), json={})
             self.assertErrorEqual(data, NeedTokenError)
             # 其他用户不能登录
-            data = self.put("/v1/sources/{}".format(source.id), token=token2)
+            data = self.put("/v1/sources/{}".format(source.id), json={}, token=token2)
             self.assertErrorEqual(data, NoPermissionError)
             # 文件类型不能创建原文
-            data = self.put("/v1/sources/{}".format(text_source.id), token=token)
+            data = self.put(
+                "/v1/sources/{}".format(text_source.id), json={}, token=token
+            )
             self.assertErrorEqual(data, FileTypeNotSupportError)
             # 空json报错
-            data = self.put("/v1/sources/{}".format(source.id), token=token)
+            data = self.put("/v1/sources/{}".format(source.id), json={}, token=token)
             self.assertErrorEqual(data, ValidateError)
             # 类型不符报错
             data = self.put(
@@ -338,7 +346,9 @@ class SourceAPITestCase(MoeAPITestCase):
             )
             self.assertErrorEqual(data, FileTypeNotSupportError)
             # 空json报错
-            data = self.put("/v1/sources/{}/rank".format(source1.id), token=token)
+            data = self.put(
+                "/v1/sources/{}/rank".format(source1.id), json={}, token=token
+            )
             self.assertErrorEqual(data, ValidateError)
             # 类型不符报错
             data = self.put(

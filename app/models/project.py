@@ -63,7 +63,7 @@ from app.constants.project import (
     ProjectStatus,
 )
 from app.utils.mongo import mongo_order, mongo_slice
-from typing import List, TYPE_CHECKING
+from typing import List, TYPE_CHECKING, Union, BinaryIO
 
 if TYPE_CHECKING:
     from app.models.team import Team
@@ -651,7 +651,9 @@ class Project(GroupMixin, Document):
             file.inc_cache("file_count", 1, update_self=False)
         return file
 
-    def upload(self, filename: str, real_file: BufferedReader, parent=None):
+    def upload(
+        self, filename: str, real_file: Union[BufferedReader, BinaryIO], parent=None
+    ):
         """
         上传文件
 
@@ -672,8 +674,8 @@ class Project(GroupMixin, Document):
         """从github导入项目"""
 
     @classmethod
-    def by_id(cls, id):
-        project = cls.objects(id=id).first()
+    def by_id(cls, id_: str):
+        project = cls.objects(id=id_).first()
         if project is None:
             raise ProjectNotExistError()
         return project

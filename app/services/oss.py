@@ -98,7 +98,7 @@ class OSS:
             else:
                 file.save(os.path.join(folder_path, filename))
 
-    def download(self, path, filename, /, *, local_path=None):
+    def download(self, path, filename: str, /, *, local_path=None):
         """下载文件"""
         # 如果提供local_path，则下载到本地
         if self.storage_type == StorageType.OSS:
