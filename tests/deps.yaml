@@ -1,7 +1,7 @@
 # genearted from moeflow-deploy repo like
 # docker-compose -f docker-compose.yml -f docker-compose.dev.yml config moeflow-mongodb moeflow-rabbitmq
 version: '3.3'
-name: moeflow-backend-test-deps
+# name: moeflow-backend-test-deps
 services:
   moeflow-mongodb:
     environment:
@@ -18,11 +18,7 @@ services:
       start_period: 10s
     image: docker.io/mongo:4.4.1
     ports:
-      - mode: ingress
-        host_ip: 127.0.0.1
-        target: 27017
-        published: "27017"
-        protocol: tcp
+      - 127.0.0.1:27017:27017
     restart: unless-stopped
   moeflow-rabbitmq:
     environment:
@@ -38,14 +34,6 @@ services:
       start_period: 10s
     image: docker.io/rabbitmq:3.8.9-management
     ports:
-      - mode: ingress
-        host_ip: 127.0.0.1
-        target: 5672
-        published: "5672"
-        protocol: tcp
-      - mode: ingress
-        host_ip: 127.0.0.1
-        target: 15672
-        published: "15672"
-        protocol: tcp
+      - 127.0.0.1:5672:5672 # AMQP
+      - 127.0.0.1:15672:15672 # management UI
     restart: unless-stopped
