@@ -22,6 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+    - run: docker-compose -f tests/deps.yaml up -d
     - uses: actions/setup-python@v5
       with:
         python-version: '3.10'
