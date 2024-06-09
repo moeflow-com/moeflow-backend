@@ -46,6 +46,7 @@ class SearchTeamProjectSchema(DefaultSchema):
                 raise ProjectSetNotExistError
             in_data["project_set"] = project_set
             return in_data
+        return in_data
 
 
 class SearchUserProjectSchema(DefaultSchema):
