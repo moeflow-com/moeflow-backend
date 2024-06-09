@@ -242,7 +242,7 @@ class FileAPITestCase(MoeAPITestCase):
             )
             self.assertErrorEqual(data, NoPermissionError)
             # == 缺少filename ==
-            data = self.put("/v1/files/{}".format(file1.id), token=token)
+            data = self.put("/v1/files/{}".format(file1.id), json={}, token=token)
             self.assertErrorEqual(data, ValidateError)
             # == 错误的名字 ==
             data = self.put(
@@ -300,7 +300,7 @@ class FileAPITestCase(MoeAPITestCase):
             )
             self.assertErrorEqual(data, NoPermissionError)
             # == 缺少parent_id ==
-            data = self.put("/v1/files/{}".format(file1.id), token=token)
+            data = self.put("/v1/files/{}".format(file1.id), json={}, token=token)
             self.assertErrorEqual(data, ValidateError)
             # == 缺少parent_id，null等同于缺少 ==
             data = self.put(

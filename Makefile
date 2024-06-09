@@ -39,7 +39,7 @@ test_all_parallel:
 	venv/bin/pytest -n 8
 
 test_single:
-	venv/bin/pytest tests/base/test_not_exist_error.py
+	venv/bin/pytest tests/api/test_file_api.py
 
 test_logging:
 	#--capture=no  

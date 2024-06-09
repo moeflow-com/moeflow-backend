@@ -148,11 +148,11 @@ class MoeAPITestCase(MoeTestCase):
         if kwargs.get("headers") is None:
             kwargs["headers"] = {
                 # 默认增加跨域参数
-                "Origin": "https://example.com"
+                "Origin": "https://example.com",
             }
         # 如果给予data参数，则转换为json，并设置json内容头
         json_data = kwargs.pop("json", None)
-        if json_data:
+        if isinstance(json_data, dict):
             kwargs["data"] = json.dumps(json_data)
             kwargs["headers"]["Content-Type"] = "application/json"
         token = kwargs.pop("token", None)
