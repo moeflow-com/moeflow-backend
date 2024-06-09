@@ -1,9 +1,9 @@
 import logging
 from celery import Celery
 from flask import Flask
-from flask.logging import default_handler as flask_default_handler
 from flask_apikit import APIKit
 from flask_babel import Babel
+from app.core.rbac import AllowApplyType, ApplicationCheckType
 from app.services.google_storage import GoogleStorage
 import app.config as _app_config
 from app.services.oss import OSS
@@ -77,3 +77,64 @@ def create_celery(app: Flask) -> Celery:
         ],
     )
     return created
+
+
+def create_or_override_default_admin(app):
+    """创建或覆盖默认管理员"""
+    from app.models.user import User
+
+    admin_user = User.get_by_email(app.config["ADMIN_EMAIL"])
+    if admin_user:
+        if admin_user.admin is False:
+            admin_user.admin = True
+            admin_user.save()
+            logger.debug("已将 {} 设置为管理员".format(app.config["ADMIN_EMAIL"]))
+    else:
+        admin_user = User.create(
+            name="Admin",
+            email=app.config["ADMIN_EMAIL"],
+            password="123123",
+        )
+        admin_user.admin = True
+        admin_user.save()
+        logger.debug(
+            "已创建管理员 {}, 默认密码为 123123，请及时修改！".format(admin_user.email)
+        )
+    return admin_user
+
+
+def create_default_team(admin_user):
+    from app.models.team import Team, TeamRole
+    from app.models.site_setting import SiteSetting
+
+    if Team.objects().count() == 0:
+        logger.debug("已建立默认团队")
+        team = Team.create(
+            name="默认团队",
+            creator=admin_user,
+        )
+        team.intro = "所有新用户会自动加入此团队，如不需要，站点管理员可以在“站点管理-自动加入的团队 ID”中删除此团队 ID。"
+        team.allow_apply_type = AllowApplyType.ALL
+        team.application_check_type = ApplicationCheckType.ADMIN_CHECK
+        team.default_role = TeamRole.by_system_code("member")
+        team.save()
+        site_setting = SiteSetting.get()
+        site_setting.auto_join_team_ids = [team.id]
+        site_setting.save()
+    else:
+        logger.debug("已有团队，跳过建立默认团队")
+
+
+def init_db(app: Flask):
+    # 初始化角色，语言
+    from app.models.language import Language
+    from app.models.project import ProjectRole
+    from app.models.team import TeamRole
+    from app.models.site_setting import SiteSetting
+
+    TeamRole.init_system_roles()
+    ProjectRole.init_system_roles()
+    Language.init_system_languages()
+    SiteSetting.init_site_setting()
+    admin_user = create_or_override_default_admin(app)
+    create_default_team(admin_user)

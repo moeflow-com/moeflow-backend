@@ -3,11 +3,10 @@
 """
 
 import logging
+from mongoengine import connect
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
-
-from mongoengine import connect
 
 
 def connect_db(config):

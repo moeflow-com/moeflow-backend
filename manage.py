@@ -3,7 +3,8 @@ import re
 import click
 import logging
 
-from app import flask_app, init_db
+from app import flask_app
+from app.factory import init_db
 
 logging.basicConfig(
     level=logging.INFO,

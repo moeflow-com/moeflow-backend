@@ -6,7 +6,8 @@ from unittest import TestCase
 import os
 from mongoengine import connection
 
-from app import create_app, FILE_PATH, init_db
+from app import create_app, FILE_PATH
+from app.factory import init_db
 from app.models.site_setting import SiteSetting
 from app.models.user import User
 from app.models.team import Team

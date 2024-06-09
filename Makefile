@@ -13,6 +13,12 @@ remove-venv: FORCE
 
 recreate-venv: remove-venv create-venv
 
+lint:
+	venv/bin/ruff check
+
+lint-fix:
+	venv/bin/ruff --fix
+
 format:
 	venv/bin/ruff format 
 
