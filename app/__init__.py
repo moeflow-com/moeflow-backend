@@ -4,6 +4,7 @@ import logging
 from flask import Flask, g, request
 
 from .factory import (
+    app_config,
     create_celery,
     create_flask_app,
     init_flask_app,
@@ -61,6 +62,7 @@ __all__ = [
     "oss",
     "gs_vision",
     "flask_app",
+    "app_config",
     "celery",
     "APP_PATH",
     "STORAGE_PATH",
