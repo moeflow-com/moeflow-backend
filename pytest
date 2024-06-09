@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-set -ue
-cd $(dirname "$0")
-set -xo allexport
-source .env.test
-exec venv/bin/pytest --capture=sys --log-cli-level=DEBUG "$@"
