@@ -797,14 +797,14 @@ class Language(Document):
 
     @classmethod
     def create(
-            cls,
-            code: str,
-            en_name: str,
-            lo_name: str,
-            no_space=False,
-            g_tra_code="",
-            g_ocr_code="",
-            sort=0,
+        cls,
+        code: str,
+        en_name: str,
+        lo_name: str,
+        no_space=False,
+        g_tra_code="",
+        g_ocr_code="",
+        sort=0,
     ) -> "Language":
         language = cls(
             en_name=en_name,

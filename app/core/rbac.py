@@ -295,7 +295,7 @@ class GroupMixin:
         return role
 
     def edit_role(
-            self: Document, id, name, level, permissions, operator=None, intro=""
+        self: Document, id, name, level, permissions, operator=None, intro=""
     ):
         """
         修改角色
@@ -543,12 +543,12 @@ class GroupMixin:
         self._default_role = role
 
     def roles(
-            self: Document,
-            type=RoleType.ALL,
-            without_creator=False,
-            skip=None,
-            limit=None,
-            order_by=None,
+        self: Document,
+        type=RoleType.ALL,
+        without_creator=False,
+        skip=None,
+        limit=None,
+        order_by=None,
     ) -> List[RoleMixin]:
         """
         获得所有角色

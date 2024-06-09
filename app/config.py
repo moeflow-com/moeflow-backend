@@ -16,7 +16,7 @@ LOG_PATH = env.get("LOG_PATH")
 MAX_CONTENT_LENGTH = int(env.get("MAX_CONTENT_LENGTH_MB", 1024)) * 1024 * 1024
 ADMIN_EMAIL = env["ADMIN_EMAIL"]
 # TODO remove code relying on this
-TESTING = env.get('TESTING') == 'YES'
+TESTING = env.get("TESTING") == "YES"
 # -----------
 # Mongo 数据库
 # -----------
