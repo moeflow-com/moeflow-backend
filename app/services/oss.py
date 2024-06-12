@@ -155,7 +155,7 @@ class OSS:
                     )
                 )
 
-    def delete(self, path, filename):
+    def delete(self, path, filename: Union[str, list[str]]):
         """（批量）删除文件"""
         if self.storage_type == StorageType.OSS:
             # 如果给予列表，则批量删除
