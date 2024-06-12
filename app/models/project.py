@@ -1,5 +1,7 @@
 from app.exceptions.project import LabelplusParseFailedError
 import datetime
+import logging
+from typing import List, Union, BinaryIO, TYPE_CHECKING
 
 from bson import ObjectId
 from io import BufferedReader
@@ -50,6 +52,9 @@ from app.models.invitation import Invitation
 from app.models.language import Language
 from app.models.target import Target
 from app.models.term import TermBank
+
+if TYPE_CHECKING:
+    from app.models.team import Team
 from app.models.output import Output
 from app.tasks.file_parse import find_terms
 from app.constants.file import (
@@ -63,10 +68,9 @@ from app.constants.project import (
     ProjectStatus,
 )
 from app.utils.mongo import mongo_order, mongo_slice
-from typing import List, TYPE_CHECKING, Union, BinaryIO
 
-if TYPE_CHECKING:
-    from app.models.team import Team
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
 
 class ProjectAllowApplyType(AllowApplyType):
@@ -605,6 +609,9 @@ class Project(GroupMixin, Document):
         :param parent: 所属文件夹，顶层则为None
         :return:
         """
+        logging.debug(
+            f"Project(id={self.id}).create_file(name={name}, parent={parent})"
+        )
         # 确认父级是文件夹且存在于本项目
         if parent is not None:
             parent = self.get_folder(parent)
@@ -653,7 +660,7 @@ class Project(GroupMixin, Document):
 
     def upload(
         self, filename: str, real_file: Union[BufferedReader, BinaryIO], parent=None
-    ):
+    ) -> File:
         """
         上传文件
 
@@ -680,7 +687,9 @@ class Project(GroupMixin, Document):
             raise ProjectNotExistError()
         return project
 
-    def get_files(self, name, parent="all", activated=True):
+    def get_files(
+        self, name, parent: Union[str, ObjectId, File] = "all", activated=True
+    ):
         """通过文件名获取文件或文件夹(大小写不敏感)，默认仅获取激活的修订版"""
         file = File.objects(name__iexact=name, project=self)
         # 限制文件夹
@@ -693,7 +702,7 @@ class Project(GroupMixin, Document):
             file = file.filter(activated=activated)
         return file
 
-    def get_folder(self, folder):
+    def get_folder(self, folder: Union[str, ObjectId, File]) -> File:
         """
         尝试获取本项目下的文件夹，检查文件夹是否存在于本项目
         如没有则raise FolderNotExistError
