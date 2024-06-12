@@ -2,13 +2,17 @@
 对接阿里云OSS储存服务
 """
 
-from io import BufferedReader, BytesIO
+from io import BufferedReader, BytesIO, FileIO
 import os
 import re
 import shutil
 import time
 import hashlib
+from typing import Union
 from urllib import parse
+import logging
+
+logger = logging.getLogger(__name__)
 
 import oss2
 from oss2 import to_string
@@ -77,7 +81,14 @@ class OSS:
             self.oss_domain = config["STORAGE_DOMAIN"]
             self.STORAGE_PATH = STORAGE_PATH
 
-    def upload(self, path, filename, file, headers=None, progress_callback=None):
+    def upload(
+        self,
+        path: str,
+        filename: str,
+        file: Union[str, BufferedReader, FileIO],
+        headers=None,
+        progress_callback=None,
+    ):
         """上传文件"""
         if self.storage_type == StorageType.OSS:
             return self.bucket.put_object(
@@ -96,7 +107,10 @@ class OSS:
                 with open(os.path.join(folder_path, filename), "w") as saved_file:
                     saved_file.write(file)
             else:
-                file.save(os.path.join(folder_path, filename))
+                file.save(
+                    os.path.join(folder_path, filename)
+                )  # XXX: what's the type of file here?
+        logging.debug("saved file : %s / %s", folder_path, filename)
 
     def download(self, path, filename: str, /, *, local_path=None):
         """下载文件"""
