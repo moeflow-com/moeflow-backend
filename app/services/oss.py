@@ -8,17 +8,17 @@ import re
 import shutil
 import time
 import hashlib
+import logging
 from typing import Union
 from urllib import parse
-import logging
-
-logger = logging.getLogger(__name__)
 
 import oss2
 from oss2 import to_string
 from oss2.exceptions import NoSuchKey
 
 from app.constants.storage import StorageType
+
+logger = logging.getLogger(__name__)
 
 
 def md5sum(src):
