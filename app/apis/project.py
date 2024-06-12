@@ -231,7 +231,7 @@ class ProjectOutputListAPI(MoeAPIView):
                 user=self.current_user,
                 type=OutputTypes.ALL,
             )
-            output_project(str(output.id), run_sync=current_app.config.get("TESTING"))
+            output_project(str(output.id))
             outputs_json.append(output.to_api())
         return outputs_json
 
@@ -308,7 +308,7 @@ class ProjectTargetOutputListAPI(MoeAPIView):
             file_ids_include=data["file_ids_include"],
             file_ids_exclude=data["file_ids_exclude"],
         )
-        output_project(str(output.id), run_sync=current_app.config.get("TESTING"))
+        output_project(str(output.id))
         return output.to_api()
 
 

@@ -17,7 +17,7 @@ from app.constants.file import FileType
 from app import oss
 from app.models import connect_db
 from app.regexs import SAFE_FILENAME_REGEX
-from . import SyncResult
+from . import SyncResult, _FORCE_SYNC_TASK
 from celery.utils.log import get_task_logger
 
 logger = get_task_logger(__name__)
@@ -224,7 +224,7 @@ def output_project_task(output_id):
 
 def output_project(output_id, /, *, run_sync=False):
     alive_workers = celery.control.ping()
-    if len(alive_workers) == 0 or run_sync:
+    if len(alive_workers) == 0 or run_sync or _FORCE_SYNC_TASK:
         # 同步执行
         output_project_task(output_id)
         return SyncResult()

@@ -17,6 +17,9 @@ from app import celery as celery_app
 from asgiref.sync import async_to_sync
 
 
+_FORCE_SYNC_TASK: bool = celery_app.conf["app_config"].get("TESTING", False)
+
+
 class SyncResult:
     """和celery的delay异步返回类似的结果，用于同步、异步切换"""
 
