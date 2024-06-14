@@ -29,13 +29,11 @@ requirements.txt: deps-top.txt recreate-venv
 
 test: test_all
 
-test_all_cov:
-	venv/bin/pytest --html=report.html --self-contained-html $(PYTEST_COV_ARGS)
-
 test_all:
-	venv/bin/pytest --html=report.html --self-contained-html
+	venv/bin/pytest
 
 test_all_parallel:
+	# TODO: fix this
 	venv/bin/pytest -n 8
 
 test_single:
@@ -43,5 +41,4 @@ test_single:
 
 test_logging:
 	#--capture=no  
-	@bash -c "set -uexo allexport && source .env.test && exec venv/bin/pytest --capture=sys --log-cli-level=DEBUG tests/base/test_it_runs.py"
-	# @bash -c "set -uexo allexport && source .env.test && exec venv/bin/pytest --capture=sys --log-cli-level=DEBUG tests/base/test_it_runs.py"
+	venv/bin/pytest --capture=sys --log-cli-level=DEBUG tests/base/test_logging.py
