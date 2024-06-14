@@ -101,7 +101,6 @@ ENV/
 out
 gen
 /logs/log.txt
-/docs/
 /file/tmp/*
 
 # VSCode project files
