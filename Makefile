@@ -1,4 +1,4 @@
-PYTEST_COV_ARGS = --cov=app --cov-report=term --cov-report=xml:cov.xml
+PYTEST_COV_ARGS =
 
 FORCE: ;
 
