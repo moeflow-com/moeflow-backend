@@ -28,8 +28,9 @@ jobs:
         python-version: '3.10'
         cache: 'pip'
     - run: pip install -r requirements.txt
+    - run: cp -rv .env.test.sample .env.test
     - uses: pavelzw/pytest-action@v2
       with:
         emoji: false
-        verbose: false
+        verbose: true
         job-summary: true
