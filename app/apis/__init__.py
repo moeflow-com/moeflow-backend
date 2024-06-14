@@ -2,10 +2,12 @@
 所有的API编写在此
 """
 
+import logging
+
 from flask import Blueprint, Flask
 
-from app.utils.logging import logger
-
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
 """
 @apiDefine TokenHeader
@@ -40,13 +42,12 @@ def register_apis(app: Flask):
     :param app:
     :return:
     """
-    logger.info("-" * 50)
-    logger.info("注册蓝本:")
+    logger.info("Register route blueprints")
     # 获取urls中所有蓝本
     from . import urls
 
     blueprints = [v for k, v in vars(urls).items() if isinstance(v, Blueprint)]
     for blueprint in blueprints:
         prefix = "/" if blueprint.url_prefix is None else blueprint.url_prefix
-        logger.info(" - {}: {}".format(blueprint.name, prefix))
+        logger.debug(" - {}: {}".format(blueprint.name, prefix))
         app.register_blueprint(blueprint)

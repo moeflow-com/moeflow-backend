@@ -1,7 +1,7 @@
 import os
 
 
-def get_file_size(file, unit="kb"):
+def get_file_size(file, unit="kb") -> int:
     """获取文件大小，默认返回kb为单位的数值"""
     file.seek(0, os.SEEK_END)  # 移动到文件尾部
     size = file.tell()  # 获取文件大小，单位是Byte

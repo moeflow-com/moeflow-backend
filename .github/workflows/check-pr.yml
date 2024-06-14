@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  check-pr:
+  static-check:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,3 +17,31 @@ jobs:
     - run: pip install -r requirements.txt
     - run: ruff check .
     - run: ruff format --diff .
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - run: docker-compose -f tests/deps.yaml up -d
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+        cache: 'pip'
+    - run: pip install -r requirements.txt
+    - run: cp -rv .env.test.sample .env.test
+    - uses: pavelzw/pytest-action@v2
+      with:
+        emoji: false
+        verbose: true
+        job-summary: true
+    - uses: codecov/codecov-action@v4.0.1
+      if: always()
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+      # XXX: can't if (SECRET_DEFINED) for this step
+    - name: save test report
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: report.html
+        path: report.html

@@ -1,8 +1,10 @@
-from typing import NoReturn, Union
+from io import BufferedReader
+from typing import NoReturn, Union, BinaryIO
 import datetime
 import math
 import re
 import mongoengine
+import logging
 from bson import ObjectId
 from flask import current_app
 from flask_babel import gettext
@@ -63,9 +65,11 @@ from app.tasks.thumbnail import create_thumbnail
 from app.utils import default
 from app.utils.file import get_file_size
 from app.utils.hash import get_file_md5
-from app.utils.logging import logger
 from app.utils.mongo import mongo_order, mongo_slice
 from app.utils.type import is_number
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
 default_translations_order = ["-selected", "-proofread_content", "-edit_time"]
 
@@ -133,7 +137,7 @@ class Filename:
             suffix = prefix_and_suffix[1]
         return prefix, suffix
 
-    def _get_sort_name(self, width):
+    def _get_sort_name(self, width: int):
         """返回用于排序的名称，使用前缀排序，将前缀中数字补足一定位数用于排序"""
         # 将前缀中数字与其他字符拆成列表
         # 形如 ['book', '1', '-', '002', '.jpg']
@@ -641,7 +645,9 @@ class File(Document):
         )
 
     @only_file
-    def upload_real_file(self, real_file, do_safe_scan=False):
+    def upload_real_file(
+        self, real_file: Union[BufferedReader, BinaryIO], do_safe_scan=False
+    ):
         """
         上传源文件
         """

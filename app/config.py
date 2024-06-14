@@ -3,21 +3,31 @@
 # 开发测试配置可放在 configs 文件夹下（已 gitignore）或项目外
 # ===========
 from os import environ as env
+import urllib.parse as urlparse
 
 # -----------
 # 基础设置
 # -----------
 SITE_NAME = env["SITE_NAME"]
-DOMAIN = env["DOMAIN"]
 SECRET_KEY = env["SECRET_KEY"]  # 必填 - 密钥
-DEBUG = False
-TESTING = False
+LOG_LEVEL = env.get("LOG_LEVEL", "INFO")
+# DEPRECATED: please use modern container logging collector
+LOG_PATH = env.get("LOG_PATH")
 MAX_CONTENT_LENGTH = int(env.get("MAX_CONTENT_LENGTH_MB", 1024)) * 1024 * 1024
 ADMIN_EMAIL = env["ADMIN_EMAIL"]
+ADMIN_INITIAL_PASSWORD = env.get("ADMIN_INITIAL_PASSWORD", "123123")
+# TODO reduce code relying on this
+TESTING = env.get("TESTING") == "YES"
 # -----------
 # Mongo 数据库
 # -----------
-DB_URI = f"mongodb://{env['MONGODB_USER']}:{env['MONGODB_PASS']}@moeflow-mongodb:27017/{env['MONGODB_DB_NAME']}?authSource=admin"
+DB_URI = env.get("MONGODB_URI")
+
+DB_URI = (
+    DB_URI
+    or f"mongodb://{env['MONGODB_USER']}:{env['MONGODB_PASS']}@moeflow-mongodb:27017/{env['MONGODB_DB_NAME']}?authSource=admin"
+)
+
 # -----------
 # i18n
 # -----------
@@ -45,7 +55,7 @@ STORAGE_TYPE = env["STORAGE_TYPE"]
 # 未设置自定义域名则填写阿里云提供的 OSS 域名，格式如：https://<your-bucket-name>.<oss-region>.aliyuncs.com/
 # 如果绑定了 CDN 来加速 OSS，则填写绑定在 CDN 的域名
 # 本地储存填写绑定到服务器的域名，需用 nginx 指向 storage 文件夹，格式如：https://<your-domain>.com/storage/
-STORAGE_DOMAIN = env.get("STORAGE_DOMAIN", "http://" + DOMAIN + "/storage/")
+STORAGE_DOMAIN = env["STORAGE_DOMAIN"]
 OSS_ACCESS_KEY_ID = env.get("OSS_ACCESS_KEY_ID", "")
 OSS_ACCESS_KEY_SECRET = env.get("OSS_ACCESS_KEY_SECRET", "")
 OSS_ENDPOINT = env.get("OSS_ENDPOINT", "")
@@ -112,14 +122,20 @@ EMAIL_ERROR_ADDRESS = env.get("EMAIL_ADDRESS", "")
 # -----------
 # Celery
 # -----------
-CELERY_BROKER_URL = env.get(
-    "CELERY_BROKER_URL",
-    f"amqp://{env['RABBITMQ_USER']}:{env['RABBITMQ_PASS']}@moeflow-rabbitmq:5672/{env['RABBITMQ_VHOST_NAME']}",
+CELERY_BROKER_URL = env.get("CELERY_BROKER_URL")
+
+CELERY_BROKER_URL = (
+    CELERY_BROKER_URL
+    or f"amqp://{env['RABBITMQ_USER']}:{env['RABBITMQ_PASS']}@moeflow-rabbitmq:5672/{env['RABBITMQ_VHOST_NAME']}"
 )
 CELERY_BACKEND_URL = env.get("CELERY_BACKEND_URL", DB_URI)
-CELERY_MONGODB_BACKEND_SETTINGS = {
-    "database": env["MONGODB_DB_NAME"],
-    "taskmeta_collection": "celery_taskmeta",
+
+_DB_URI_PARSED = urlparse.urlparse(DB_URI)
+CELERY_BACKEND_SETTINGS = {
+    "mongodb_backend_settings": {
+        "database": _DB_URI_PARSED.path[1:],
+        "taskmeta_collection": "celery_taskmeta",
+    }
 }
 # -----------
 # APIKit

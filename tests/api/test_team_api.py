@@ -164,7 +164,7 @@ class TeamAPITestCase(MoeAPITestCase):
             data = self.post("/v1/teams", json={"name": "t1"})
             self.assertErrorEqual(data, NeedTokenError)
             # == 缺少名称字段时，不能创建 ==
-            data = self.post("/v1/teams", token=token)
+            data = self.post("/v1/teams", json={}, token=token)
             self.assertErrorEqual(data, ValidateError)
             self.assertIsNotNone(data.json["message"].get("name"))
             # == 名称长度错误时，不能创建 ==
@@ -342,7 +342,7 @@ class TeamAPITestCase(MoeAPITestCase):
             self.assertErrorEqual(data, ValidateError)
             self.assertIsNotNone(data.json["message"].get("name"))
             # == 空json报错 ==
-            data = self.put(f"/v1/teams/{str(team1.id)}", token=token)
+            data = self.put(f"/v1/teams/{str(team1.id)}", json={}, token=token)
             self.assertErrorEqual(data, RequestDataEmptyError)
             data = self.put(f"/v1/teams/{str(team1.id)}", json={}, token=token)
             self.assertErrorEqual(data, RequestDataEmptyError)

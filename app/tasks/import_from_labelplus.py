@@ -11,7 +11,7 @@ from flask import Flask
 from app import celery
 
 from app.models import connect_db
-from . import SyncResult
+from . import SyncResult, _FORCE_SYNC_TASK
 from celery.utils.log import get_task_logger
 from app.utils.labelplus import load_from_labelplus
 from app.constants.source import SourcePositionType
@@ -103,7 +103,7 @@ def import_from_labelplus_task(project_id):
 
 def import_from_labelplus(project_id, /, *, run_sync=False) -> SyncResult | AsyncResult:
     alive_workers = celery.control.ping()
-    if len(alive_workers) == 0 or run_sync:
+    if len(alive_workers) == 0 or run_sync or _FORCE_SYNC_TASK:
         # 同步执行
         import_from_labelplus_task(project_id)
         return SyncResult()

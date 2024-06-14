@@ -1,0 +1,39 @@
+# genearted from moeflow-deploy repo like
+# docker-compose -f docker-compose.yml -f docker-compose.dev.yml config moeflow-mongodb moeflow-rabbitmq
+version: '3.3'
+# name: moeflow-backend-test-deps
+services:
+  moeflow-mongodb:
+    environment:
+      MONGO_INITDB_ROOT_PASSWORD: CHANGE_ME
+      MONGO_INITDB_ROOT_USERNAME: moeflow
+    healthcheck:
+      test:
+        - CMD
+        - mongo
+        - --eval
+        - db.adminCommand('ping')
+      timeout: 5s
+      interval: 15s
+      start_period: 10s
+    image: docker.io/mongo:4.4.1
+    ports:
+      - 127.0.0.1:27017:27017
+    restart: unless-stopped
+  moeflow-rabbitmq:
+    environment:
+      RABBITMQ_DEFAULT_PASS: CHANGE_ME
+      RABBITMQ_DEFAULT_USER: moeflow
+      RABBITMQ_DEFAULT_VHOST: moeflow
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - rabbitmq-diagnostics -q ping
+      timeout: 5s
+      interval: 5s
+      start_period: 10s
+    image: docker.io/rabbitmq:3.8.9-management
+    ports:
+      - 127.0.0.1:5672:5672 # AMQP
+      - 127.0.0.1:15672:15672 # management UI
+    restart: unless-stopped

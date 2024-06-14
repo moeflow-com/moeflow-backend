@@ -1,3 +1,4 @@
+import logging
 from mongoengine import (
     Document,
     ListField,
@@ -5,7 +6,9 @@ from mongoengine import (
     StringField,
     ObjectIdField,
 )
-from app.utils.logging import logger
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 
 class SiteSetting(Document):
@@ -29,11 +32,10 @@ class SiteSetting(Document):
 
     @classmethod
     def init_site_setting(cls):
-        logger.info("-" * 50)
         if cls.objects(type="site").count() > 0:
-            logger.info("已有站点设置，跳过初始化")
+            logger.debug("已有站点设置，跳过初始化")
         else:
-            logger.info("初始化站点设置")
+            logger.debug("初始化站点设置")
             cls(type="site").save()
 
     @classmethod

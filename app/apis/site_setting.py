@@ -52,8 +52,8 @@ class SiteSettingAPI(MoeAPIView):
         site_setting.whitelist_emails = data["whitelist_emails"]
         site_setting.only_allow_admin_create_team = data["only_allow_admin_create_team"]
         site_setting.auto_join_team_ids = data["auto_join_team_ids"]
-        site_setting.homepage_html = data["homepage_html"]
-        site_setting.homepage_css = data["homepage_css"]
+        site_setting.homepage_html = data.get("homepage_html", "")
+        site_setting.homepage_css = data.get("homepage_css", "")
         site_setting.save()
         site_setting.reload()
         return site_setting.to_api()

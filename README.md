@@ -1,5 +1,7 @@
 # 萌翻[MoeFlow]后端项目
 
+[![codecov](https://codecov.io/gh/moeflow-com/moeflow-backend/graph/badge.svg?token=LQJBLB495F)](https://codecov.io/gh/moeflow-com/moeflow-backend)
+
 由于此版本调整了部分 API 接口， **请配合萌翻前端 Version.1.0.1 版本使用！** 直接使用旧版可能在修改（创建）团队和项目时报错。
 
 此版本需配置 **阿里云 OSS** 作为文件存储。如果需要使用其他文件存储方式，可以选择使用以下的分支版本：
