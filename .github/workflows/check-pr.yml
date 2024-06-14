@@ -34,3 +34,7 @@ jobs:
         emoji: false
         verbose: true
         job-summary: true
+    - uses: codecov/codecov-action@v4.0.1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+      if: ${{ secrets.CODECOV_TOKEN }}
