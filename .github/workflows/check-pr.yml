@@ -25,7 +25,7 @@ jobs:
     - run: docker-compose -f tests/deps.yaml up -d
     - uses: actions/setup-python@v5
       with:
-        python-version: '3.10'
+        python-version: '3.11'
         cache: 'pip'
     - run: pip install -r requirements.txt
     - run: cp -rv .env.test.sample .env.test
