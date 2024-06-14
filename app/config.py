@@ -15,6 +15,7 @@ LOG_LEVEL = env.get("LOG_LEVEL", "INFO")
 LOG_PATH = env.get("LOG_PATH")
 MAX_CONTENT_LENGTH = int(env.get("MAX_CONTENT_LENGTH_MB", 1024)) * 1024 * 1024
 ADMIN_EMAIL = env["ADMIN_EMAIL"]
+ADMIN_INITIAL_PASSWORD = env.get("ADMIN_INITIAL_PASSWORD", "123123")
 # TODO reduce code relying on this
 TESTING = env.get("TESTING") == "YES"
 # -----------

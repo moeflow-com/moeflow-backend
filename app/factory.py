@@ -93,7 +93,7 @@ def create_or_override_default_admin(app: Flask):
         admin_user = User.create(
             name="Admin",
             email=app.config["ADMIN_EMAIL"],
-            password="123123",
+            password=app.config["ADMIN_INITIAL_PASSWORD"],
         )
         admin_user.admin = True
         admin_user.save()
