@@ -33,7 +33,7 @@ jobs:
       with:
         job-summary: true
         verbose: true
-        custom-arguments: '-n=4'
+        custom-arguments: '-n=2'
         emoji: false
     - uses: codecov/codecov-action@v4.0.1
       if: always()
