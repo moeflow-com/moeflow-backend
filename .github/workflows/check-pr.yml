@@ -31,9 +31,10 @@ jobs:
     - run: cp -rv .env.test.sample .env.test
     - uses: pavelzw/pytest-action@v2
       with:
-        emoji: false
-        verbose: true
         job-summary: true
+        verbose: true
+        custom-arguments: '-n=2'
+        emoji: false
     - uses: codecov/codecov-action@v4.0.1
       if: always()
       with:
