@@ -13,7 +13,6 @@ from .factory import (
     gs_vision,
 )
 
-from app.constants.locale import Locale
 from app.utils.logging import configure_root_logger, configure_extra_logs
 
 configure_root_logger()
@@ -35,19 +34,6 @@ init_flask_app(flask_app)
 
 def create_app():
     return flask_app
-
-
-@babel.localeselector
-def get_locale():
-    current_user = g.get("current_user")
-    if (
-        current_user
-        and current_user.locale
-        and current_user.locale != "auto"
-        and current_user.locale in Locale.ids()
-    ):
-        return current_user.locale
-    return request.accept_languages.best_match(["zh_CN", "zh_TW", "zh", "en_US", "en"])
 
 
 # @babel.timezoneselector

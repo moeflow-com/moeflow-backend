@@ -1,7 +1,8 @@
 import logging
 from celery import Celery
-from flask import Flask
+from flask import Flask, g, request
 from flask_apikit import APIKit
+from app.constants.locale import Locale
 from flask_babel import Babel
 from app.core.rbac import AllowApplyType, ApplicationCheckType
 from app.services.google_storage import GoogleStorage
@@ -23,8 +24,13 @@ app_config = {
     k: getattr(_app_config, k) for k in dir(_app_config) if not k.startswith("_")
 }
 
+_create_flask_app_called = False
+
 
 def create_flask_app(app: Flask) -> Flask:
+    global _create_flask_app_called
+    assert not _create_flask_app_called, "create_flask_app should only be called once"
+    _create_flask_app_called = True
     app.config.from_mapping(app_config)
     connect_db(app.config)
     # print("WTF", app.logger.level)
@@ -37,11 +43,25 @@ def create_flask_app(app: Flask) -> Flask:
 
 def init_flask_app(app: Flask):
     register_apis(app)
-    babel.init_app(app)
+    babel.init_app(app, locale_selector=get_locale)
     apikit.init_app(app)
     logger.info("-" * 50)
-    logger.info("站点支持语言: " + str([str(i) for i in babel.list_translations()]))
+    with app.app_context():
+        print(app.extensions["babel"])
+        logger.info("站点支持语言: " + str([str(i) for i in babel.list_translations()]))
     oss.init(app.config)  # 文件储存
+
+
+def get_locale() -> str:
+    current_user = g.get("current_user")
+    if (
+        current_user
+        and current_user.locale
+        and current_user.locale != "auto"
+        and current_user.locale in Locale.ids()
+    ):
+        return current_user.locale
+    return request.accept_languages.best_match(["zh_CN", "zh_TW", "zh", "en_US", "en"])
 
 
 def create_celery(app: Flask) -> Celery:
@@ -126,6 +146,7 @@ def create_default_team(admin_user):
 
 
 def init_db(app: Flask):
+    """init db models"""
     # 初始化角色，语言
     from app.models.language import Language
     from app.models.project import ProjectRole
