@@ -1,14 +1,14 @@
 import logging
 from celery import Celery
-from flask import Flask, g, request
+from flask import Flask
 from flask_apikit import APIKit
-from app.constants.locale import Locale
 from flask_babel import Babel
 from app.core.rbac import AllowApplyType, ApplicationCheckType
 from app.services.google_storage import GoogleStorage
 import app.config as _app_config
 from app.services.oss import OSS
 from .apis import register_apis
+from app.translations import get_locale
 
 from app.models import connect_db
 
@@ -50,18 +50,6 @@ def init_flask_app(app: Flask):
         print(app.extensions["babel"])
         logger.info("站点支持语言: " + str([str(i) for i in babel.list_translations()]))
     oss.init(app.config)  # 文件储存
-
-
-def get_locale() -> str:
-    current_user = g.get("current_user")
-    if (
-        current_user
-        and current_user.locale
-        and current_user.locale != "auto"
-        and current_user.locale in Locale.ids()
-    ):
-        return current_user.locale
-    return request.accept_languages.best_match(["zh_CN", "zh_TW", "zh", "en_US", "en"])
 
 
 def create_celery(app: Flask) -> Celery:

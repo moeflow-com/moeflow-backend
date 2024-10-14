@@ -1,14 +1,13 @@
 import os
 import logging
 
-from flask import Flask, g, request
+from flask import Flask
 
 from .factory import (
     app_config,
     create_celery,
     create_flask_app,
     init_flask_app,
-    babel,
     oss,
     gs_vision,
 )
@@ -35,14 +34,6 @@ init_flask_app(flask_app)
 def create_app():
     return flask_app
 
-
-# @babel.timezoneselector
-# def get_timezone():
-#     # TODO 弄清 timezone 是什么东西
-#     current_user = g.get('current_user')
-#     if current_user:
-#         if current_user.timezone:
-#             return current_user.timezone
 
 __all__ = [
     "oss",
