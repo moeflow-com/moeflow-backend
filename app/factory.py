@@ -47,7 +47,6 @@ def init_flask_app(app: Flask):
     apikit.init_app(app)
     logger.info("-" * 50)
     with app.app_context():
-        print(app.extensions["babel"])
         logger.info("站点支持语言: " + str([str(i) for i in babel.list_translations()]))
     oss.init(app.config)  # 文件储存
 

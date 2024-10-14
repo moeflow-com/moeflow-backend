@@ -17,11 +17,12 @@ Persistent models in MongoDB.
 
 - `Project`
 - `ProjectSet`
-- `Files`
 
-### Translations
+### Inside project
 
-`Source` `Target`
+- `File`
+- `Source`
+- `Target`
 
 ## etc
 
