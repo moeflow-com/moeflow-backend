@@ -1,11 +1,7 @@
-# 本文件只包含顶层或需要特别指定版本的pip包版本
-# requirements.txt 含有 `pip install -r 本文件` 后的所有包版本
+# THIS FILE is for leaf packages or version overrides
+# requirements.txt contains all package versions. It should be updated with `make requirements.txt`
 #
-# 更新deps的步骤:
-# 1. 更新本文件
-# 2. venv/bin/pip install -r deps-top.txt --use-pep517
-# 3. venv/bin/pipdeptree --freeze > requirements.txt
-#
+python-dotenv==1.0.1
 Flask==2.2.5
 # Jinja2==3.0.3
 itsdangerous==2.0.1               # MUST NOT upgrade this, we still use TimedJSONWebSignatureSerializer

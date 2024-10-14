@@ -10,11 +10,14 @@ Persistent models in MongoDB.
 
 ### Team
 
-`Team`
+- `Team`
+- `Application`
 
 ### Projects
 
-`Project` `ProjectSet` `Files`
+- `Project`
+- `ProjectSet`
+- `Files`
 
 ### Translations
 
@@ -22,7 +25,6 @@ Persistent models in MongoDB.
 
 ## etc
 
-- `Application`
 - `VCode`
 
 <!--

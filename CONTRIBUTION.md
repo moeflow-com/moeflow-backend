@@ -8,7 +8,7 @@
 ### init venv for development
 
 ```
-$ python3.10 -mvenv venv
+$ make create-venv deps
 $ venv/bin/pip install -r requirements.txt
 ```
 
@@ -17,5 +17,9 @@ $ venv/bin/pip install -r requirements.txt
 ```
 $ venv/bin/ruff .
 ```
+
+
+### run within docker
+
 
 
