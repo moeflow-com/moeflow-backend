@@ -7,58 +7,951 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-05-09 18:11+0800\n"
+"POT-Creation-Date: 2024-10-14 13:30+0000\n"
 "PO-Revision-Date: 2017-04-14 15:23+0800\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh_Hant_TW\n"
 "Language-Team: zh_Hant_TW <LL@li.org>\n"
-"Plural-Forms: nplurals=1; plural=0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.4.0\n"
+"Generated-By: Babel 2.16.0\n"
 
-#: app/apis/auth.py:58
+#: app/apis/application.py:147 app/apis/invitation.py:200
+msgid "已接受"
+msgstr ""
+
+#: app/apis/application.py:154 app/apis/invitation.py:205
+msgid "已拒绝"
+msgstr ""
+
+#: app/apis/application.py:181
+msgid "只有申请人可以删除申请"
+msgstr ""
+
+#: app/apis/application.py:183 app/apis/file.py:254 app/apis/invitation.py:236
+#: app/apis/project_set.py:102 app/apis/target.py:31 app/apis/term.py:151
+#: app/apis/term.py:311 app/core/rbac.py:483
+msgid "删除成功"
+msgstr ""
+
+#: app/apis/avatar.py:56 app/validators/avatar.py:23
+msgid "不支持的头像类型"
+msgstr ""
+
+#: app/apis/avatar.py:58 app/validators/avatar.py:25
+msgid "缺少id"
+msgstr ""
+
+#: app/apis/avatar.py:75 app/apis/invitation.py:166 app/apis/me.py:116
+#: app/apis/me.py:149 app/apis/project.py:93 app/apis/project_set.py:71
+#: app/apis/source.py:204 app/apis/team.py:187 app/apis/term.py:122
+#: app/apis/term.py:278 app/apis/user.py:188 app/apis/user.py:220
+msgid "修改成功"
+msgstr ""
+
+#: app/apis/file.py:57 app/apis/project.py:53
+msgid "您没有此项目的访问权限"
+msgstr ""
+
+#: app/apis/file.py:121
+msgid "您没有此项目的上传文件权限"
+msgstr ""
+
+#: app/apis/file.py:159 app/apis/file.py:220
+msgid "您没有权限移动文件"
+msgstr ""
+
+#: app/apis/file.py:225
+msgid "移动成功"
+msgstr ""
+
+#: app/apis/file.py:228
+msgid "您没有权限修改文件名"
+msgstr ""
+
+#: app/apis/file.py:230
+msgid "改名成功"
+msgstr ""
+
+#: app/apis/file.py:232
+msgid "需要提供parent_id或name参数"
+msgstr ""
+
+#: app/apis/file.py:252
+msgid "您没有权限删除文件"
+msgstr ""
+
+#: app/apis/file.py:279 app/apis/project.py:366
+msgid "您没有此项目所在团队使用自动标记限额的权限"
+msgstr ""
+
+#: app/apis/file.py:282 app/apis/project.py:369
+msgid "源语言不支持自动标记"
+msgstr ""
+
+#: app/apis/file.py:284
+msgid "文件不是图像文件"
+msgstr ""
+
+#: app/apis/file.py:286 app/apis/project.py:378
+msgid "团队限额不足"
+msgstr ""
+
+#: app/apis/file.py:288 app/constants/file.py:117
+msgid "已加入队列"
+msgstr ""
+
+#: app/apis/file.py:316
+msgid "处理成功"
+msgstr ""
+
+#: app/apis/invitation.py:156
+msgid "只能修改邀请角色等级比您低的邀请"
+msgstr ""
+
+#: app/apis/invitation.py:163 app/models/user.py:383
+msgid "邀请的角色等级需要比您低"
+msgstr ""
+
+#: app/apis/invitation.py:234
+msgid "只能删除邀请角色等级比您低的邀请"
+msgstr ""
+
+#: app/apis/me.py:180
+msgid "修改成功，请重新登陆"
+msgstr ""
+
+#: app/apis/project.py:125
+msgid "完结项目成功"
+msgstr ""
+
+#: app/apis/project.py:150
+msgid "操作无效"
+msgstr ""
+
+#: app/apis/project.py:155
+msgid "恢复项目成功"
+msgstr ""
+
+#: app/apis/project.py:203
+msgid "添加目标语言成功"
+msgstr ""
+
+#: app/apis/project.py:371
+msgid "自动标记进行中"
+msgstr ""
+
+#: app/apis/project.py:376
+msgid "未发现需要标记的图片"
+msgstr ""
+
+#: app/apis/project.py:381
+msgid "已开始自动标记"
+msgstr ""
+
+#: app/apis/project.py:411
+msgid "销毁计划创建成功"
+msgstr ""
+
+#: app/apis/project.py:438
+msgid "销毁计划取消成功"
+msgstr ""
+
+#: app/apis/project.py:468
+msgid "完结计划创建成功"
+msgstr ""
+
+#: app/apis/project.py:495
+msgid "完结计划取消成功"
+msgstr ""
+
+#: app/apis/project_set.py:66
+msgid "默认项目集不能进行设置"
+msgstr ""
+
+#: app/apis/project_set.py:100
+msgid "默认项目集不能删除"
+msgstr ""
+
+#: app/apis/source.py:104
+msgid "只有图片文件能添加原文"
+msgstr ""
+
+#: app/apis/source.py:141
+msgid "只有图片文件能修改原文"
+msgstr ""
+
+#: app/apis/source.py:167
+msgid "只有图片文件能删除原文"
+msgstr ""
+
+#: app/apis/source.py:196
+msgid "只有图片文件能修改原文顺序"
+msgstr ""
+
+#: app/apis/team.py:128 app/apis/team.py:326 app/apis/team.py:387
+#: app/apis/team.py:451 app/apis/term.py:84 app/apis/term.py:238
+msgid "创建成功"
+msgstr ""
+
+#: app/apis/team.py:218
+msgid "此团队含有未完结的项目，不能解散（请先完结或者转移项目）"
+msgstr ""
+
+#: app/apis/team.py:221
+msgid "解散成功"
+msgstr ""
+
+#: app/apis/team.py:308 app/apis/team.py:352
+msgid "您没有权限在这个团队创建项目"
+msgstr ""
+
+#: app/apis/team.py:338
+msgid "创建导出任务成功"
+msgstr ""
+
+#: app/apis/team.py:447
+msgid "您没有权限在这个团队创建项目集"
+msgstr ""
+
+#: app/apis/team.py:478 app/apis/team.py:498 app/apis/team.py:529
+#: app/apis/team.py:556
+msgid "您没有权限查看本团队项目统计"
+msgstr ""
+
+#: app/apis/term.py:73
+msgid "您没有「创建术语库」权限，不能在此团队创建术语库"
+msgstr ""
+
+#: app/apis/term.py:113
+msgid "您没有「设置他人术语库」权限，只能设置自己创建的术语库"
+msgstr ""
+
+#: app/apis/term.py:148
+msgid "您没有「删除他人术语库」权限，只能删除自己创建的术语库"
+msgstr ""
+
+#: app/apis/term.py:180
+msgid "您没有「查看他人术语库」权限，只能查看自己创建的术语库中的术语"
+msgstr ""
+
+#: app/apis/term.py:225
+msgid "您没有「在他人术语库中增加术语」权限，只能在自己创建的术语库中增加术语"
+msgstr ""
+
+#: app/apis/term.py:271
+msgid "您没有「修改他人术语」权限，只能修改自己创建的术语或自己术语库中的术语"
+msgstr ""
+
+#: app/apis/term.py:306
+msgid "您没有「删除他人术语」权限，只能删除自己创建的术语或自己术语库中的术语"
+msgstr ""
+
+#: app/apis/user.py:124 app/apis/user.py:175
 msgid "注册成功"
 msgstr ""
 
-#: app/exceptions/auth.py:16
+#: app/constants/file.py:61
+msgid "解析未开始"
+msgstr ""
+
+#: app/constants/file.py:62
+msgid "解析排队中"
+msgstr ""
+
+#: app/constants/file.py:63
+msgid "解析中"
+msgstr ""
+
+#: app/constants/file.py:64
+msgid "解析失败"
+msgstr ""
+
+#: app/constants/file.py:65
+msgid "解析成功"
+msgstr ""
+
+#: app/constants/file.py:71
+msgid "自动标记未开始"
+msgstr ""
+
+#: app/constants/file.py:72 app/constants/output.py:17
+#: app/constants/project.py:31
+msgid "排队中"
+msgstr ""
+
+#: app/constants/file.py:73
+msgid "自动标记中"
+msgstr ""
+
+#: app/constants/file.py:74
+msgid "自动标记失败"
+msgstr ""
+
+#: app/constants/file.py:75 app/constants/file.py:123
+msgid "自动标记完成"
+msgstr ""
+
+#: app/constants/file.py:89
+msgid "其他错误"
+msgstr ""
+
+#: app/constants/file.py:90
+msgid "未知字符集"
+msgstr ""
+
+#: app/constants/file.py:92
+msgid "文件无法读取，请确认文件完好或尝试重新上传"
+msgstr ""
+
+#: app/constants/file.py:95
+msgid "图片读取失败，请稍后再试（1）"
+msgstr ""
+
+#: app/constants/file.py:98
+msgid "图片读取失败，请稍后再试（2）"
+msgstr ""
+
+#: app/constants/file.py:100
+msgid "图片超过 20MB 无法标记"
+msgstr ""
+
+#: app/constants/file.py:102
+msgid "自动标记服务离线，请稍后再试"
+msgstr ""
+
+#: app/constants/file.py:118
+msgid "重试中"
+msgstr ""
+
+#: app/constants/file.py:119
+msgid "翻找图片中"
+msgstr ""
+
+#: app/constants/file.py:120
+msgid "整理数据中"
+msgstr ""
+
+#: app/constants/file.py:121
+msgid "图片识别中"
+msgstr ""
+
+#: app/constants/file.py:122
+msgid "标记中"
+msgstr ""
+
+#: app/constants/locale.py:15
+msgid "自动"
+msgstr ""
+
+#: app/constants/locale.py:15
+msgid "遵循浏览器设置"
+msgstr ""
+
+#: app/constants/locale.py:16
+msgid "中文（简体）"
+msgstr ""
+
+#: app/constants/locale.py:17
+msgid "中文（繁体）"
+msgstr ""
+
+#: app/constants/locale.py:18
+msgid "英文"
+msgstr ""
+
+#: app/constants/output.py:18
+msgid "翻译整理中"
+msgstr ""
+
+#: app/constants/output.py:19
+msgid "源文件整理中"
+msgstr ""
+
+#: app/constants/output.py:20
+msgid "压缩中"
+msgstr ""
+
+#: app/constants/output.py:21
+msgid "已完成"
+msgstr ""
+
+#: app/constants/output.py:22
+msgid "导出错误，请重试"
+msgstr ""
+
+#: app/constants/project.py:16 app/constants/project.py:32
+msgid "进行中"
+msgstr ""
+
+#: app/constants/project.py:17
+msgid "已完结"
+msgstr ""
+
+#: app/constants/project.py:18
+msgid "等待完结"
+msgstr ""
+
+#: app/constants/project.py:19
+msgid "等待销毁"
+msgstr ""
+
+#: app/constants/project.py:20
+msgid "已删除"
+msgstr ""
+
+#: app/constants/project.py:33
+msgid "成功"
+msgstr ""
+
+#: app/constants/project.py:34
+msgid "错误"
+msgstr ""
+
+#: app/constants/project.py:46
+msgid "从 Labelplus 文本导入中断，请重试，如仍出现同样错误，请联系开发团队"
+msgstr ""
+
+#: app/constants/project.py:51
+msgid "从 Labelplus 文本导入时，没有有效的翻译目标语言"
+msgstr ""
+
+#: app/constants/project.py:53
+msgid "从 Labelplus 文本导入时，项目没有创建人"
+msgstr ""
+
+#: app/constants/project.py:55
+msgid "Labelplus 文本解析失败，请联系开发团队"
+msgstr ""
+
+#: app/core/rbac.py:49
+msgid "关闭申请加入"
+msgstr ""
+
+#: app/core/rbac.py:50
+msgid "只能通过邀请新增成员"
+msgstr ""
+
+#: app/core/rbac.py:53
+msgid "所有人"
+msgstr ""
+
+#: app/core/rbac.py:54
+msgid "所以用户都可以申请加入"
+msgstr ""
+
+#: app/core/rbac.py:69
+msgid "无需审核"
+msgstr ""
+
+#: app/core/rbac.py:70
+msgid "用户申请后直接加入"
+msgstr ""
+
+#: app/core/rbac.py:73
+msgid "管理员审核"
+msgstr ""
+
+#: app/core/rbac.py:74
+msgid "管理员同意申请后加入"
+msgstr ""
+
+#: app/core/rbac.py:99
+msgid "访问"
+msgstr ""
+
+#: app/core/rbac.py:100
+msgid "解散"
+msgstr ""
+
+#: app/core/rbac.py:101
+msgid "修改设置"
+msgstr ""
+
+#: app/core/rbac.py:102
+msgid "新建角色"
+msgstr ""
+
+#: app/core/rbac.py:103
+msgid "删除角色"
+msgstr ""
+
+#: app/core/rbac.py:104
+msgid "审核用户加入申请"
+msgstr ""
+
+#: app/core/rbac.py:106
+msgid "邀请用户"
+msgstr ""
+
+#: app/core/rbac.py:107
+msgid "邀请时仅可设置比自己角色等级低的用户"
+msgstr ""
+
+#: app/core/rbac.py:110
+msgid "删除用户"
+msgstr ""
+
+#: app/core/rbac.py:111
+msgid "仅可删除比自己角色等级低的用户"
+msgstr ""
+
+#: app/core/rbac.py:114
+msgid "修改用户角色"
+msgstr ""
+
+#: app/core/rbac.py:115
+msgid "仅可修改比自己角色等级低的角色"
+msgstr ""
+
+#: app/core/rbac.py:117
+msgid "修改用户备注"
+msgstr ""
+
+#: app/core/rbac.py:284 app/core/rbac.py:322
+msgid "角色等级不能大于等于自己的角色等级"
+msgstr ""
+
+#: app/core/rbac.py:286 app/core/rbac.py:324
+msgid "角色权限不能多于自己的角色权限"
+msgstr ""
+
+#: app/core/rbac.py:317
+msgid "不能修改系统角色"
+msgstr ""
+
+#: app/core/rbac.py:339
+msgid "不能删除系统角色"
+msgstr ""
+
+#: app/core/rbac.py:388 app/core/rbac.py:389
+msgid "此项目/团队不允许申请加入"
+msgstr ""
+
+#: app/core/rbac.py:464
+msgid "用户不存在于团队"
+msgstr ""
+
+#: app/core/rbac.py:474
+msgid "退出成功"
+msgstr ""
+
+#: app/core/rbac.py:478
+msgid "您没有删除用户权限"
+msgstr ""
+
+#: app/core/rbac.py:481
+msgid "只能删除角色等级比您低的用户"
+msgstr ""
+
+#: app/core/rbac.py:501
+msgid "您不能修改自己的角色"
+msgstr ""
+
+#: app/core/rbac.py:504
+msgid "您没有修改用户角色权限"
+msgstr ""
+
+#: app/core/rbac.py:508
+msgid "只能为比您角色等级低的用户设置角色"
+msgstr ""
+
+#: app/core/rbac.py:511
+msgid "只能为用户设置比您角色等级低的角色"
+msgstr ""
+
+#: app/core/rbac.py:539
+msgid "默认角色不能设置为创建者"
+msgstr ""
+
+#: app/decorators/file.py:44
+msgid "不能对文件夹执行 "
+msgstr ""
+
+#: app/decorators/file.py:56
+msgid "不能对文件执行 "
+msgstr ""
+
+#: app/exceptions/auth.py:13
 msgid "验证异常"
 msgstr ""
 
-#: app/exceptions/auth.py:25
-msgid "需要登录"
-msgstr ""
-
-#: app/exceptions/auth.py:34
+#: app/exceptions/auth.py:23 app/validators/custom_validate.py:103
 msgid "此邮箱未注册"
 msgstr ""
 
-#: app/exceptions/auth.py:43
+#: app/exceptions/auth.py:33 app/validators/v_code.py:29
 msgid "密码错误"
 msgstr ""
 
-#: app/exceptions/auth.py:52
+#: app/exceptions/auth.py:44
 msgid "需要令牌"
 msgstr "需要令牌TW"
 
-#: app/exceptions/auth.py:63
-msgid "无效的令牌 ({message})"
-msgstr "無效的令牌 ({message})"
+#: app/exceptions/auth.py:55
+msgid "无效的令牌"
+msgstr ""
 
-#: app/exceptions/base.py:20
+#: app/exceptions/auth.py:65 app/models/user.py:201 app/validators/v_code.py:27
+msgid "用户不存在"
+msgstr ""
+
+#: app/exceptions/auth.py:75
+msgid "此用户被封禁"
+msgstr ""
+
+#: app/exceptions/auth.py:85 app/validators/custom_message.py:4
+msgid "邮箱格式不正确"
+msgstr "郵箱格式不正確"
+
+#: app/exceptions/auth.py:95
+msgid "此邮箱已被注册"
+msgstr ""
+
+#: app/exceptions/auth.py:105 app/exceptions/team.py:38
+msgid "仅可使用中文/日文/韩文/英文/数字/_"
+msgstr ""
+
+#: app/exceptions/auth.py:115
+msgid "此昵称已被使用"
+msgstr ""
+
+#: app/exceptions/auth.py:125 app/exceptions/team.py:58
+msgid "长度为2到18个字符"
+msgstr ""
+
+#: app/exceptions/auth.py:135
+msgid "邮箱不在白名单中，请联系管理员添加"
+msgstr ""
+
+#: app/exceptions/base.py:26
 msgid "未定义的错误"
 msgstr ""
 
-#: app/exceptions/v_code.py:16
+#: app/exceptions/base.py:36
+msgid "错误的ObjectId"
+msgstr ""
+
+#: app/exceptions/base.py:46
+msgid "角色不存在"
+msgstr ""
+
+#: app/exceptions/base.py:56
+msgid "没有权限"
+msgstr ""
+
+#: app/exceptions/base.py:95
+msgid "逗号分割的数字字符串包含非数字"
+msgstr ""
+
+#: app/exceptions/base.py:105
+msgid "权限不存在"
+msgstr ""
+
+#: app/exceptions/base.py:115
+msgid "文件名错误"
+msgstr ""
+
+#: app/exceptions/base.py:125
+msgid "文件类型不支持此操作"
+msgstr ""
+
+#: app/exceptions/base.py:135
+msgid "上传未包含文件"
+msgstr ""
+
+#: app/exceptions/base.py:145
+msgid "请求参数不能为空或没有需要的值"
+msgstr ""
+
+#: app/exceptions/base.py:155
+msgid "请求参数错误"
+msgstr ""
+
+#: app/exceptions/file.py:13
+msgid "文件异常"
+msgstr ""
+
+#: app/exceptions/file.py:23
+msgid "文件/文件夹不存在，可能已被删除"
+msgstr ""
+
+#: app/exceptions/file.py:33
+msgid "文件夹不存在，可能已被删除"
+msgstr ""
+
+#: app/exceptions/file.py:43
+msgid "后缀名必须属于原文件的文件类型"
+msgstr ""
+
+#: app/exceptions/file.py:53
+msgid "源文件不存在"
+msgstr ""
+
+#: app/exceptions/file.py:60
+msgid "未知"
+msgstr ""
+
+#: app/exceptions/file.py:62
+msgid "待上传"
+msgstr ""
+
+#: app/exceptions/file.py:64
+msgid "用户操作完结时清除"
+msgstr ""
+
+#: app/exceptions/file.py:66
+msgid "含有敏感信息已删除"
+msgstr ""
+
+#: app/exceptions/file.py:78
+msgid "原文不存在，已被删除"
+msgstr ""
+
+#: app/exceptions/file.py:88
+msgid "正在移动顺序，请稍后尝试"
+msgstr ""
+
+#: app/exceptions/file.py:98
+msgid "翻译不唯一"
+msgstr ""
+
+#: app/exceptions/join_process.py:13
+msgid "加入流程异常"
+msgstr ""
+
+#: app/exceptions/join_process.py:23
+msgid "不支持此团体类型"
+msgstr ""
+
+#: app/exceptions/join_process.py:35
+msgid "用户已经在 “{name}” 中"
+msgstr ""
+
+#: app/exceptions/join_process.py:45
+msgid "已邀请此用户，请等待用户确认"
+msgstr ""
+
+#: app/exceptions/join_process.py:55
+msgid "您已经申请，请等待管理员确认"
+msgstr ""
+
+#: app/exceptions/join_process.py:65 app/exceptions/join_process.py:75
+msgid "邀请不存在"
+msgstr ""
+
+#: app/exceptions/join_process.py:85
+msgid "允许申请类型不存在"
+msgstr ""
+
+#: app/exceptions/join_process.py:95
+msgid "申请审核类型不存在"
+msgstr ""
+
+#: app/exceptions/join_process.py:105
+msgid "无法修改此邀请"
+msgstr ""
+
+#: app/exceptions/join_process.py:115
+msgid "无法修改此申请"
+msgstr ""
+
+#: app/exceptions/join_process.py:125
+msgid "已满员，不可申请加入或邀请新成员"
+msgstr ""
+
+#: app/exceptions/join_process.py:135
+msgid "创建者无法退出团体，请转移创建者权限后操作"
+msgstr ""
+
+#: app/exceptions/join_process.py:145
+msgid "此团体不向公众开放"
+msgstr ""
+
+#: app/exceptions/language.py:13
+msgid "语言异常"
+msgstr ""
+
+#: app/exceptions/language.py:23
+msgid "语言不存在"
+msgstr ""
+
+#: app/exceptions/language.py:33
+msgid "原语言和目标语言不能相同"
+msgstr ""
+
+#: app/exceptions/language.py:43
+msgid "需要设置目标语言"
+msgstr ""
+
+#: app/exceptions/language.py:53
+msgid "已有此目标语言"
+msgstr ""
+
+#: app/exceptions/message.py:13
+msgid "站内信异常"
+msgstr ""
+
+#: app/exceptions/message.py:23
+msgid "站内信类型错误"
+msgstr ""
+
+#: app/exceptions/output.py:13
+msgid "导出异常"
+msgstr ""
+
+#: app/exceptions/output.py:23
+msgid "导出导出文件不存在"
+msgstr ""
+
+#: app/exceptions/output.py:33
+msgid "导出过于频繁，请稍后再试"
+msgstr ""
+
+#: app/exceptions/project.py:13
+msgid "项目异常"
+msgstr ""
+
+#: app/exceptions/project.py:23
+msgid "项目不存在"
+msgstr ""
+
+#: app/exceptions/project.py:33 app/exceptions/project.py:267
+msgid "项目已完结"
+msgstr ""
+
+#: app/exceptions/project.py:43
+msgid "图片正在自动标记中，请稍后"
+msgstr ""
+
+#: app/exceptions/project.py:53
+msgid "图片已自动标记完成，不能再次自动标记"
+msgstr ""
+
+#: app/exceptions/project.py:63
+msgid "文件不存在"
+msgstr ""
+
+#: app/exceptions/project.py:73
+msgid "文件名重复"
+msgstr ""
+
+#: app/exceptions/project.py:83
+msgid "文本正在解析，请稍后"
+msgstr ""
+
+#: app/exceptions/project.py:93
+msgid "文本已解析成功"
+msgstr ""
+
+#: app/exceptions/project.py:103
+msgid "翻译不能为空"
+msgstr ""
+
+#: app/exceptions/project.py:113
+msgid "目标必须是文件夹"
+msgstr ""
+
+#: app/exceptions/project.py:123
+msgid "目标文件夹不能是自己本身"
+msgstr ""
+
+#: app/exceptions/project.py:133
+msgid "目标文件夹与原父级文件夹相同"
+msgstr ""
+
+#: app/exceptions/project.py:143
+msgid "不能移动到自己的子文件夹"
+msgstr ""
+
+#: app/exceptions/project.py:153
+msgid "不能操作非激活修订版"
+msgstr ""
+
+#: app/exceptions/project.py:163
+msgid "此修订版已激活"
+msgstr ""
+
+#: app/exceptions/project.py:173
+msgid "文件夹不能进行修订版操作"
+msgstr ""
+
+#: app/exceptions/project.py:183
+msgid "原文已有翻译"
+msgstr ""
+
+#: app/exceptions/project.py:196
+msgid "备注不能为空"
+msgstr ""
+
+#: app/exceptions/project.py:206
+msgid "项目集不存在"
+msgstr ""
+
+#: app/exceptions/project.py:216
+msgid "项目还没有正式完结"
+msgstr ""
+
+#: app/exceptions/project.py:226
+msgid "项目目标语言不存在"
+msgstr ""
+
+#: app/exceptions/project.py:236
+msgid "项目已有销毁计划"
+msgstr ""
+
+#: app/exceptions/project.py:246
+msgid "项目已有完结计划"
+msgstr ""
+
+#: app/exceptions/project.py:256
+msgid "项目没有销毁计划"
+msgstr ""
+
+#: app/exceptions/project.py:277
+msgid "\"翻译数据.txt\" 解析失败"
+msgstr ""
+
+#: app/exceptions/team.py:13
+msgid "团队异常"
+msgstr ""
+
+#: app/exceptions/team.py:23
+msgid "团队不存在"
+msgstr ""
+
+#: app/exceptions/team.py:48
+msgid "此团队名已被使用"
+msgstr ""
+
+#: app/exceptions/team.py:68
+msgid "仅站点管理员可创建团队"
+msgstr ""
+
+#: app/exceptions/term.py:13
+msgid "术语库异常"
+msgstr ""
+
+#: app/exceptions/term.py:23
+msgid "术语库不存在"
+msgstr ""
+
+#: app/exceptions/term.py:33
+msgid "术语不存在"
+msgstr ""
+
+#: app/exceptions/v_code.py:13
 msgid "验证码异常"
 msgstr ""
 
-#: app/exceptions/v_code.py:25
-msgid "验证码已过期,请重新申请"
-msgstr ""
+#: app/exceptions/v_code.py:23
+#, fuzzy
+msgid "验证码过期，请重新输入"
+msgstr "验证码失效，请重新获取"
 
-#: app/exceptions/v_code.py:34
+#: app/exceptions/v_code.py:33
 msgid "验证码错误"
 msgstr ""
 
@@ -66,47 +959,447 @@ msgstr ""
 msgid "验证码失效，请重新获取"
 msgstr "验证码失效，请重新获取"
 
-#: app/exceptions/v_code.py:55
-msgid "请等候{second}秒后再试"
-msgstr ""
-
 #: app/exceptions/v_code.py:57
-msgid "冷却中,请稍后再试"
+msgid "请等候{seconds}秒后再试"
 msgstr ""
 
-#: app/models/user.py:114
-msgid "这个用户还没有签名"
-msgstr "這個用戶還沒有簽名"
-
-#: app/validators/auth.py:20
-msgid "此昵称已存在,请尝试其他昵称"
+#: app/models/application.py:87
+msgid "已被他人拒绝"
 msgstr ""
 
-#: app/validators/auth.py:27
-msgid "此邮箱已存在,您可以直接登录或尝试其他邮箱"
-msgstr "此郵箱已存在,您可以直接登錄或嘗試其他郵箱"
+#: app/models/application.py:89
+msgid "已被他人允许"
+msgstr ""
 
-#: app/validators/auth.py:33 app/validators/auth.py:36
-#: app/validators/auth.py:39 app/validators/auth.py:42
-#: app/validators/auth.py:44 app/validators/auth.py:47
-#: app/validators/auth.py:60 app/validators/auth.py:63
-#: app/validators/auth.py:69
+#: app/models/file.py:98
+msgid "文件名为空"
+msgstr ""
+
+#: app/models/file.py:101
+msgid "文件名过长"
+msgstr ""
+
+#: app/models/file.py:104
+msgid "文件名不能是 . 或 .."
+msgstr ""
+
+#: app/models/file.py:107
+msgid "文件名不能以 . 结尾"
+msgstr ""
+
+#: app/models/file.py:110
+msgid "文件名前缀为空"
+msgstr ""
+
+#: app/models/file.py:126
+msgid "文件名不能包含下列任何字符: \\ / : * ? \" < > |"
+msgstr ""
+
+#: app/models/file.py:1298
+msgid "只有图片文件能移动原文顺序"
+msgstr ""
+
+#: app/models/invitation.py:63
+msgid "已被拒绝"
+msgstr ""
+
+#: app/models/invitation.py:65
+msgid "已被同意"
+msgstr ""
+
+#: app/models/message.py:38
+msgid "非系统消息类型"
+msgstr ""
+
+#: app/models/project.py:86
+msgid "仅团队成员"
+msgstr ""
+
+#: app/models/project.py:113
+msgid "访问项目"
+msgstr ""
+
+#: app/models/project.py:114
+msgid "删除项目"
+msgstr ""
+
+#: app/models/project.py:115
+msgid "设置项目"
+msgstr ""
+
+#: app/models/project.py:117
+msgid "完结项目"
+msgstr ""
+
+#: app/models/project.py:118
+msgid "上传图片"
+msgstr ""
+
+#: app/models/project.py:119
+msgid "移动文件"
+msgstr ""
+
+#: app/models/project.py:120
+msgid "修改图片名称"
+msgstr ""
+
+#: app/models/project.py:121
+msgid "删除图片"
+msgstr ""
+
+#: app/models/project.py:122
+msgid "导出翻译"
+msgstr ""
+
+#: app/models/project.py:123
+msgid "新建图片标记"
+msgstr ""
+
+#: app/models/project.py:124
+msgid "移动图片标记"
+msgstr ""
+
+#: app/models/project.py:125
+msgid "删除图片标记"
+msgstr ""
+
+#: app/models/project.py:126
+msgid "新增翻译"
+msgstr ""
+
+#: app/models/project.py:127
+msgid "删除他人翻译"
+msgstr ""
+
+#: app/models/project.py:128
+msgid "校对翻译"
+msgstr ""
+
+#: app/models/project.py:130
+msgid "选定翻译"
+msgstr ""
+
+#: app/models/project.py:131
+msgid "将某条翻译指定导出项"
+msgstr ""
+
+#: app/models/project.py:133
+msgid "新增目标语言"
+msgstr ""
+
+#: app/models/project.py:134
+msgid "修改目标语言"
+msgstr ""
+
+#: app/models/project.py:135
+msgid "删除目标语言"
+msgstr ""
+
+#: app/models/project.py:144 app/models/team.py:135
+msgid "创建人"
+msgstr ""
+
+#: app/models/project.py:175 app/models/team.py:167
+msgid "管理员"
+msgstr ""
+
+#: app/models/project.py:206
+msgid "监理"
+msgstr ""
+
+#: app/models/project.py:231
+msgid "校对"
+msgstr ""
+
+#: app/models/project.py:246
+msgid "翻译"
+msgstr ""
+
+#: app/models/project.py:259
+msgid "嵌字"
+msgstr ""
+
+#: app/models/project.py:271
+msgid "见习翻译"
+msgstr ""
+
+#: app/models/project.py:424
+msgid "必须是Language对象"
+msgstr ""
+
+#: app/models/project.py:559
+msgid "只允许项目所属团队成员申请加入"
+msgstr ""
+
+#: app/models/project.py:626
+msgid "暂不支持的文件格式"
+msgstr ""
+
+#: app/models/project.py:953
+msgid "框内"
+msgstr ""
+
+#: app/models/project.py:955
+msgid "框外"
+msgstr ""
+
+#: app/models/project.py:958
+msgid "可使用 LabelPlus Photoshop 脚本导入 psd 中"
+msgstr ""
+
+#: app/models/team.py:59
+msgid "访问团队"
+msgstr ""
+
+#: app/models/team.py:60
+msgid "解散团队"
+msgstr ""
+
+#: app/models/team.py:61
+msgid "设置团队"
+msgstr ""
+
+#: app/models/team.py:64
+msgid "管理项目"
+msgstr ""
+
+#: app/models/team.py:65
+msgid "自动获得团队内所有项目的管理员权限"
+msgstr ""
+
+#: app/models/team.py:68
+msgid "创建术语库"
+msgstr ""
+
+#: app/models/team.py:69
+msgid "在团队内创建术语库"
+msgstr ""
+
+#: app/models/team.py:72
+msgid "查看他人术语库"
+msgstr ""
+
+#: app/models/team.py:73
+msgid "若无此权限只能查看自己创建的术语库中的术语"
+msgstr ""
+
+#: app/models/team.py:76
+msgid "设置他人术语库"
+msgstr ""
+
+#: app/models/team.py:77
+msgid "若无此权限只能修改自己创建的术语库设置"
+msgstr ""
+
+#: app/models/team.py:80
+msgid "删除他人术语库"
+msgstr ""
+
+#: app/models/team.py:81
+msgid "若无此权限只能删除自己创建的术语库"
+msgstr ""
+
+#: app/models/team.py:84
+msgid "在他人术语库中增加术语"
+msgstr ""
+
+#: app/models/team.py:85
+msgid "若无此权限只能在自己创建的术语库中增加术语"
+msgstr ""
+
+#: app/models/team.py:88
+msgid "修改他人术语"
+msgstr ""
+
+#: app/models/team.py:89
+msgid "若无此权限只能修改自己创建的术语或自己术语库中的术语"
+msgstr ""
+
+#: app/models/team.py:94
+msgid "删除他人术语"
+msgstr ""
+
+#: app/models/team.py:95
+msgid "若无此权限只能删除自己创建的术语或自己术语库中的术语"
+msgstr ""
+
+#: app/models/team.py:100
+msgid "创建项目"
+msgstr ""
+
+#: app/models/team.py:101
+msgid "在团队内创建项目"
+msgstr ""
+
+#: app/models/team.py:104
+msgid "创建项目集"
+msgstr ""
+
+#: app/models/team.py:105
+msgid "在团队内创建项目集"
+msgstr ""
+
+#: app/models/team.py:108
+msgid "设置项目集"
+msgstr ""
+
+#: app/models/team.py:109
+msgid "修改团队内项目集的设置"
+msgstr ""
+
+#: app/models/team.py:112
+msgid "删除项目集"
+msgstr ""
+
+#: app/models/team.py:113
+msgid "删除团队内的项目集"
+msgstr ""
+
+#: app/models/team.py:116
+msgid "使用自动标记额度"
+msgstr ""
+
+#: app/models/team.py:117
+msgid "可以使用团队的自动标记额度"
+msgstr ""
+
+#: app/models/team.py:120
+msgid "使用机器翻译额度"
+msgstr ""
+
+#: app/models/team.py:121
+msgid "可以使用团队的机器翻译额度"
+msgstr ""
+
+#: app/models/team.py:124
+msgid "查看项目统计"
+msgstr ""
+
+#: app/models/team.py:125
+msgid "可以查看团队项目统计"
+msgstr ""
+
+#: app/models/team.py:198
+msgid "资深成员"
+msgstr ""
+
+#: app/models/team.py:219
+msgid "成员"
+msgstr ""
+
+#: app/models/team.py:238
+msgid "见习成员"
+msgstr ""
+
+#: app/models/user.py:189
+msgid "令牌格式错误，应形如 Bearer x.x.x"
+msgstr ""
+
+#: app/models/user.py:204
+msgid "密码已修改，请重新登录"
+msgstr ""
+
+#: app/models/user.py:399
+msgid "此用户已有申请，已直接加入"
+msgstr ""
+
+#: app/models/user.py:406
+msgid "此用户是项目所在团队成员，已直接加入"
+msgstr ""
+
+#: app/models/user.py:412
+msgid "邀请成功，请等待用户确认"
+msgstr ""
+
+#: app/models/user.py:443
+msgid "加入成功，管理员继承自团队"
+msgstr ""
+
+#: app/models/user.py:456
+msgid "管理员先前邀请了您，已直接加入"
+msgstr ""
+
+#: app/models/user.py:463
+msgid "项目不允许申请加入"
+msgstr ""
+
+#: app/models/user.py:469
+msgid "加入成功"
+msgstr ""
+
+#: app/models/user.py:472
+msgid "申请成功，请等待管理员审核"
+msgstr ""
+
+#: app/models/v_code.py:304
+msgid "重置您的安全邮箱"
+msgstr ""
+
+#: app/models/v_code.py:305
+msgid "确认您的安全邮箱"
+msgstr ""
+
+#: app/models/v_code.py:306
+msgid "重置您的密码"
+msgstr ""
+
+#: app/validators/custom_message.py:3
 msgid "必填"
 msgstr "必填"
 
-#: app/validators/auth.py:33 app/validators/auth.py:60
-#: app/validators/auth.py:69
-msgid "邮箱格式不正确"
-msgstr "郵箱格式不正確"
+#: app/validators/custom_validate.py:21
+msgid "不可为空"
+msgstr ""
 
-#: app/validators/auth.py:35 app/validators/auth.py:38
-#: app/validators/auth.py:62
+#: app/validators/custom_validate.py:35
+msgid "此项不可选"
+msgstr ""
+
+#: app/validators/custom_validate.py:76 app/validators/custom_validate.py:79
+#: app/validators/custom_validate.py:109 app/validators/custom_validate.py:124
+#: app/validators/custom_validate.py:127 app/validators/custom_validate.py:134
+#: app/validators/custom_validate.py:141 app/validators/custom_validate.py:148
+#: app/validators/custom_validate.py:151 app/validators/custom_validate.py:169
+#: app/validators/custom_validate.py:172 app/validators/custom_validate.py:178
+#: app/validators/custom_validate.py:181 app/validators/custom_validate.py:184
 msgid "长度为{min}到{max}个字符"
 msgstr "長度為{min}到{max}個字符"
+
+#: app/validators/custom_validate.py:160
+msgid "等级需要大于{min}，小于{max}(您的等级)"
+msgstr ""
+
+#: app/validators/source.py:41 app/validators/translation.py:27
+msgid "没有有效参数"
+msgstr ""
 
 #~ msgid "此昵称已存在"
 #~ msgstr "此昵稱已存在"
 
 #~ msgid "验证码异常基类"
 #~ msgstr ""
+
+#~ msgid "需要登录"
+#~ msgstr ""
+
+#~ msgid "无效的令牌 ({message})"
+#~ msgstr "無效的令牌 ({message})"
+
+#~ msgid "验证码已过期,请重新申请"
+#~ msgstr ""
+
+#~ msgid "请等候{second}秒后再试"
+#~ msgstr ""
+
+#~ msgid "冷却中,请稍后再试"
+#~ msgstr ""
+
+#~ msgid "这个用户还没有签名"
+#~ msgstr "這個用戶還沒有簽名"
+
+#~ msgid "此昵称已存在,请尝试其他昵称"
+#~ msgstr ""
+
+#~ msgid "此邮箱已存在,您可以直接登录或尝试其他邮箱"
+#~ msgstr "此郵箱已存在,您可以直接登錄或嘗試其他郵箱"
 
