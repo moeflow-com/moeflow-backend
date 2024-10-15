@@ -22,7 +22,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - run: docker-compose -f tests/deps.yaml up -d
+    - uses: hoverkraft-tech/compose-action@v2.0.1
+      with:
+        compose-file: tests/deps.yaml
     - uses: actions/setup-python@v5
       with:
         python-version: '3.11'
@@ -35,11 +37,11 @@ jobs:
         verbose: true
         custom-arguments: '-n=2'
         emoji: false
-    - uses: codecov/codecov-action@v4.0.1
+    - uses: codecov/codecov-action@v4.5.0
       if: always()
       with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-      # XXX: can't if (SECRET_DEFINED) for this step
+        fail_ci_if_error: true
+        use_oidc: true
     - name: save test report
       uses: actions/upload-artifact@v4
       if: always()

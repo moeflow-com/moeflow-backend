@@ -10,19 +10,22 @@ Persistent models in MongoDB.
 
 ### Team
 
-`Team`
+- `Team`
+- `Application`
 
 ### Projects
 
-`Project` `ProjectSet` `Files`
+- `Project`
+- `ProjectSet`
 
-### Translations
+### Inside project
 
-`Source` `Target`
+- `File`
+- `Source`
+- `Target`
 
 ## etc
 
-- `Application`
 - `VCode`
 
 <!--
