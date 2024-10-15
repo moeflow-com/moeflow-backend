@@ -13,6 +13,11 @@ def connect_db(config):
     logger.info("Connect mongodb")
     uri = config["DB_URI"]
     logger.debug(" - $DB_URI: {}".format(uri))
+    if config.get("TESTING"):
+        import mongomock
+
+        return connect(host=uri, mongo_client_class=mongomock.MongoClient)
+
     return connect(host=uri)
 
 
