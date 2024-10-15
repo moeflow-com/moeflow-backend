@@ -2,10 +2,6 @@ import os
 import re
 import click
 import logging
-import dotenv
-
-dotenv.load_dotenv()
-
 from app import flask_app
 from app.factory import init_db
 

@@ -3,11 +3,10 @@
 # 开发测试配置可放在 configs 文件夹下（已 gitignore）或项目外
 # ===========
 import dotenv
-
-dotenv.load_dotenv()
-
 from os import environ as env
 import urllib.parse as urlparse
+
+dotenv.load_dotenv()
 
 # -----------
 # 基础设置
