@@ -1168,10 +1168,10 @@ class File(Document):
 class FileTargetCache(Document):
     """文件对于不同目标语言的计数缓存"""
 
-    file = ReferenceField(
+    file: "File" = ReferenceField(
         "File", db_field="f", required=True, reverse_delete_rule=CASCADE
     )  # 所属文件
-    target = ReferenceField(
+    target: "Target" = ReferenceField(
         Target, db_field="t", required=True, reverse_delete_rule=CASCADE
     )
     translated_source_count = IntField(db_field="ts", default=0)  # 已翻译的原文数量
@@ -1194,7 +1194,7 @@ class FileTargetCache(Document):
 
 
 class Source(Document):
-    file = ReferenceField("File", db_field="f", reverse_delete_rule=CASCADE)
+    file: "File" = ReferenceField("File", db_field="f", reverse_delete_rule=CASCADE)
     rank = IntField(db_field="r", required=True)  # 排序
     content = StringField(db_field="c", default="")  # 内容
     # === 图片独有的参数 ===
@@ -1373,7 +1373,13 @@ class Source(Document):
         """Tip.create(source=self)的快捷方式"""
         return Tip.create(content=content, source=self, target=target, user=user)
 
-    def translations(self, target=None, skip=None, limit=None, order_by: list = None):
+    def translations(
+        self,
+        target: Optional["Target"] = None,
+        skip=None,
+        limit=None,
+        order_by: list = None,
+    ) -> list["Translation"]:
         translations = Translation.objects(source=self)
         if target:
             translations = translations.filter(target=target)
@@ -1383,7 +1389,13 @@ class Source(Document):
         translations = mongo_slice(translations, skip, limit)
         return translations
 
-    def tips(self, target=None, skip=None, limit=None, order_by: list = None):
+    def tips(
+        self,
+        target: Optional["Target"] = None,
+        skip=None,
+        limit=None,
+        order_by: list = None,
+    ) -> List["Tip"]:
         tips = Tip.objects(source=self)
         if target:
             tips = tips.filter(target=target)
