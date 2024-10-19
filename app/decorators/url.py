@@ -1,4 +1,5 @@
 from functools import wraps
+from typing import Optional
 
 from mongoengine.errors import ValidationError
 
@@ -8,7 +9,9 @@ from app.models.team import Team
 from app.utils.str import to_underscore
 
 
-def fetch_model(document, from_name=None, to_name=None):
+def fetch_model(
+    document: type, from_name: Optional[str] = None, to_name: Optional[str] = None
+):
     """
     从url的id中获取相对应的模型对象
 

@@ -1,5 +1,5 @@
 from io import BufferedReader
-from typing import NoReturn, Union, BinaryIO
+from typing import TYPE_CHECKING, List, NoReturn, Optional, Union, BinaryIO
 import datetime
 import math
 import re
@@ -48,6 +48,9 @@ from app.exceptions import (
 )
 from app.models.target import Target
 from app.models.term import Term
+
+if TYPE_CHECKING:
+    from app.models.project import Project
 from app.tasks.file_parse import parse_text, safe
 from app.tasks.ocr import ocr
 from app.constants.source import SourcePositionType
@@ -77,7 +80,7 @@ default_translations_order = ["-selected", "-proofread_content", "-edit_time"]
 class Filename:
     """文件名类，用于检查文件名合法性，及生成用于排序的文件名"""
 
-    def __init__(self, name, folder=False):
+    def __init__(self, name: str, folder=False):
         self.name = name
         # 检查文件名有效性
         self._check_valid()
@@ -160,8 +163,10 @@ class File(Document):
     type = IntField(db_field="t", required=True)  # 文件类型
 
     # == 归属 ==
-    project = ReferenceField("Project", db_field="p", required=True)  # 所属项目
-    parent = ReferenceField("File", db_field="f")  # 父级文件夹
+    project: "Project" = ReferenceField(
+        "Project", db_field="p", required=True
+    )  # 所属项目
+    parent: Optional["File"] = ReferenceField("File", db_field="f")  # 父级文件夹
     ancestors = ListField(
         ReferenceField("File"), db_field="a", default=list
     )  # 祖先文件夹
@@ -257,52 +262,52 @@ class File(Document):
             self.dir_sort_name = self.parent.dir_sort_name + self.parent.sort_name + "/"
 
     @classmethod
-    def by_id(cls, id):
+    def by_id(cls, id) -> "File":
         file = cls.objects(id=id).first()
         if file is None:
             raise FileNotExistError
         return file
 
     @property
-    def revisions(self):
+    def revisions(self) -> List["File"]:
         """获得同名的所有修订版，包括本修订版"""
         return self.project.get_files(
             name=self.name, parent=self.parent, activated="all"
         )
 
     @property
-    def activated_revision(self):
+    def activated_revision(self) -> Optional["File"]:
         """获得同名的激活的修订版"""
         return self.project.get_files(
             name=self.name, parent=self.parent, activated=True
         ).first()
 
     @property
-    def deactivated_revisions(self):
+    def deactivated_revisions(self) -> List["File"]:
         """获得同名的未激活的修订版"""
         return self.project.get_files(
             name=self.name, parent=self.parent, activated=False
         )
 
     @property
-    def ancestor_ids(self):
+    def ancestor_ids(self) -> List[ObjectId]:
         """返回祖先的ids，是一个包含ObjectId的列表"""
         son = self.to_mongo(use_db_field=False, fields=["ancestors"])
         ids = son.get("ancestors", [])
         return ids
 
-    def ancestor_caches(self, target):
+    def ancestor_caches(self, target: "Target") -> list["FileTargetCache"]:
         """返回祖先的FileTargetCache"""
         caches = FileTargetCache.objects(file__in=self.ancestor_ids, target=target)
         return caches
 
-    def cache(self, target):
+    def cache(self, target: "Target") -> list["FileTargetCache"]:
         """返回自己的FileTargetCache"""
         cache = FileTargetCache.objects(file=self, target=target).first()
         return cache
 
     @need_activated
-    def create_revision(self):
+    def create_revision(self) -> "File":
         """创建一个修订版"""
         file = File(
             name=self.name,
@@ -371,7 +376,7 @@ class File(Document):
     def rename(self, name):
         """重命名"""
         # 检查是否有同名文件
-        old_file = self.project.get_files(name=name, parent=self.parent).first()
+        old_file: "File" = self.project.get_files(name=name, parent=self.parent).first()
         # 如果有同名文件
         if old_file:
             # 不是自身，文件名重复，抛出异常
@@ -406,7 +411,7 @@ class File(Document):
                 file.save()
 
     @need_activated
-    def move_to(self, parent):
+    def move_to(self, parent: Union[str, ObjectId, "File"]):
         """将某个文件或文件夹移动到另一个地方"""
         # 强制从数据库更新自身，以免之前有删除、建立文件夹操作，影响最后的计数缓存
         self.reload()
@@ -790,7 +795,7 @@ class File(Document):
         # 如果是文件夹，还需要物理删除所有下级文件
         if self.type == FileType.FOLDER:
             # 包含所有下级的文件夹、文件、修订版
-            files = File.objects(ancestors=self)
+            files: List[File] = File.objects(ancestors=self)
             # 物理删除源文件
             for file in files:
                 if file.type != FileType.FOLDER:
@@ -841,6 +846,7 @@ class File(Document):
         # 所有图片文件的翻译会合并到一个文件
 
         # 文本的翻译会单独列出
+        raise NotImplementedError
 
     @only_file
     def safe_scan(self):
@@ -995,7 +1001,7 @@ class File(Document):
             )
         self.inc_cache("source_count", -self.source_count)
 
-    def sources(self, skip=None, limit=None, order_by: list = None):
+    def sources(self, skip=None, limit=None, order_by: list = None) -> list["Source"]:
         sources = Source.objects(file=self)
         # 排序处理
         sources = mongo_order(sources, order_by, ["rank"])
@@ -1162,10 +1168,10 @@ class File(Document):
 class FileTargetCache(Document):
     """文件对于不同目标语言的计数缓存"""
 
-    file = ReferenceField(
+    file: "File" = ReferenceField(
         "File", db_field="f", required=True, reverse_delete_rule=CASCADE
     )  # 所属文件
-    target = ReferenceField(
+    target: "Target" = ReferenceField(
         Target, db_field="t", required=True, reverse_delete_rule=CASCADE
     )
     translated_source_count = IntField(db_field="ts", default=0)  # 已翻译的原文数量
@@ -1188,7 +1194,7 @@ class FileTargetCache(Document):
 
 
 class Source(Document):
-    file = ReferenceField("File", db_field="f", reverse_delete_rule=CASCADE)
+    file: "File" = ReferenceField("File", db_field="f", reverse_delete_rule=CASCADE)
     rank = IntField(db_field="r", required=True)  # 排序
     content = StringField(db_field="c", default="")  # 内容
     # === 图片独有的参数 ===
@@ -1215,7 +1221,7 @@ class Source(Document):
     meta = {"indexes": ["file", "blank", "rank"]}
 
     @classmethod
-    def by_id(cls, id):
+    def by_id(cls, id) -> "Source":
         source = cls.objects(id=id).first()
         if source is None:
             raise SourceNotExistError
@@ -1231,7 +1237,7 @@ class Source(Document):
                 self.possible_terms.append(term)
         self.save()
 
-    def copy(self, source):
+    def copy(self, source: "Source"):
         """将其他Source的Translation和Tip复制到此Source，必须是空Source才能使用"""
         if self.translations().count() > 0:
             return  # 如果已有翻译，则不复制
@@ -1291,7 +1297,7 @@ class Source(Document):
                 edit_time=tip.edit_time,
             ).save()
 
-    def move_ahead(self, next_source):
+    def move_ahead(self, next_source: Optional["Source"]):
         """将Source移动到某个Source之前，None则移动到最后"""
         self.reload()  # 刷新缓存
         if self.file.type != FileType.IMAGE:
@@ -1367,7 +1373,13 @@ class Source(Document):
         """Tip.create(source=self)的快捷方式"""
         return Tip.create(content=content, source=self, target=target, user=user)
 
-    def translations(self, target=None, skip=None, limit=None, order_by: list = None):
+    def translations(
+        self,
+        target: Optional["Target"] = None,
+        skip=None,
+        limit=None,
+        order_by: list = None,
+    ) -> list["Translation"]:
         translations = Translation.objects(source=self)
         if target:
             translations = translations.filter(target=target)
@@ -1377,7 +1389,13 @@ class Source(Document):
         translations = mongo_slice(translations, skip, limit)
         return translations
 
-    def tips(self, target=None, skip=None, limit=None, order_by: list = None):
+    def tips(
+        self,
+        target: Optional["Target"] = None,
+        skip=None,
+        limit=None,
+        order_by: list = None,
+    ) -> List["Tip"]:
         tips = Tip.objects(source=self)
         if target:
             tips = tips.filter(target=target)
@@ -1553,7 +1571,7 @@ class Translation(Document):
 
 class Tip(Document):
     source = ReferenceField(
-        "Source", db_field="o", reverse_delete_rule=CASCADE
+        Source, db_field="o", reverse_delete_rule=CASCADE
     )  # 所属原文
     target = ReferenceField(
         Target, db_field="t", reverse_delete_rule=CASCADE
