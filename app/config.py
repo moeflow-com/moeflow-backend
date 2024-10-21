@@ -9,7 +9,7 @@ import urllib.parse as urlparse
 # 基础设置
 # -----------
 SITE_NAME = env["SITE_NAME"]
-SITE_ORIGIN = env['SITE_ORIGIN']
+SITE_ORIGIN = env["SITE_ORIGIN"]
 SECRET_KEY = env["SECRET_KEY"]  # 必填 - 密钥
 LOG_LEVEL = env.get("LOG_LEVEL", "INFO")
 # DEPRECATED: please use modern container logging collector
