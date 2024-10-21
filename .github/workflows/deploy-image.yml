@@ -39,7 +39,7 @@ jobs:
           tags: | # almost same as action default
             type=ref,event=branch
             type=ref,event=tag,pattern={{raw}}
-            type=ref,event=workflow_dispatch
+            # type=ref,event=workflow_dispatch
             type=sha,event=workflow_dispatch
 
       - name: Setup docker buildx
