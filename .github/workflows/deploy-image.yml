@@ -50,6 +50,8 @@ jobs:
         with:
           context: .
           push: true
+          build-args:
+            MOEFLOW_BUILD_ID=$GITHUB_REPOSITORY-$GITHUB_REF-$GITHUB_SHA
           cache-from:
             type=gha
           cache-to:
