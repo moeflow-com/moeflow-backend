@@ -51,7 +51,7 @@ jobs:
           context: .
           push: true
           build-args:
-            MOEFLOW_BUILD_ID=${{ env.GITHUB_REPOSITORY}}-${{ env.GITHUB_REF }}-${{ env.GITHUB_SHA }}
+            MOEFLOW_BUILD_ID=${{ github.repository }}-${{ github.ref }}-${{ github.sha }}
           cache-from:
             type=gha
           cache-to:
