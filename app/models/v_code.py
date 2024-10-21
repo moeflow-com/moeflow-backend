@@ -322,7 +322,7 @@ class VCode(Document):
                 template_data={
                     "code": self.content,
                     "site_name": current_app.config.get("SITE_NAME"),
-                    "site_url": f'https://{current_app.config.get("DOMAIN")}',
+                    "site_url": f'https://{current_app.config.get("SITE_ORIGIN")}',
                 },
             )
         self.send_time = datetime.datetime.utcnow()
