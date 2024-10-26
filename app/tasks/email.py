@@ -60,10 +60,15 @@ def email_task(
     try:
         # 是否使用ssl
         if email_use_ssl:
-            client = smtplib.SMTP_SSL(email_smtp_host)
+            client = smtplib.SMTP_SSL(email_smtp_host, email_smtp_port)
         else:
-            client = smtplib.SMTP(email_smtp_host)
-        client.connect(email_smtp_host, email_smtp_port)
+            client = smtplib.SMTP(email_smtp_host, email_smtp_port)
+        if not email_use_ssl:
+            try:
+                client.starttls()
+                # client.ehlo_or_helo_if_needed()
+            except smtplib.SMTPNotSupportedError:
+                pass
         # 开启DEBUG模式
         client.set_debuglevel(0)
         client.login(from_address, email_password)
