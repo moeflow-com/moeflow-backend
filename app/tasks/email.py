@@ -60,13 +60,18 @@ def email_task(
     try:
         # 是否使用ssl
         if email_use_ssl:
-            client = smtplib.SMTP_SSL(email_smtp_host)
+            client = smtplib.SMTP_SSL(email_smtp_host, email_smtp_port)
         else:
-            client = smtplib.SMTP(email_smtp_host)
-        client.connect(email_smtp_host, email_smtp_port)
+            client = smtplib.SMTP(email_smtp_host, email_smtp_port)
+        if not email_use_ssl:
+            try:
+                client.starttls()
+                # client.ehlo_or_helo_if_needed()
+            except smtplib.SMTPNotSupportedError:
+                pass
         # 开启DEBUG模式
         client.set_debuglevel(0)
-        client.login(from_address, email_password)
+        client.login(from_username, email_password)
         # 发件人和认证地址必须一致
         # 备注：若想取到DATA命令返回值,可参考smtplib的sendmaili封装方法:
         #      使用SMTP.mail/SMTP.rcpt/SMTP.data方法
