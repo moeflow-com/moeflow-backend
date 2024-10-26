@@ -71,7 +71,7 @@ def email_task(
                 pass
         # 开启DEBUG模式
         client.set_debuglevel(0)
-        client.login(from_address, email_password)
+        client.login(from_username, email_password)
         # 发件人和认证地址必须一致
         # 备注：若想取到DATA命令返回值,可参考smtplib的sendmaili封装方法:
         #      使用SMTP.mail/SMTP.rcpt/SMTP.data方法
