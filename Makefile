@@ -3,7 +3,7 @@ PYTEST_COV_ARGS =
 FORCE: ;
 
 create-venv:
-	python3.10 -mvenv venv
+	python3.11 -mvenv venv
 
 deps:
 	venv/bin/pip install -r requirements.txt

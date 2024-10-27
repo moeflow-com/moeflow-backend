@@ -12,7 +12,7 @@ jobs:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5
       with:
-        python-version: '3.10'
+        python-version: '3.11'
         cache: 'pip'
     - run: pip install -r requirements.txt
     - run: ruff check .
@@ -22,18 +22,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - run: docker-compose -f tests/deps.yaml up -d
+    - uses: hoverkraft-tech/compose-action@v2.0.1
+      with:
+        compose-file: tests/deps.yaml
     - uses: actions/setup-python@v5
       with:
-        python-version: '3.10'
+        python-version: '3.11'
         cache: 'pip'
     - run: pip install -r requirements.txt
     - run: cp -rv .env.test.sample .env.test
     - uses: pavelzw/pytest-action@v2
       with:
-        emoji: false
-        verbose: true
         job-summary: true
+        verbose: true
+        custom-arguments: '-n=2'
+        emoji: false
     - uses: codecov/codecov-action@v4.0.1
       if: always()
       with:

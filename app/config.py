@@ -9,6 +9,7 @@ import urllib.parse as urlparse
 # 基础设置
 # -----------
 SITE_NAME = env["SITE_NAME"]
+SITE_ORIGIN = env["SITE_ORIGIN"]
 SECRET_KEY = env["SECRET_KEY"]  # 必填 - 密钥
 LOG_LEVEL = env.get("LOG_LEVEL", "INFO")
 # DEPRECATED: please use modern container logging collector
@@ -25,6 +26,7 @@ DB_URI = env.get("MONGODB_URI")
 
 DB_URI = (
     DB_URI
+    # legacy config
     or f"mongodb://{env['MONGODB_USER']}:{env['MONGODB_PASS']}@moeflow-mongodb:27017/{env['MONGODB_DB_NAME']}?authSource=admin"
 )
 
@@ -42,6 +44,7 @@ RESET_PASSWORD_WAIT_SECONDS = 60  # 重置密码邮件发送等待时间
 PLAN_FINISH_DELTA = 7 * 24 * 60 * 60  # 计划完结延时时间
 PLAN_DELETE_DELTA = 7 * 24 * 60 * 60  # 计划删除延时时间
 OUTPUT_WAIT_SECONDS = 60 * 5  # 导出等待时间
+BUILD_ID = env.get("MOEFLOW_BUILD_ID", "unset")
 # -----------
 # 默认设置
 # -----------
