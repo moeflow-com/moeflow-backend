@@ -26,6 +26,7 @@ DB_URI = env.get("MONGODB_URI")
 
 DB_URI = (
     DB_URI
+    # legacy config
     or f"mongodb://{env['MONGODB_USER']}:{env['MONGODB_PASS']}@moeflow-mongodb:27017/{env['MONGODB_DB_NAME']}?authSource=admin"
 )
 
