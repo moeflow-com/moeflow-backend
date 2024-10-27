@@ -18,13 +18,13 @@ pytest-md==0.2.0
 flask-babel==4.0.0                # i18n
 mongoengine==0.20.0               # Mongo数据库
 mongomock==4.1.2
-Pillow==8.0.1                     # 图片处理
+Pillow==8.4.0
 marshmallow==3.0.0b20             # 字段验证 (flask-apikit需要)
 requests==2.22.0                  # HTTP请求
 oss2==2.7.0                       # 阿里云OSS
 celery==5.3.6                     # 任务调度
 celery[redis]==5.3.6
-flower==0.9.5                     # Celery监控
+flower==2.0.1                     # web ui for celery
 redis==5.0.3                      # Redis数据库
 chardet==3.0.4                    # 文件编码预测
 aliyun-python-sdk-core-v3==2.13.3 # 用于签发阿里云pip
