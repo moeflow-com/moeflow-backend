@@ -20,7 +20,7 @@ pytest-html==4.1.1
 pytest-md==0.2.0
 
 flask-babel==1.0.0                # i18n
-mongoengine==0.20.0               # Mongo数据库
+mongoengine==0.29.1               # Mongo数据库
 mongomock==4.1.2
 Pillow==8.0.1                     # 图片处理
 marshmallow==3.0.0b20             # 字段验证 (flask-apikit需要)
