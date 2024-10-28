@@ -50,3 +50,5 @@ babel-update-po:
 babel-update-mo:
 	venv/bin/pybabel compile -d app/translations
 
+babel-translate-po:
+	venv/bin/python app/scripts/fill_zh_translations.py

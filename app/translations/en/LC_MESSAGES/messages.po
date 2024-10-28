@@ -1,4 +1,4 @@
-# Chinese (Traditional, Taiwan) translations for PROJECT.
+# English (United States) translations for PROJECT.
 # Copyright (C) 2017 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
@@ -7,12 +7,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-14 13:30+0000\n"
-"PO-Revision-Date: 2017-04-14 15:23+0800\n"
+"POT-Creation-Date: 2024-10-29 01:56+0900\n"
+"PO-Revision-Date: 2017-04-14 15:38+0800\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: zh_Hant_TW\n"
-"Language-Team: zh_Hant_TW <LL@li.org>\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: en_US\n"
+"Language-Team: en_US <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,52 +20,52 @@ msgstr ""
 
 #: app/apis/application.py:147 app/apis/invitation.py:200
 msgid "已接受"
-msgstr ""
+msgstr "Approved"
 
 #: app/apis/application.py:154 app/apis/invitation.py:205
 msgid "已拒绝"
-msgstr ""
+msgstr "Rejected"
 
 #: app/apis/application.py:181
 msgid "只有申请人可以删除申请"
-msgstr ""
+msgstr "Only the applicant can remove the application"
 
 #: app/apis/application.py:183 app/apis/file.py:254 app/apis/invitation.py:236
 #: app/apis/project_set.py:102 app/apis/target.py:31 app/apis/term.py:151
 #: app/apis/term.py:311 app/core/rbac.py:483
 msgid "删除成功"
-msgstr ""
+msgstr "Removed"
 
 #: app/apis/avatar.py:56 app/validators/avatar.py:23
 msgid "不支持的头像类型"
-msgstr ""
+msgstr "Unsupported avatar type"
 
 #: app/apis/avatar.py:58 app/validators/avatar.py:25
 msgid "缺少id"
-msgstr ""
+msgstr "Missing id"
 
 #: app/apis/avatar.py:75 app/apis/invitation.py:166 app/apis/me.py:116
 #: app/apis/me.py:149 app/apis/project.py:93 app/apis/project_set.py:71
 #: app/apis/source.py:204 app/apis/team.py:187 app/apis/term.py:122
 #: app/apis/term.py:278 app/apis/user.py:188 app/apis/user.py:220
 msgid "修改成功"
-msgstr ""
+msgstr "Updated"
 
 #: app/apis/file.py:57 app/apis/project.py:53
 msgid "您没有此项目的访问权限"
-msgstr ""
+msgstr "Access permission not granted"
 
 #: app/apis/file.py:121
 msgid "您没有此项目的上传文件权限"
-msgstr ""
+msgstr "Upload file permission not granted"
 
 #: app/apis/file.py:159 app/apis/file.py:220
 msgid "您没有权限移动文件"
-msgstr ""
+msgstr "Move file permission not granted"
 
 #: app/apis/file.py:225
 msgid "移动成功"
-msgstr ""
+msgstr "Moved"
 
 #: app/apis/file.py:228
 msgid "您没有权限修改文件名"
@@ -73,39 +73,39 @@ msgstr ""
 
 #: app/apis/file.py:230
 msgid "改名成功"
-msgstr ""
+msgstr "Renamed"
 
 #: app/apis/file.py:232
 msgid "需要提供parent_id或name参数"
-msgstr ""
+msgstr "Please specify parent_id or name"
 
 #: app/apis/file.py:252
 msgid "您没有权限删除文件"
-msgstr ""
+msgstr "Removal permission not granted"
 
 #: app/apis/file.py:279 app/apis/project.py:366
 msgid "您没有此项目所在团队使用自动标记限额的权限"
-msgstr ""
+msgstr "Permission not granted"
 
 #: app/apis/file.py:282 app/apis/project.py:369
 msgid "源语言不支持自动标记"
-msgstr ""
+msgstr "The source language does not support oCR"
 
 #: app/apis/file.py:284
 msgid "文件不是图像文件"
-msgstr ""
+msgstr "Not an image file"
 
 #: app/apis/file.py:286 app/apis/project.py:378
 msgid "团队限额不足"
-msgstr ""
+msgstr "Team credit insufficient"
 
 #: app/apis/file.py:288 app/constants/file.py:117
 msgid "已加入队列"
-msgstr ""
+msgstr "Queued"
 
 #: app/apis/file.py:316
 msgid "处理成功"
-msgstr ""
+msgstr "Complete"
 
 #: app/apis/invitation.py:156
 msgid "只能修改邀请角色等级比您低的邀请"
@@ -566,11 +566,11 @@ msgstr ""
 msgid "默认角色不能设置为创建者"
 msgstr ""
 
-#: app/decorators/file.py:44
+#: app/decorators/file.py:48
 msgid "不能对文件夹执行 "
 msgstr ""
 
-#: app/decorators/file.py:56
+#: app/decorators/file.py:60
 msgid "不能对文件执行 "
 msgstr ""
 
@@ -588,7 +588,7 @@ msgstr ""
 
 #: app/exceptions/auth.py:44
 msgid "需要令牌"
-msgstr "需要令牌TW"
+msgstr ""
 
 #: app/exceptions/auth.py:55
 msgid "无效的令牌"
@@ -604,7 +604,7 @@ msgstr ""
 
 #: app/exceptions/auth.py:85 app/validators/custom_message.py:4
 msgid "邮箱格式不正确"
-msgstr "郵箱格式不正確"
+msgstr "Not a valid email address"
 
 #: app/exceptions/auth.py:95
 msgid "此邮箱已被注册"
@@ -947,17 +947,16 @@ msgid "验证码异常"
 msgstr ""
 
 #: app/exceptions/v_code.py:23
-#, fuzzy
 msgid "验证码过期，请重新输入"
-msgstr "验证码失效，请重新获取"
+msgstr ""
 
 #: app/exceptions/v_code.py:33
 msgid "验证码错误"
-msgstr ""
+msgstr "FFFFFFF"
 
 #: app/exceptions/v_code.py:43
 msgid "验证码失效，请重新获取"
-msgstr "验证码失效，请重新获取"
+msgstr ""
 
 #: app/exceptions/v_code.py:57
 msgid "请等候{seconds}秒后再试"
@@ -971,31 +970,31 @@ msgstr ""
 msgid "已被他人允许"
 msgstr ""
 
-#: app/models/file.py:98
+#: app/models/file.py:101
 msgid "文件名为空"
 msgstr ""
 
-#: app/models/file.py:101
+#: app/models/file.py:104
 msgid "文件名过长"
 msgstr ""
 
-#: app/models/file.py:104
+#: app/models/file.py:107
 msgid "文件名不能是 . 或 .."
 msgstr ""
 
-#: app/models/file.py:107
+#: app/models/file.py:110
 msgid "文件名不能以 . 结尾"
 msgstr ""
 
-#: app/models/file.py:110
+#: app/models/file.py:113
 msgid "文件名前缀为空"
 msgstr ""
 
-#: app/models/file.py:126
+#: app/models/file.py:129
 msgid "文件名不能包含下列任何字符: \\ / : * ? \" < > |"
 msgstr ""
 
-#: app/models/file.py:1298
+#: app/models/file.py:1304
 msgid "只有图片文件能移动原文顺序"
 msgstr ""
 
@@ -1007,143 +1006,143 @@ msgstr ""
 msgid "已被同意"
 msgstr ""
 
-#: app/models/message.py:38
+#: app/models/message.py:41
 msgid "非系统消息类型"
 msgstr ""
 
-#: app/models/project.py:86
+#: app/models/project.py:87
 msgid "仅团队成员"
 msgstr ""
 
-#: app/models/project.py:113
+#: app/models/project.py:114
 msgid "访问项目"
 msgstr ""
 
-#: app/models/project.py:114
+#: app/models/project.py:115
 msgid "删除项目"
 msgstr ""
 
-#: app/models/project.py:115
+#: app/models/project.py:116
 msgid "设置项目"
 msgstr ""
 
-#: app/models/project.py:117
+#: app/models/project.py:118
 msgid "完结项目"
 msgstr ""
 
-#: app/models/project.py:118
+#: app/models/project.py:119
 msgid "上传图片"
 msgstr ""
 
-#: app/models/project.py:119
+#: app/models/project.py:120
 msgid "移动文件"
 msgstr ""
 
-#: app/models/project.py:120
+#: app/models/project.py:121
 msgid "修改图片名称"
 msgstr ""
 
-#: app/models/project.py:121
+#: app/models/project.py:122
 msgid "删除图片"
 msgstr ""
 
-#: app/models/project.py:122
+#: app/models/project.py:123
 msgid "导出翻译"
 msgstr ""
 
-#: app/models/project.py:123
+#: app/models/project.py:124
 msgid "新建图片标记"
 msgstr ""
 
-#: app/models/project.py:124
+#: app/models/project.py:125
 msgid "移动图片标记"
 msgstr ""
 
-#: app/models/project.py:125
+#: app/models/project.py:126
 msgid "删除图片标记"
 msgstr ""
 
-#: app/models/project.py:126
+#: app/models/project.py:127
 msgid "新增翻译"
 msgstr ""
 
-#: app/models/project.py:127
+#: app/models/project.py:128
 msgid "删除他人翻译"
 msgstr ""
 
-#: app/models/project.py:128
+#: app/models/project.py:129
 msgid "校对翻译"
 msgstr ""
 
-#: app/models/project.py:130
+#: app/models/project.py:131
 msgid "选定翻译"
 msgstr ""
 
-#: app/models/project.py:131
+#: app/models/project.py:132
 msgid "将某条翻译指定导出项"
 msgstr ""
 
-#: app/models/project.py:133
+#: app/models/project.py:134
 msgid "新增目标语言"
 msgstr ""
 
-#: app/models/project.py:134
+#: app/models/project.py:135
 msgid "修改目标语言"
 msgstr ""
 
-#: app/models/project.py:135
+#: app/models/project.py:136
 msgid "删除目标语言"
 msgstr ""
 
-#: app/models/project.py:144 app/models/team.py:135
+#: app/models/project.py:145 app/models/team.py:135
 msgid "创建人"
 msgstr ""
 
-#: app/models/project.py:175 app/models/team.py:167
+#: app/models/project.py:176 app/models/team.py:167
 msgid "管理员"
 msgstr ""
 
-#: app/models/project.py:206
+#: app/models/project.py:207
 msgid "监理"
 msgstr ""
 
-#: app/models/project.py:231
+#: app/models/project.py:232
 msgid "校对"
 msgstr ""
 
-#: app/models/project.py:246
+#: app/models/project.py:247
 msgid "翻译"
 msgstr ""
 
-#: app/models/project.py:259
+#: app/models/project.py:260
 msgid "嵌字"
 msgstr ""
 
-#: app/models/project.py:271
+#: app/models/project.py:272
 msgid "见习翻译"
 msgstr ""
 
-#: app/models/project.py:424
+#: app/models/project.py:425
 msgid "必须是Language对象"
 msgstr ""
 
-#: app/models/project.py:559
+#: app/models/project.py:560
 msgid "只允许项目所属团队成员申请加入"
 msgstr ""
 
-#: app/models/project.py:626
+#: app/models/project.py:627
 msgid "暂不支持的文件格式"
-msgstr ""
+msgstr "File format not supported"
 
-#: app/models/project.py:953
+#: app/models/project.py:948
 msgid "框内"
 msgstr ""
 
-#: app/models/project.py:955
+#: app/models/project.py:950
 msgid "框外"
 msgstr ""
 
-#: app/models/project.py:958
+#: app/models/project.py:953
 msgid "可使用 LabelPlus Photoshop 脚本导入 psd 中"
 msgstr ""
 
@@ -1345,7 +1344,7 @@ msgstr ""
 
 #: app/validators/custom_message.py:3
 msgid "必填"
-msgstr "必填"
+msgstr "Required"
 
 #: app/validators/custom_validate.py:21
 msgid "不可为空"
@@ -1363,7 +1362,7 @@ msgstr ""
 #: app/validators/custom_validate.py:172 app/validators/custom_validate.py:178
 #: app/validators/custom_validate.py:181 app/validators/custom_validate.py:184
 msgid "长度为{min}到{max}个字符"
-msgstr "長度為{min}到{max}個字符"
+msgstr "Length must be between {min} and {max}"
 
 #: app/validators/custom_validate.py:160
 msgid "等级需要大于{min}，小于{max}(您的等级)"
@@ -1373,8 +1372,11 @@ msgstr ""
 msgid "没有有效参数"
 msgstr ""
 
+#~ msgid "此邮箱已存在,您可以直接登录"
+#~ msgstr ""
+
 #~ msgid "此昵称已存在"
-#~ msgstr "此昵稱已存在"
+#~ msgstr ""
 
 #~ msgid "验证码异常基类"
 #~ msgstr ""
@@ -1383,7 +1385,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "无效的令牌 ({message})"
-#~ msgstr "無效的令牌 ({message})"
+#~ msgstr ""
 
 #~ msgid "验证码已过期,请重新申请"
 #~ msgstr ""
@@ -1395,11 +1397,11 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "这个用户还没有签名"
-#~ msgstr "這個用戶還沒有簽名"
+#~ msgstr "This user has not signature"
 
 #~ msgid "此昵称已存在,请尝试其他昵称"
 #~ msgstr ""
 
 #~ msgid "此邮箱已存在,您可以直接登录或尝试其他邮箱"
-#~ msgstr "此郵箱已存在,您可以直接登錄或嘗試其他郵箱"
+#~ msgstr ""
 

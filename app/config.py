@@ -36,7 +36,7 @@ DB_URI = (
 # -----------
 # i18n
 # -----------
-BABEL_DEFAULT_LOCALE = "zh_Hans_CN"
+BABEL_DEFAULT_LOCALE = "zh"
 BABEL_DEFAULT_TIMEZONE = "UTC"
 # -----------
 # 其他设置
