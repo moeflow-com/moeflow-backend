@@ -25,7 +25,17 @@ TMP_PATH = os.path.abspath(os.path.join(FILE_PATH, "tmp"))  # 临时文件存放
 STORAGE_PATH = os.path.abspath(os.path.join(APP_PATH, "..", "storage"))  # 储存地址
 
 # Singletons
-flask_app = create_flask_app(Flask(__name__))
+flask_app = create_flask_app(
+    Flask(
+        __name__,
+        **{
+            "static_url_path": "/storage",
+            "static_folder": STORAGE_PATH,
+        }
+        if app_config["STORAGE_TYPE"] == "LOCAL_STORAGE"
+        else {},
+    )
+)
 configure_extra_logs(flask_app)
 celery = create_celery(flask_app)
 init_flask_app(flask_app)
