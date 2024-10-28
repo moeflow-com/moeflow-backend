@@ -69,7 +69,7 @@ msgstr "Moved"
 
 #: app/apis/file.py:228
 msgid "您没有权限修改文件名"
-msgstr ""
+msgstr "You do not have permission to modify the file name."
 
 #: app/apis/file.py:230
 msgid "改名成功"
@@ -109,19 +109,19 @@ msgstr "Complete"
 
 #: app/apis/invitation.py:156
 msgid "只能修改邀请角色等级比您低的邀请"
-msgstr ""
+msgstr "You can only modify invitations for roles lower than your own."
 
 #: app/apis/invitation.py:163 app/models/user.py:383
 msgid "邀请的角色等级需要比您低"
-msgstr ""
+msgstr "The role level of the invitee needs to be lower than yours."
 
 #: app/apis/invitation.py:234
 msgid "只能删除邀请角色等级比您低的邀请"
-msgstr ""
+msgstr "You can only delete invitations for roles that are lower than your level."
 
 #: app/apis/me.py:180
 msgid "修改成功，请重新登陆"
-msgstr ""
+msgstr "Modification successful, please log in again."
 
 #: app/apis/project.py:125
 msgid "完结项目成功"
