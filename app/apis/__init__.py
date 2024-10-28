@@ -7,7 +7,7 @@ import logging
 from flask import Blueprint, Flask
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+# logger.setLevel(logging.DEBUG)
 
 """
 @apiDefine TokenHeader

@@ -183,7 +183,7 @@ class User(Document):
         return token
 
     @classmethod
-    def verify_token(cls, token):
+    def verify_token(cls, token: str):
         # 检查是否时Bearer token
         if not token.startswith("Bearer "):
             raise BadTokenError(gettext("令牌格式错误，应形如 Bearer x.x.x"))
