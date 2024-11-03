@@ -15,9 +15,9 @@ def get_locale() -> Optional[str]:
         and current_user.locale != "auto"
         and current_user.locale in Locale.ids()
     ):
+        # NOTE User.locale is not used
         logging.debug("locale from user %s", current_user.locale)
         return current_user.locale
-    # TODO: allow frontend to override locale in UI
     # "zh" locale asssets is created from hardcoded strings
     # "en" locale are machine translated
     best_match = request.accept_languages.best_match(["zh", "en"], default="en")
