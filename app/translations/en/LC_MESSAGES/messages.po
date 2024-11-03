@@ -121,7 +121,7 @@ msgstr "You can only delete invitations for roles that are lower than your level
 
 #: app/apis/me.py:180
 msgid "修改成功，请重新登陆"
-msgstr "Modification successful, please log in again."
+msgstr "Updated. Please log in again."
 
 #: app/apis/project.py:125
 msgid "完结项目成功"
