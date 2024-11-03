@@ -598,7 +598,7 @@ msgstr "Cannot execute on the file."
 
 #: app/exceptions/auth.py:13
 msgid "验证异常"
-msgstr "Verification error."
+msgstr "Authorization error."
 
 #: app/exceptions/auth.py:23 app/validators/custom_validate.py:103
 msgid "此邮箱未注册"
@@ -972,19 +972,19 @@ msgstr "The term does not exist."
 
 #: app/exceptions/v_code.py:13
 msgid "验证码异常"
-msgstr "Verification code error."
+msgstr "Captcha error."
 
 #: app/exceptions/v_code.py:23
 msgid "验证码过期，请重新输入"
-msgstr "The verification code has expired, please re-enter it."
+msgstr "The captcha has expired, please re-enter it."
 
 #: app/exceptions/v_code.py:33
 msgid "验证码错误"
-msgstr "FFFFFFF"
+msgstr "Incorrect captcha"
 
 #: app/exceptions/v_code.py:43
 msgid "验证码失效，请重新获取"
-msgstr "The verification code has expired, please obtain a new one."
+msgstr "The captcha has expired, please obtain a new one."
 
 #: app/exceptions/v_code.py:57
 msgid "请等候{seconds}秒后再试"
