@@ -386,16 +386,17 @@ group.add_url_rule(
     methods=["PUT", "DELETE", "PATCH", "OPTIONS"],
     view_func=ApplicationAPI.as_view("application"),
 )
-group.add_url_rule(
-    "/<group_type>/<group_id>/roles",
-    methods=["GET", "POST", "OPTIONS"],
-    view_func=RoleListAPI.as_view("role_list"),
-)
-group.add_url_rule(
-    "/<group_type>/<group_id>/roles/<role_id>",
-    methods=["PUT", "DELETE", "OPTIONS"],
-    view_func=RoleAPI.as_view("role"),
-)
+# disable custom role APIs for now
+# group.add_url_rule(
+#     "/<group_type>/<group_id>/roles",
+#     methods=["GET", "POST", "OPTIONS"],
+#     view_func=RoleListAPI.as_view("role_list"),
+# )
+# group.add_url_rule(
+#     "/<group_type>/<group_id>/roles/<role_id>",
+#     methods=["PUT", "DELETE", "OPTIONS"],
+#     view_func=RoleAPI.as_view("role"),
+# )
 group.add_url_rule(
     "/<group_type>/<group_id>/users",
     methods=["GET", "OPTIONS"],

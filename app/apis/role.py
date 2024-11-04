@@ -1,15 +1,18 @@
+from typing import Union
 from app.core.responses import MoePagination
 from app.core.views import MoeAPIView
 from app.decorators.auth import token_required
 from app.decorators.url import fetch_group
 from app.exceptions import NoPermissionError
+from app.models.team import Team
+from app.models.project import Project
 from app.validators.role import RoleSchema
 
 
 class RoleListAPI(MoeAPIView):
     @token_required
     @fetch_group
-    def get(self, group):
+    def get(self, group: Union[Team, Project]):
         """
         @api {get} /v1/<group_type>/<group_id>/roles 获取自定义角色
         @apiVersion 1.0.0
@@ -71,7 +74,7 @@ class RoleListAPI(MoeAPIView):
 class RoleAPI(MoeAPIView):
     @token_required
     @fetch_group
-    def put(self, group, role_id):
+    def put(self, group: Union[Team, Project], role_id: str):
         """
         @api {put} /v1/<group_type>/<group_id>/roles/<role_id> 修改自定义角色
         @apiVersion 1.0.0
