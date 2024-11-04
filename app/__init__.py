@@ -1,19 +1,17 @@
 import os
 import logging
 
-from flask import Flask, g, request
+from flask import Flask
 
 from .factory import (
     app_config,
     create_celery,
     create_flask_app,
     init_flask_app,
-    babel,
     oss,
     gs_vision,
 )
 
-from app.constants.locale import Locale
 from app.utils.logging import configure_root_logger, configure_extra_logs
 
 configure_root_logger()
@@ -27,7 +25,17 @@ TMP_PATH = os.path.abspath(os.path.join(FILE_PATH, "tmp"))  # 临时文件存放
 STORAGE_PATH = os.path.abspath(os.path.join(APP_PATH, "..", "storage"))  # 储存地址
 
 # Singletons
-flask_app = create_flask_app(Flask(__name__))
+flask_app = create_flask_app(
+    Flask(
+        __name__,
+        **{
+            "static_url_path": "/storage",
+            "static_folder": STORAGE_PATH,
+        }
+        if app_config["STORAGE_TYPE"] == "LOCAL_STORAGE"
+        else {},
+    )
+)
 configure_extra_logs(flask_app)
 celery = create_celery(flask_app)
 init_flask_app(flask_app)
@@ -36,27 +44,6 @@ init_flask_app(flask_app)
 def create_app():
     return flask_app
 
-
-@babel.localeselector
-def get_locale():
-    current_user = g.get("current_user")
-    if (
-        current_user
-        and current_user.locale
-        and current_user.locale != "auto"
-        and current_user.locale in Locale.ids()
-    ):
-        return current_user.locale
-    return request.accept_languages.best_match(["zh_CN", "zh_TW", "zh", "en_US", "en"])
-
-
-# @babel.timezoneselector
-# def get_timezone():
-#     # TODO 弄清 timezone 是什么东西
-#     current_user = g.get('current_user')
-#     if current_user:
-#         if current_user.timezone:
-#             return current_user.timezone
 
 __all__ = [
     "oss",

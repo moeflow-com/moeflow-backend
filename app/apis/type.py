@@ -1,4 +1,4 @@
-from app import Locale
+from app.constants.locale import Locale
 from app.core.views import MoeAPIView
 from app.models.team import Team
 from app.exceptions.base import RequestDataWrongError

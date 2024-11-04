@@ -54,6 +54,7 @@ from app.models.target import Target
 from app.models.term import TermBank
 
 if TYPE_CHECKING:
+    from app.models.user import User
     from app.models.team import Team
 from app.models.output import Output
 from app.tasks.file_parse import find_terms
@@ -281,7 +282,7 @@ class ProjectSet(Document):
 
     name = StringField(db_field="n", required=True)  # 集合名
     intro = StringField(db_field="i", default="")  # 项目集介绍
-    team = ReferenceField("Team", db_field="t", required=True)
+    team: "Team" = ReferenceField("Team", db_field="t", required=True)
     create_time = DateTimeField(db_field="ct", default=datetime.datetime.utcnow)
     edit_time = DateTimeField(
         db_field="et", required=True, default=datetime.datetime.utcnow
@@ -674,14 +675,8 @@ class Project(GroupMixin, Document):
         file.upload_real_file(real_file)
         return file
 
-    def upload_from_zip(self):
-        """从zip导入项目"""
-
-    def upload_from_github(self):
-        """从github导入项目"""
-
     @classmethod
-    def by_id(cls, id_: str):
+    def by_id(cls, id_: str) -> "Project":
         project = cls.objects(id=id_).first()
         if project is None:
             raise ProjectNotExistError()
@@ -886,8 +881,8 @@ class Project(GroupMixin, Document):
 
     @staticmethod
     def batch_to_api(
-        projects,
-        user,
+        projects: list["Project"],
+        user: "User",
         /,
         *,
         inherit_admin_team=None,

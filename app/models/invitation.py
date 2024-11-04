@@ -37,7 +37,7 @@ class Invitation(Document):
 
     @classmethod
     def get(cls, user=None, group=None, status=None, skip=None, limit=None):
-        invitations = cls.objects()
+        invitations: list[Invitation] = cls.objects()
         if user:
             invitations = invitations.filter(user=user)
         if group:

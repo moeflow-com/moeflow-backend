@@ -1,3 +1,4 @@
+from typing import Union
 from flask import request
 
 from app.core.responses import MoePagination
@@ -5,6 +6,8 @@ from app.core.views import MoeAPIView
 from app.decorators.auth import token_required
 from app.decorators.url import fetch_model, fetch_group
 from app.exceptions import NoPermissionError
+from app.models.project import Project
+from app.models.team import Team
 from app.models.user import User
 from app.validators.member import ChangeMemberSchema
 
@@ -61,7 +64,7 @@ class MemberAPI(MoeAPIView):
     @token_required
     @fetch_group
     @fetch_model(User)
-    def put(self, group, user: User):
+    def put(self, group: Union[Project, Team], user: User):
         """
         @api {put} /v1/<group_type>/<group_id>/users/<user_id> 修改团体的成员
         @apiVersion 1.0.0
@@ -91,7 +94,7 @@ class MemberAPI(MoeAPIView):
     @token_required
     @fetch_group
     @fetch_model(User)
-    def delete(self, group, user: User):
+    def delete(self, group: Union[Project, Team], user: User):
         """
         @api {delete} /v1/<group_type>/<group_id>/users/<user_id> 删除团体的成员
         @apiVersion 1.0.0

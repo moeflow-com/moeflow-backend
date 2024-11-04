@@ -37,11 +37,11 @@ jobs:
         verbose: true
         custom-arguments: '-n=2'
         emoji: false
-    - uses: codecov/codecov-action@v4.0.1
+    - uses: codecov/codecov-action@v4.5.0
       if: always()
       with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-      # XXX: can't if (SECRET_DEFINED) for this step
+        fail_ci_if_error: true
+        use_oidc: true
     - name: save test report
       uses: actions/upload-artifact@v4
       if: always()

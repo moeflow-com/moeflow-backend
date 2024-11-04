@@ -42,3 +42,14 @@ test_single:
 test_logging:
 	#--capture=no  
 	venv/bin/pytest --capture=sys --log-cli-level=DEBUG tests/base/test_logging.py
+
+babel-update-po:
+	venv/bin/pybabel extract -F babel.cfg -k lazy_gettext -o messages.pot app
+	venv/bin/pybabel update -i messages.pot -d app/translations
+
+babel-update-mo:
+	venv/bin/pybabel compile -d app/translations
+
+babel-translate-po:
+	venv/bin/python app/scripts/fill_zh_translations.py
+	venv/bin/python app/scripts/fill_en_translations.py

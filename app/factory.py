@@ -8,6 +8,7 @@ from app.services.google_storage import GoogleStorage
 import app.config as _app_config
 from app.services.oss import OSS
 from .apis import register_apis
+from app.translations import get_locale
 
 from app.models import connect_db
 
@@ -23,8 +24,13 @@ app_config = {
     k: getattr(_app_config, k) for k in dir(_app_config) if not k.startswith("_")
 }
 
+_create_flask_app_called = False
+
 
 def create_flask_app(app: Flask) -> Flask:
+    global _create_flask_app_called
+    assert not _create_flask_app_called, "create_flask_app should only be called once"
+    _create_flask_app_called = True
     app.config.from_mapping(app_config)
     connect_db(app.config)
     # print("WTF", app.logger.level)
@@ -37,10 +43,13 @@ def create_flask_app(app: Flask) -> Flask:
 
 def init_flask_app(app: Flask):
     register_apis(app)
-    babel.init_app(app)
+    babel.init_app(app, locale_selector=get_locale)
     apikit.init_app(app)
     logger.info(f"----- build id: {app_config['BUILD_ID']}")
-    logger.info("站点支持语言: " + str([str(i) for i in babel.list_translations()]))
+    with app.app_context():
+        logger.debug(
+            "站点支持语言: " + str([str(i) for i in babel.list_translations()])
+        )
     oss.init(app.config)  # 文件储存
 
 
@@ -126,6 +135,7 @@ def create_default_team(admin_user):
 
 
 def init_db(app: Flask):
+    """init db models"""
     # 初始化角色，语言
     from app.models.language import Language
     from app.models.project import ProjectRole

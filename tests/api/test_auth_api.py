@@ -1,5 +1,5 @@
 from mongomock import ObjectId
-from app import Locale
+from app.constants.locale import Locale
 from app.exceptions import BadTokenError, NeedTokenError, UserBannedError
 from app.exceptions.base import NoPermissionError
 from app.models.site_setting import SiteSetting

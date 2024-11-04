@@ -12,3 +12,5 @@ COPY . /app
 WORKDIR /app
 
 EXPOSE 5000
+
+RUN make babel-update-mo

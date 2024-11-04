@@ -1,4 +1,5 @@
 from functools import wraps
+from typing import TYPE_CHECKING
 
 from app.exceptions import (
     FileNotActivatedError,
@@ -7,12 +8,15 @@ from app.exceptions import (
 )
 from app.constants.file import FileType
 
+if TYPE_CHECKING:
+    from app.models.file import File
+
 
 def need_activated(func):
     """必须激活的File才能进行操作"""
 
     @wraps(func)
-    def wrapper(self, *args, **kwargs):
+    def wrapper(self: "File", *args, **kwargs):
         if not self.activated:
             raise FileNotActivatedError
         return func(self, *args, **kwargs)
@@ -20,12 +24,12 @@ def need_activated(func):
     return wrapper
 
 
-def only(file_type):
+def only(file_type: int):
     def decorator(func):
         """只允许某类型使用的函数，供File模型使用"""
 
         @wraps(func)
-        def wrapper(self, *args, **kwargs):
+        def wrapper(self: "File", *args, **kwargs):
             if self.type != file_type:
                 raise FileTypeNotSupportError(str(func))
             return func(self, *args, **kwargs)
@@ -39,7 +43,7 @@ def only_file(func):
     """只允许非FOLDER使用的函数，供File模型使用"""
 
     @wraps(func)
-    def wrapper(self, *args, **kwargs):
+    def wrapper(self: "File", *args, **kwargs):
         if self.type == FileType.FOLDER:
             raise FileTypeNotSupportError(gettext("不能对文件夹执行 ") + func.__name__)
         return func(self, *args, **kwargs)
@@ -51,7 +55,7 @@ def only_folder(func):
     """只允许FOLDER使用的函数，供File模型使用"""
 
     @wraps(func)
-    def wrapper(self, *args, **kwargs):
+    def wrapper(self: "File", *args, **kwargs):
         if self.type != FileType.FOLDER:
             raise FileTypeNotSupportError(gettext("不能对文件执行 ") + str(func))
         return func(self, *args, **kwargs)

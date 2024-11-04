@@ -1,4 +1,9 @@
-def mongo_order(objects, order_by, default_order_by):
+from typing import TypeVar, List
+
+T = TypeVar("T")
+
+
+def mongo_order(objects: List[T], order_by, default_order_by) -> List[T]:
     """处理排序"""
     # 设置排序默认值
     if order_by is None or order_by == []:
@@ -12,7 +17,7 @@ def mongo_order(objects, order_by, default_order_by):
     return objects
 
 
-def mongo_slice(objects, skip, limit):
+def mongo_slice(objects: List[T], skip, limit) -> List[T]:
     """切片处理"""
     if skip:
         objects = objects.skip(skip)

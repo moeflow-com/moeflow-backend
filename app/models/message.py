@@ -12,11 +12,15 @@ from mongoengine import (
 
 from app.exceptions.message import MessageTypeError
 from app.constants.message import MessageType
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from app.models.user import User
 
 
 class Message(Document):
-    sender = ReferenceField("User", db_field="s", required=True)  # 发送者
-    receiver = ReferenceField("User", db_field="r", required=True)  # 接收人
+    sender: "User" = ReferenceField("User", db_field="s", required=True)  # 发送者
+    receiver: "User" = ReferenceField("User", db_field="r", required=True)  # 接收人
     content = StringField(db_field="c", default="")  # 内容
     type = IntField(
         db_field="t", required=True
@@ -25,7 +29,9 @@ class Message(Document):
     create_time = DateTimeField(db_field="ct", default=datetime.datetime.utcnow)
 
     @classmethod
-    def send_system_message(cls, sender, receiver, content, message_type):
+    def send_system_message(
+        cls, sender: "User", receiver: "User", content, message_type
+    ):
         """发送系统消息"""
         if message_type not in [
             MessageType.SYSTEM,
@@ -42,7 +48,7 @@ class Message(Document):
         return message
 
     @classmethod
-    def send_user_message(cls, sender, receiver, content):
+    def send_user_message(cls, sender: "User", receiver: "User", content: str):
         """发送用户消息"""
         message = cls(
             sender=sender,

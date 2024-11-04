@@ -38,7 +38,9 @@ class Type:
 
     @classmethod
     def to_api(
-        cls, ids: Union[List[int], List[str]] = None, id: Union[int, str] = None
+        cls,
+        ids: Union[List[int], List[str], None] = None,
+        id: Union[int, str, None] = None,
     ) -> Union[List[Dict], Dict]:
         """转化为前端使用数组，并加上介绍"""
         # 如果指定了id，则返回相应id的类型

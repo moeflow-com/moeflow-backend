@@ -49,7 +49,7 @@ class User(Document):
     email = StringField(required=True, unique=True, db_field="e")  # 邮箱
     name = StringField(required=True, unique=True, db_field="n")  # 姓名
     signature = StringField(default="", db_field="s")  # 个性签名
-    locale = StringField(default=Locale.AUTO, db_field="l")  # 语言
+    locale = StringField(default=Locale.AUTO, db_field="l")  # 语言 # NOT USED
     timezone = StringField(default="", db_field="t")  # 时区
     _avatar = StringField(default="", db_field="a")  # 头像
     banned = BooleanField(defult=False, db_field="b")  # 是否被封禁
@@ -183,7 +183,7 @@ class User(Document):
         return token
 
     @classmethod
-    def verify_token(cls, token):
+    def verify_token(cls, token: str):
         # 检查是否时Bearer token
         if not token.startswith("Bearer "):
             raise BadTokenError(gettext("令牌格式错误，应形如 Bearer x.x.x"))
