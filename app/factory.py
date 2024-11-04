@@ -47,7 +47,9 @@ def init_flask_app(app: Flask):
     apikit.init_app(app)
     logger.info(f"----- build id: {app_config['BUILD_ID']}")
     with app.app_context():
-        logger.info("站点支持语言: " + str([str(i) for i in babel.list_translations()]))
+        logger.debug(
+            "站点支持语言: " + str([str(i) for i in babel.list_translations()])
+        )
     oss.init(app.config)  # 文件储存
 
 
