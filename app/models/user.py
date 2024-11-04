@@ -1,7 +1,7 @@
 from app.models.output import Output
 import datetime
 import re
-from typing import NoReturn, Union
+from typing import NoReturn, Optional, Union
 
 from flask import current_app, g
 from flask_babel import gettext
@@ -243,7 +243,13 @@ class User(Document):
         return data
 
     # =====团队操作=====
-    def teams(self, role=None, skip: int = None, limit: int = None, word: str = None):
+    def teams(
+        self,
+        role=None,
+        skip: Optional[int] = None,
+        limit: Optional[int] = None,
+        word: Optional[str] = None,
+    ):
         """
         获取自己加入的团队
 
