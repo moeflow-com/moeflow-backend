@@ -1,8 +1,9 @@
 import datetime
 import re
+from typing import List
 
 from flask import current_app
-from flask_babel import gettext, lazy_gettext
+from flask_babel import lazy_gettext
 from mongoengine import (
     CASCADE,
     DENY,
@@ -130,9 +131,9 @@ class TeamPermission(PermissionMixin):
 class TeamRole(RoleMixin, Document):
     permission_cls = TeamPermission
     group = ReferenceField("Team", db_field="g")
-    system_role_data = [
+    system_role_data: List[dict] = [
         {
-            "name": gettext("创建人"),
+            "name": "创建人",
             "permissions": [
                 TeamPermission.ACCESS,
                 TeamPermission.DELETE,
@@ -164,7 +165,7 @@ class TeamRole(RoleMixin, Document):
             "system_code": "creator",
         },
         {
-            "name": gettext("管理员"),
+            "name": "管理员",
             "permissions": [
                 TeamPermission.ACCESS,
                 TeamPermission.CHANGE,
@@ -195,7 +196,7 @@ class TeamRole(RoleMixin, Document):
             "system_code": "admin",
         },
         {
-            "name": gettext("资深成员"),
+            "name": "资深成员",
             "permissions": [
                 TeamPermission.ACCESS,
                 TeamPermission.CREATE_TERM_BANK,
@@ -216,7 +217,7 @@ class TeamRole(RoleMixin, Document):
             "system_code": "senior",
         },
         {
-            "name": gettext("成员"),
+            "name": "成员",
             "permissions": [
                 TeamPermission.ACCESS,
                 TeamPermission.CREATE_TERM_BANK,
@@ -235,7 +236,7 @@ class TeamRole(RoleMixin, Document):
             "system_code": "member",
         },
         {
-            "name": gettext("见习成员"),
+            "name": "见习成员",
             "permissions": [TeamPermission.ACCESS],
             "level": 100,
             "system_code": "beginner",

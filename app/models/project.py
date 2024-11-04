@@ -140,9 +140,9 @@ class ProjectPermission(PermissionMixin):
 class ProjectRole(RoleMixin, Document):
     permission_cls = ProjectPermission
     group = ReferenceField("Project", db_field="g")
-    system_role_data = [
+    system_role_data: List[dict] = [
         {
-            "name": gettext("创建人"),
+            "name": "创建人",
             "permissions": [
                 ProjectPermission.ACCESS,
                 ProjectPermission.CHANGE,
@@ -173,7 +173,7 @@ class ProjectRole(RoleMixin, Document):
             "system_code": "creator",
         },
         {
-            "name": gettext("管理员"),
+            "name": "管理员",
             "permissions": [
                 ProjectPermission.ACCESS,
                 ProjectPermission.CHANGE,
@@ -204,7 +204,7 @@ class ProjectRole(RoleMixin, Document):
             "system_code": "admin",
         },
         {
-            "name": gettext("监理"),
+            "name": "监理",
             "permissions": [
                 ProjectPermission.ACCESS,
                 ProjectPermission.ADD_FILE,
@@ -229,7 +229,7 @@ class ProjectRole(RoleMixin, Document):
             "system_code": "coordinator",
         },
         {
-            "name": gettext("校对"),
+            "name": "校对",
             "permissions": [
                 ProjectPermission.ACCESS,
                 ProjectPermission.OUTPUT_TRA,
@@ -244,7 +244,7 @@ class ProjectRole(RoleMixin, Document):
             "system_code": "proofreader",
         },
         {
-            "name": gettext("翻译"),
+            "name": "翻译",
             "permissions": [
                 ProjectPermission.ACCESS,
                 ProjectPermission.OUTPUT_TRA,
@@ -257,7 +257,7 @@ class ProjectRole(RoleMixin, Document):
             "system_code": "translator",
         },
         {
-            "name": gettext("嵌字"),
+            "name": "嵌字",
             "permissions": [
                 ProjectPermission.ACCESS,
                 ProjectPermission.OUTPUT_TRA,
@@ -269,7 +269,7 @@ class ProjectRole(RoleMixin, Document):
             "system_code": "picture_editor",
         },
         {
-            "name": gettext("见习翻译"),
+            "name": "见习翻译",
             "permissions": [ProjectPermission.ACCESS, ProjectPermission.ADD_TRA],
             "level": 100,
             "system_code": "supporter",

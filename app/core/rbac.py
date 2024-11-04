@@ -134,7 +134,7 @@ class RoleMixin:
     create_time: datetime = DateTimeField(
         db_field="m_c", default=datetime.datetime.utcnow
     )
-    system_role_data = {}  # type: dict
+    system_role_data: List[dict] = []
 
     def clean(self):
         # ==处理permission==
