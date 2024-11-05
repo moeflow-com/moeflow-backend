@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-06 03:16+0900\n"
+"POT-Creation-Date: 2024-11-06 03:18+0900\n"
 "PO-Revision-Date: 2017-04-14 15:38+0800\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en_US\n"
@@ -1126,7 +1126,7 @@ msgstr "Delete target language."
 
 #: app/models/project.py:281
 msgid "创建人"
-msgstr ""
+msgstr "Creator"
 
 #: app/models/project.py:282
 msgid "管理员"
