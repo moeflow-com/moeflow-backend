@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-06 03:18+0900\n"
+"POT-Creation-Date: 2024-11-06 03:24+0900\n"
 "PO-Revision-Date: 2017-04-14 15:38+0800\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en_US\n"
@@ -1124,11 +1124,11 @@ msgstr "Modify target language."
 msgid "删除目标语言"
 msgstr "Delete target language."
 
-#: app/models/project.py:281
+#: app/models/project.py:281 app/models/team.py:253
 msgid "创建人"
 msgstr "Creator"
 
-#: app/models/project.py:282
+#: app/models/project.py:282 app/models/team.py:254
 msgid "管理员"
 msgstr "Admin"
 
@@ -1318,6 +1318,18 @@ msgstr "View project statistics"
 msgid "可以查看团队项目统计"
 msgstr "You can view team project statistics."
 
+#: app/models/team.py:255
+msgid "资深成员"
+msgstr "Senior Member"
+
+#: app/models/team.py:256
+msgid "成员"
+msgstr "Member"
+
+#: app/models/team.py:257
+msgid "见习成员"
+msgstr "Trainee Member"
+
 #: app/models/user.py:189
 msgid "令牌格式错误，应形如 Bearer x.x.x"
 msgstr "Token format error, should be like Bearer x.x.x."
@@ -1434,13 +1446,4 @@ msgstr "No valid parameters."
 
 #~ msgid "此邮箱已存在,您可以直接登录或尝试其他邮箱"
 #~ msgstr ""
-
-#~ msgid "资深成员"
-#~ msgstr "Senior Member"
-
-#~ msgid "成员"
-#~ msgstr "Member"
-
-#~ msgid "见习成员"
-#~ msgstr "Trainee Member"
 

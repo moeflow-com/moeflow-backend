@@ -3,7 +3,7 @@ import re
 from typing import List
 
 from flask import current_app
-from flask_babel import lazy_gettext
+from flask_babel import lazy_gettext, gettext
 from mongoengine import (
     CASCADE,
     DENY,
@@ -247,6 +247,14 @@ class TeamRole(RoleMixin, Document):
         # 如果有AUTO_BECOME_PROJECT_ADMIN权限，则返回项目管理员权限
         if self.has_permission(self.permission_cls.AUTO_BECOME_PROJECT_ADMIN):
             return ProjectRole.by_system_code("admin")
+
+    @classmethod
+    def unused_provide_babel_names(cls):
+        gettext("创建人")
+        gettext("管理员")
+        gettext("资深成员")
+        gettext("成员")
+        gettext("见习成员")
 
 
 class Team(GroupMixin, Document):

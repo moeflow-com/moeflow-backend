@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-06 03:18+0900\n"
+"POT-Creation-Date: 2024-11-06 03:24+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -1094,11 +1094,11 @@ msgstr "修改目标语言"
 msgid "删除目标语言"
 msgstr "删除目标语言"
 
-#: app/models/project.py:281
+#: app/models/project.py:281 app/models/team.py:253
 msgid "创建人"
 msgstr ""
 
-#: app/models/project.py:282
+#: app/models/project.py:282 app/models/team.py:254
 msgid "管理员"
 msgstr ""
 
@@ -1277,6 +1277,18 @@ msgstr "查看项目统计"
 #: app/models/team.py:126
 msgid "可以查看团队项目统计"
 msgstr "可以查看团队项目统计"
+
+#: app/models/team.py:255
+msgid "资深成员"
+msgstr ""
+
+#: app/models/team.py:256
+msgid "成员"
+msgstr ""
+
+#: app/models/team.py:257
+msgid "见习成员"
+msgstr ""
 
 #: app/models/user.py:189
 msgid "令牌格式错误，应形如 Bearer x.x.x"
