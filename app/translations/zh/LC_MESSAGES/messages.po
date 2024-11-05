@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-06 02:31+0900\n"
+"POT-Creation-Date: 2024-11-06 03:16+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -33,7 +32,7 @@ msgstr "只有申请人可以删除申请"
 
 #: app/apis/application.py:183 app/apis/file.py:254 app/apis/invitation.py:236
 #: app/apis/project_set.py:102 app/apis/target.py:31 app/apis/term.py:151
-#: app/apis/term.py:311 app/core/rbac.py:483
+#: app/apis/term.py:311 app/core/rbac.py:485
 msgid "删除成功"
 msgstr "删除成功"
 
@@ -511,59 +510,59 @@ msgstr "仅可修改比自己角色等级低的角色"
 msgid "修改用户备注"
 msgstr "修改用户备注"
 
-#: app/core/rbac.py:284 app/core/rbac.py:322
+#: app/core/rbac.py:286 app/core/rbac.py:324
 msgid "角色等级不能大于等于自己的角色等级"
 msgstr "角色等级不能大于等于自己的角色等级"
 
-#: app/core/rbac.py:286 app/core/rbac.py:324
+#: app/core/rbac.py:288 app/core/rbac.py:326
 msgid "角色权限不能多于自己的角色权限"
 msgstr "角色权限不能多于自己的角色权限"
 
-#: app/core/rbac.py:317
+#: app/core/rbac.py:319
 msgid "不能修改系统角色"
 msgstr "不能修改系统角色"
 
-#: app/core/rbac.py:339
+#: app/core/rbac.py:341
 msgid "不能删除系统角色"
 msgstr "不能删除系统角色"
 
-#: app/core/rbac.py:388 app/core/rbac.py:389
+#: app/core/rbac.py:390 app/core/rbac.py:391
 msgid "此项目/团队不允许申请加入"
 msgstr "此项目/团队不允许申请加入"
 
-#: app/core/rbac.py:464
+#: app/core/rbac.py:466
 msgid "用户不存在于团队"
 msgstr "用户不存在于团队"
 
-#: app/core/rbac.py:474
+#: app/core/rbac.py:476
 msgid "退出成功"
 msgstr "退出成功"
 
-#: app/core/rbac.py:478
+#: app/core/rbac.py:480
 msgid "您没有删除用户权限"
 msgstr "您没有删除用户权限"
 
-#: app/core/rbac.py:481
+#: app/core/rbac.py:483
 msgid "只能删除角色等级比您低的用户"
 msgstr "只能删除角色等级比您低的用户"
 
-#: app/core/rbac.py:501
+#: app/core/rbac.py:503
 msgid "您不能修改自己的角色"
 msgstr "您不能修改自己的角色"
 
-#: app/core/rbac.py:504
+#: app/core/rbac.py:506
 msgid "您没有修改用户角色权限"
 msgstr "您没有修改用户角色权限"
 
-#: app/core/rbac.py:508
+#: app/core/rbac.py:510
 msgid "只能为比您角色等级低的用户设置角色"
 msgstr "只能为比您角色等级低的用户设置角色"
 
-#: app/core/rbac.py:511
+#: app/core/rbac.py:513
 msgid "只能为用户设置比您角色等级低的角色"
 msgstr "只能为用户设置比您角色等级低的角色"
 
-#: app/core/rbac.py:539
+#: app/core/rbac.py:541
 msgid "默认角色不能设置为创建者"
 msgstr "默认角色不能设置为创建者"
 
@@ -1095,27 +1094,55 @@ msgstr "修改目标语言"
 msgid "删除目标语言"
 msgstr "删除目标语言"
 
-#: app/models/project.py:425
+#: app/models/project.py:281
+msgid "创建人"
+msgstr ""
+
+#: app/models/project.py:282
+msgid "管理员"
+msgstr ""
+
+#: app/models/project.py:283
+msgid "监理"
+msgstr ""
+
+#: app/models/project.py:284
+msgid "校对"
+msgstr ""
+
+#: app/models/project.py:285
+msgid "翻译"
+msgstr ""
+
+#: app/models/project.py:286
+msgid "嵌字"
+msgstr ""
+
+#: app/models/project.py:287
+msgid "见习翻译"
+msgstr ""
+
+#: app/models/project.py:435
 msgid "必须是Language对象"
 msgstr "必须是Language对象"
 
-#: app/models/project.py:560
+#: app/models/project.py:570
 msgid "只允许项目所属团队成员申请加入"
 msgstr "只允许项目所属团队成员申请加入"
 
-#: app/models/project.py:627
+#: app/models/project.py:637
 msgid "暂不支持的文件格式"
 msgstr "暂不支持的文件格式"
 
-#: app/models/project.py:948
+#: app/models/project.py:958
 msgid "框内"
 msgstr "框内"
 
-#: app/models/project.py:950
+#: app/models/project.py:960
 msgid "框外"
 msgstr "框外"
 
-#: app/models/project.py:953
+#: app/models/project.py:963
 msgid "可使用 LabelPlus Photoshop 脚本导入 psd 中"
 msgstr "可使用 LabelPlus Photoshop 脚本导入 psd 中"
 
@@ -1332,27 +1359,6 @@ msgstr "等级需要大于{min}，小于{max}(您的等级)"
 #: app/validators/source.py:41 app/validators/translation.py:27
 msgid "没有有效参数"
 msgstr "没有有效参数"
-
-#~ msgid "创建人"
-#~ msgstr "创建人"
-
-#~ msgid "管理员"
-#~ msgstr "管理员"
-
-#~ msgid "监理"
-#~ msgstr "监理"
-
-#~ msgid "校对"
-#~ msgstr "校对"
-
-#~ msgid "翻译"
-#~ msgstr "翻译"
-
-#~ msgid "嵌字"
-#~ msgstr "嵌字"
-
-#~ msgid "见习翻译"
-#~ msgstr "见习翻译"
 
 #~ msgid "资深成员"
 #~ msgstr "资深成员"

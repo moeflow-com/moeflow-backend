@@ -276,6 +276,16 @@ class ProjectRole(RoleMixin, Document):
         },
     ]
 
+    @classmethod
+    def unused_provide_babel_names(cls):
+        gettext("创建人")
+        gettext("管理员")
+        gettext("监理")
+        gettext("校对")
+        gettext("翻译")
+        gettext("嵌字")
+        gettext("见习翻译")
+
 
 class ProjectSet(Document):
     """项目集"""
