@@ -35,6 +35,7 @@ def create_test_app():
 
 
 class MoeTestCase(TestCase):
+    maxDiff = None
     def setUp(self):
         self.app = create_test_app()
         self.app_context = self.app.app_context()
