@@ -47,7 +47,7 @@ babel-update-po:
 	venv/bin/pybabel extract -F babel.cfg -k lazy_gettext -o messages.pot app
 	venv/bin/pybabel update -i messages.pot -d app/translations
 
-babel-update-mo:
+babel-update-mo: babel-update-po
 	venv/bin/pybabel compile -d app/translations
 
 babel-translate-po:

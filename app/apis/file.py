@@ -156,7 +156,7 @@ class FileAPI(MoeAPIView):
         }
         """
         if not self.current_user.can(file.project, ProjectPermission.ACCESS):
-            raise NoPermissionError(gettext("您没有权限移动文件"))
+            raise NoPermissionError(gettext("您没有此项目的访问权限"))
         query = self.get_query({}, FileGetSchema())
         data = file.to_api()
         data["project_id"] = str(file.project.id)

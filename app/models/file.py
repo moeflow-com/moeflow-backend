@@ -411,7 +411,7 @@ class File(Document):
                 file.save()
 
     @need_activated
-    def move_to(self, parent: Union[str, ObjectId, "File"]):
+    def move_to(self, parent: Union[str, ObjectId, "File", None]):
         """将某个文件或文件夹移动到另一个地方"""
         # 强制从数据库更新自身，以免之前有删除、建立文件夹操作，影响最后的计数缓存
         self.reload()
