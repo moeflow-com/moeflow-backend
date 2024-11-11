@@ -115,7 +115,9 @@ class TeamAPITestCase(MoeAPITestCase):
             # word = t，搜到 2 个
             data = self.get("/v1/teams", query_string={"word": "t"}, token=token)
             self.assertErrorEqual(data)
-            self.assertEqual(2, len(data.json))
+            self.assertEqual(
+                # default team + t1 + t2
+                3, len(data.json))
             # word = 1，搜到 1 个
             data = self.get("/v1/teams", query_string={"word": "1"}, token=token)
             self.assertErrorEqual(data)

@@ -134,7 +134,7 @@ class RoleMixin:
     create_time: datetime = DateTimeField(
         db_field="m_c", default=datetime.datetime.utcnow
     )
-    system_role_data = {}  # type: dict
+    system_role_data: List[dict] = []
 
     def clean(self):
         # ==处理permission==
@@ -185,9 +185,9 @@ class RoleMixin:
                         system_code=role["system_code"],
                         intro=role.get("intro", ""),
                     ).save()
-            logger.info(f"初始化{cls._class_name}表完成")
+            logger.info(f"Populated {cls._class_name} with default roles")
         else:
-            logger.info(f"已存在{cls._class_name}表，跳过初始化")
+            logger.info(f"{cls._class_name} already populated")
 
     @classmethod
     def system_roles(cls: Type[Document], without_creator=False):
@@ -214,9 +214,11 @@ class RoleMixin:
         return role
 
     def to_api(self: Document):
+        name = gettext(self.name)
+        logger.debug('RoleMixin.to_api: name="%s" %s', self.name, name)
         return {
             "id": str(self.id),
-            "name": self.name,
+            "name": gettext(self.name),
             "level": self.level,
             "system": self.system,
             "system_code": self.system_code,

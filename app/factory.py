@@ -117,12 +117,14 @@ def create_default_team(admin_user):
     from app.models.site_setting import SiteSetting
 
     if Team.objects().count() == 0:
-        logger.debug("已建立默认团队")
+        logger.debug("creating default team")
         team = Team.create(
-            name="默认团队",
+            name="Default Team",
             creator=admin_user,
         )
-        team.intro = "所有新用户会自动加入此团队，如不需要，站点管理员可以在“站点管理-自动加入的团队 ID”中删除此团队 ID。"
+        team.intro = """
+        All new users will automatically join this team. This can be disabled by site administrator.
+        所有新用户会自动加入此团队，如不需要，站点管理员可以在“站点管理-自动加入的团队 ID”中删除此团队 ID。""".strip()
         team.allow_apply_type = AllowApplyType.ALL
         team.application_check_type = ApplicationCheckType.ADMIN_CHECK
         team.default_role = TeamRole.by_system_code("member")
@@ -131,7 +133,7 @@ def create_default_team(admin_user):
         site_setting.auto_join_team_ids = [team.id]
         site_setting.save()
     else:
-        logger.debug("已有团队，跳过建立默认团队")
+        logger.debug("default team existed")
 
 
 def init_db(app: Flask):

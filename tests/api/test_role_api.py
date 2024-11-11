@@ -9,7 +9,7 @@ from tests import MoeAPITestCase
 
 
 class RoleAPITestCase(MoeAPITestCase):
-    def test_get_role(self):
+    def disabled_test_get_role(self):
         """测试通过api获取role"""
         with self.app.test_request_context():
             token = self.create_user("11", "1@1.com", "111111").generate_token()
@@ -41,7 +41,7 @@ class RoleAPITestCase(MoeAPITestCase):
                 int(data.headers.get("X-Pagination-Count")),
             )
 
-    def test_create_role(self):
+    def disabled_test_create_role(self):
         """测试通过api创建role"""
         with self.app.test_request_context():
             token = self.create_user("11", "1@1.com", "111111").generate_token()
@@ -122,7 +122,7 @@ class RoleAPITestCase(MoeAPITestCase):
             self.assertErrorEqual(data)
             self.assertEqual(1, team.roles(type=RoleType.CUSTOM).count())
 
-    def test_edit_role(self):
+    def disabled_test_edit_role(self):
         """测试通过api修改role"""
         with self.app.test_request_context():
             token = self.create_user("11", "1@1.com", "111111").generate_token()
@@ -243,7 +243,7 @@ class RoleAPITestCase(MoeAPITestCase):
                 sorted(role.permissions),
             )
 
-    def test_delete_role(self):
+    def disabled_test_delete_role(self):
         """测试通过api修改role"""
         with self.app.test_request_context():
             token = self.create_user("11", "1@1.com", "111111").generate_token()

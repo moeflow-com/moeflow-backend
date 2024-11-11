@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-04 02:29+0900\n"
+"POT-Creation-Date: 2024-11-06 03:24+0900\n"
 "PO-Revision-Date: 2017-04-14 15:38+0800\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en_US\n"
@@ -32,7 +32,7 @@ msgstr "Only the applicant can remove the application"
 
 #: app/apis/application.py:183 app/apis/file.py:254 app/apis/invitation.py:236
 #: app/apis/project_set.py:102 app/apis/target.py:31 app/apis/term.py:151
-#: app/apis/term.py:311 app/core/rbac.py:483
+#: app/apis/term.py:311 app/core/rbac.py:485
 msgid "删除成功"
 msgstr "Removed"
 
@@ -51,7 +51,7 @@ msgstr "Missing id"
 msgid "修改成功"
 msgstr "Updated"
 
-#: app/apis/file.py:57 app/apis/project.py:53
+#: app/apis/file.py:57 app/apis/file.py:159 app/apis/project.py:53
 msgid "您没有此项目的访问权限"
 msgstr "Access permission not granted"
 
@@ -59,7 +59,7 @@ msgstr "Access permission not granted"
 msgid "您没有此项目的上传文件权限"
 msgstr "Upload file permission not granted"
 
-#: app/apis/file.py:159 app/apis/file.py:220
+#: app/apis/file.py:220
 msgid "您没有权限移动文件"
 msgstr "Move file permission not granted"
 
@@ -111,7 +111,7 @@ msgstr "Complete"
 msgid "只能修改邀请角色等级比您低的邀请"
 msgstr "You can only modify invitations for roles lower than your own."
 
-#: app/apis/invitation.py:163 app/models/user.py:383
+#: app/apis/invitation.py:163 app/models/user.py:389
 msgid "邀请的角色等级需要比您低"
 msgstr "The role level of the invitee needs to be lower than yours."
 
@@ -530,61 +530,61 @@ msgstr "Can only modify characters with a lower role level than your own."
 msgid "修改用户备注"
 msgstr "Edit User Note"
 
-#: app/core/rbac.py:284 app/core/rbac.py:322
+#: app/core/rbac.py:286 app/core/rbac.py:324
 msgid "角色等级不能大于等于自己的角色等级"
 msgstr ""
 "Character level cannot be greater than or equal to your own character "
 "level."
 
-#: app/core/rbac.py:286 app/core/rbac.py:324
+#: app/core/rbac.py:288 app/core/rbac.py:326
 msgid "角色权限不能多于自己的角色权限"
 msgstr "Role permissions cannot exceed your own role permissions."
 
-#: app/core/rbac.py:317
+#: app/core/rbac.py:319
 msgid "不能修改系统角色"
 msgstr "Cannot modify system role."
 
-#: app/core/rbac.py:339
+#: app/core/rbac.py:341
 msgid "不能删除系统角色"
 msgstr "Cannot delete system role."
 
-#: app/core/rbac.py:388 app/core/rbac.py:389
+#: app/core/rbac.py:390 app/core/rbac.py:391
 msgid "此项目/团队不允许申请加入"
 msgstr "This project/team does not allow requests to join."
 
-#: app/core/rbac.py:464
+#: app/core/rbac.py:466
 msgid "用户不存在于团队"
 msgstr "User does not exist in the team."
 
-#: app/core/rbac.py:474
+#: app/core/rbac.py:476
 msgid "退出成功"
 msgstr "Logout successful."
 
-#: app/core/rbac.py:478
+#: app/core/rbac.py:480
 msgid "您没有删除用户权限"
 msgstr "You do not have permission to delete users."
 
-#: app/core/rbac.py:481
+#: app/core/rbac.py:483
 msgid "只能删除角色等级比您低的用户"
 msgstr "You can only delete users with a role level lower than yours."
 
-#: app/core/rbac.py:501
+#: app/core/rbac.py:503
 msgid "您不能修改自己的角色"
 msgstr "You cannot modify your role."
 
-#: app/core/rbac.py:504
+#: app/core/rbac.py:506
 msgid "您没有修改用户角色权限"
 msgstr "You do not have permission to modify user roles."
 
-#: app/core/rbac.py:508
+#: app/core/rbac.py:510
 msgid "只能为比您角色等级低的用户设置角色"
 msgstr "Can only assign roles to users with a lower role level than yours."
 
-#: app/core/rbac.py:511
+#: app/core/rbac.py:513
 msgid "只能为用户设置比您角色等级低的角色"
 msgstr "You can only assign roles to users that are lower than your role level."
 
-#: app/core/rbac.py:539
+#: app/core/rbac.py:541
 msgid "默认角色不能设置为创建者"
 msgstr "The default role cannot be set as the creator."
 
@@ -1046,7 +1046,7 @@ msgstr "Team members only."
 
 #: app/models/project.py:114
 msgid "访问项目"
-msgstr "Visit project"
+msgstr "View project"
 
 #: app/models/project.py:115
 msgid "删除项目"
@@ -1124,209 +1124,209 @@ msgstr "Modify target language."
 msgid "删除目标语言"
 msgstr "Delete target language."
 
-#: app/models/project.py:145 app/models/team.py:135
+#: app/models/project.py:281 app/models/team.py:253
 msgid "创建人"
 msgstr "Creator"
 
-#: app/models/project.py:176 app/models/team.py:167
+#: app/models/project.py:282 app/models/team.py:254
 msgid "管理员"
-msgstr "Administrator"
+msgstr "Admin"
 
-#: app/models/project.py:207
+#: app/models/project.py:283
 msgid "监理"
-msgstr "Supervision"
+msgstr "Supervisor"
 
-#: app/models/project.py:232
+#: app/models/project.py:284
 msgid "校对"
-msgstr "Proofreading"
+msgstr "Proofreader"
 
-#: app/models/project.py:247
+#: app/models/project.py:285
 msgid "翻译"
-msgstr "Translate"
+msgstr "Translator"
 
-#: app/models/project.py:260
+#: app/models/project.py:286
 msgid "嵌字"
-msgstr "Kerning"
+msgstr "Inpainter"
 
-#: app/models/project.py:272
+#: app/models/project.py:287
 msgid "见习翻译"
 msgstr "Trainee Translator"
 
-#: app/models/project.py:425
+#: app/models/project.py:435
 msgid "必须是Language对象"
 msgstr "Must be a Language object."
 
-#: app/models/project.py:560
+#: app/models/project.py:570
 msgid "只允许项目所属团队成员申请加入"
 msgstr "Only members of the project team are allowed to apply to join."
 
-#: app/models/project.py:627
+#: app/models/project.py:637
 msgid "暂不支持的文件格式"
 msgstr "File format not supported"
 
-#: app/models/project.py:948
+#: app/models/project.py:958
 msgid "框内"
 msgstr "In the box."
 
-#: app/models/project.py:950
+#: app/models/project.py:960
 msgid "框外"
 msgstr "Out of the box"
 
-#: app/models/project.py:953
+#: app/models/project.py:963
 msgid "可使用 LabelPlus Photoshop 脚本导入 psd 中"
 msgstr "You can use the LabelPlus Photoshop script to import into PSD."
 
-#: app/models/team.py:59
-msgid "访问团队"
-msgstr "Visit team"
-
 #: app/models/team.py:60
+msgid "访问团队"
+msgstr "View team"
+
+#: app/models/team.py:61
 msgid "解散团队"
 msgstr "Disband Team"
 
-#: app/models/team.py:61
+#: app/models/team.py:62
 msgid "设置团队"
 msgstr "Set Team"
 
-#: app/models/team.py:64
+#: app/models/team.py:65
 msgid "管理项目"
 msgstr "Manage Projects"
 
-#: app/models/team.py:65
+#: app/models/team.py:66
 msgid "自动获得团队内所有项目的管理员权限"
 msgstr "Automatically gain admin access to all projects within the team."
 
-#: app/models/team.py:68
+#: app/models/team.py:69
 msgid "创建术语库"
 msgstr "Create a termbase."
 
-#: app/models/team.py:69
+#: app/models/team.py:70
 msgid "在团队内创建术语库"
 msgstr "Create a term base within the team."
 
-#: app/models/team.py:72
+#: app/models/team.py:73
 msgid "查看他人术语库"
 msgstr "View others' termbase."
 
-#: app/models/team.py:73
+#: app/models/team.py:74
 msgid "若无此权限只能查看自己创建的术语库中的术语"
 msgstr ""
 "If you do not have this permission, you can only view the terms in the "
 "termbase you created."
 
-#: app/models/team.py:76
+#: app/models/team.py:77
 msgid "设置他人术语库"
 msgstr "Set others' termbase."
 
-#: app/models/team.py:77
+#: app/models/team.py:78
 msgid "若无此权限只能修改自己创建的术语库设置"
 msgstr ""
 "Without this permission, you can only modify the settings of the termbase"
 " you created."
 
-#: app/models/team.py:80
+#: app/models/team.py:81
 msgid "删除他人术语库"
 msgstr "Delete others' termbase."
 
-#: app/models/team.py:81
+#: app/models/team.py:82
 msgid "若无此权限只能删除自己创建的术语库"
 msgstr "Without this permission, you can only delete the term base you created."
 
-#: app/models/team.py:84
+#: app/models/team.py:85
 msgid "在他人术语库中增加术语"
 msgstr "Add a term to another's terminology database."
 
-#: app/models/team.py:85
+#: app/models/team.py:86
 msgid "若无此权限只能在自己创建的术语库中增加术语"
 msgstr ""
 "If you do not have this permission, you can only add terms to the "
 "termbase you created."
 
-#: app/models/team.py:88
+#: app/models/team.py:89
 msgid "修改他人术语"
 msgstr "Modify others' terms."
 
-#: app/models/team.py:89
+#: app/models/team.py:90
 msgid "若无此权限只能修改自己创建的术语或自己术语库中的术语"
 msgstr ""
 "If you do not have this permission, you can only modify terms you created"
 " or terms in your own termbase."
 
-#: app/models/team.py:94
+#: app/models/team.py:95
 msgid "删除他人术语"
 msgstr "Delete others' terms."
 
-#: app/models/team.py:95
+#: app/models/team.py:96
 msgid "若无此权限只能删除自己创建的术语或自己术语库中的术语"
 msgstr ""
 "If you do not have this permission, you can only delete terms you created"
 " or terms in your own termbase."
 
-#: app/models/team.py:100
+#: app/models/team.py:101
 msgid "创建项目"
 msgstr "Create Project"
 
-#: app/models/team.py:101
+#: app/models/team.py:102
 msgid "在团队内创建项目"
 msgstr "Create a project within the team."
 
-#: app/models/team.py:104
+#: app/models/team.py:105
 msgid "创建项目集"
 msgstr "Create Portfolio"
 
-#: app/models/team.py:105
+#: app/models/team.py:106
 msgid "在团队内创建项目集"
 msgstr "Create a project set within the team."
 
-#: app/models/team.py:108
+#: app/models/team.py:109
 msgid "设置项目集"
 msgstr "Set Portfolio"
 
-#: app/models/team.py:109
+#: app/models/team.py:110
 msgid "修改团队内项目集的设置"
 msgstr "Modify the settings of the project collection within the team."
 
-#: app/models/team.py:112
+#: app/models/team.py:113
 msgid "删除项目集"
 msgstr "Delete project set"
 
-#: app/models/team.py:113
+#: app/models/team.py:114
 msgid "删除团队内的项目集"
 msgstr "Delete the portfolio within the team."
 
-#: app/models/team.py:116
+#: app/models/team.py:117
 msgid "使用自动标记额度"
 msgstr "Use automatic tagging quota."
 
-#: app/models/team.py:117
+#: app/models/team.py:118
 msgid "可以使用团队的自动标记额度"
 msgstr "The team's automatic tagging quota can be used."
 
-#: app/models/team.py:120
+#: app/models/team.py:121
 msgid "使用机器翻译额度"
 msgstr "Use machine translation quota."
 
-#: app/models/team.py:121
+#: app/models/team.py:122
 msgid "可以使用团队的机器翻译额度"
 msgstr "The team's machine translation quota can be used."
 
-#: app/models/team.py:124
+#: app/models/team.py:125
 msgid "查看项目统计"
 msgstr "View project statistics"
 
-#: app/models/team.py:125
+#: app/models/team.py:126
 msgid "可以查看团队项目统计"
 msgstr "You can view team project statistics."
 
-#: app/models/team.py:198
+#: app/models/team.py:255
 msgid "资深成员"
 msgstr "Senior Member"
 
-#: app/models/team.py:219
+#: app/models/team.py:256
 msgid "成员"
 msgstr "Member"
 
-#: app/models/team.py:238
+#: app/models/team.py:257
 msgid "见习成员"
 msgstr "Trainee Member"
 
@@ -1338,37 +1338,37 @@ msgstr "Token format error, should be like Bearer x.x.x."
 msgid "密码已修改，请重新登录"
 msgstr "Password has been changed, please log in again."
 
-#: app/models/user.py:399
+#: app/models/user.py:405
 msgid "此用户已有申请，已直接加入"
 msgstr "This user already has an application and has been directly added."
 
-#: app/models/user.py:406
+#: app/models/user.py:412
 msgid "此用户是项目所在团队成员，已直接加入"
 msgstr "This user is a member of the project team and has been directly added."
 
-#: app/models/user.py:412
+#: app/models/user.py:418
 msgid "邀请成功，请等待用户确认"
 msgstr "Invitation successful, please wait for user confirmation."
 
-#: app/models/user.py:443
+#: app/models/user.py:449
 msgid "加入成功，管理员继承自团队"
 msgstr "Joined successfully, administrator inherited from the team."
 
-#: app/models/user.py:456
+#: app/models/user.py:462
 msgid "管理员先前邀请了您，已直接加入"
 msgstr ""
 "The administrator previously invited you, and you have been directly "
 "added."
 
-#: app/models/user.py:463
+#: app/models/user.py:469
 msgid "项目不允许申请加入"
 msgstr "The project does not allow requests to join."
 
-#: app/models/user.py:469
+#: app/models/user.py:475
 msgid "加入成功"
 msgstr "Joined successfully."
 
-#: app/models/user.py:472
+#: app/models/user.py:478
 msgid "申请成功，请等待管理员审核"
 msgstr "Application successful, please wait for administrator review."
 
