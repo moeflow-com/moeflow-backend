@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-06 03:24+0900\n"
+"POT-Creation-Date: 2024-11-30 01:30+0900\n"
 "PO-Revision-Date: 2017-04-14 15:38+0800\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en_US\n"
@@ -464,7 +464,7 @@ msgstr "Therefore, all users can apply to join."
 
 #: app/core/rbac.py:69
 msgid "无需审核"
-msgstr "No review required."
+msgstr "Auto approve."
 
 #: app/core/rbac.py:70
 msgid "用户申请后直接加入"
@@ -472,7 +472,7 @@ msgstr "Users join directly after applying."
 
 #: app/core/rbac.py:73
 msgid "管理员审核"
-msgstr "Admin Review"
+msgstr "Need Admin Review"
 
 #: app/core/rbac.py:74
 msgid "管理员同意申请后加入"
@@ -492,7 +492,7 @@ msgstr "Modify Settings"
 
 #: app/core/rbac.py:102
 msgid "新建角色"
-msgstr "Create Character"
+msgstr "Create Role"
 
 #: app/core/rbac.py:103
 msgid "删除角色"
@@ -508,7 +508,7 @@ msgstr "Invite User"
 
 #: app/core/rbac.py:107
 msgid "邀请时仅可设置比自己角色等级低的用户"
-msgstr "You can only invite users with a lower role level than your own."
+msgstr "You can only invite users as less powerful role than your own."
 
 #: app/core/rbac.py:110
 msgid "删除用户"
@@ -516,7 +516,7 @@ msgstr "Delete User"
 
 #: app/core/rbac.py:111
 msgid "仅可删除比自己角色等级低的用户"
-msgstr "Only users with a lower role level than your own can be deleted."
+msgstr "You can only remove users with less powerful role than your own."
 
 #: app/core/rbac.py:114
 msgid "修改用户角色"
@@ -524,7 +524,7 @@ msgstr "Modify User Role"
 
 #: app/core/rbac.py:115
 msgid "仅可修改比自己角色等级低的角色"
-msgstr "Can only modify characters with a lower role level than your own."
+msgstr "You can only modify users with less powerful role than your own."
 
 #: app/core/rbac.py:117
 msgid "修改用户备注"
@@ -532,9 +532,7 @@ msgstr "Edit User Note"
 
 #: app/core/rbac.py:286 app/core/rbac.py:324
 msgid "角色等级不能大于等于自己的角色等级"
-msgstr ""
-"Character level cannot be greater than or equal to your own character "
-"level."
+msgstr "Role level must be lower than your own role."
 
 #: app/core/rbac.py:288 app/core/rbac.py:326
 msgid "角色权限不能多于自己的角色权限"
@@ -550,7 +548,7 @@ msgstr "Cannot delete system role."
 
 #: app/core/rbac.py:390 app/core/rbac.py:391
 msgid "此项目/团队不允许申请加入"
-msgstr "This project/team does not allow requests to join."
+msgstr "This project/team is not open for joining."
 
 #: app/core/rbac.py:466
 msgid "用户不存在于团队"
@@ -582,7 +580,7 @@ msgstr "Can only assign roles to users with a lower role level than yours."
 
 #: app/core/rbac.py:513
 msgid "只能为用户设置比您角色等级低的角色"
-msgstr "You can only assign roles to users that are lower than your role level."
+msgstr "You can only assign roles that are lower than your own."
 
 #: app/core/rbac.py:541
 msgid "默认角色不能设置为创建者"
@@ -634,7 +632,7 @@ msgstr "This email is already registered."
 
 #: app/exceptions/auth.py:105 app/exceptions/team.py:38
 msgid "仅可使用中文/日文/韩文/英文/数字/_"
-msgstr "Only Chinese/Japanese/Korean/English/numbers/_ can be used."
+msgstr "Only Chinese/Japanese/Korean/English alphabets/numbers/_ can be used."
 
 #: app/exceptions/auth.py:115
 msgid "此昵称已被使用"
@@ -996,7 +994,7 @@ msgstr "Rejected by others."
 
 #: app/models/application.py:89
 msgid "已被他人允许"
-msgstr "Allowed by others."
+msgstr "Already approved by others."
 
 #: app/models/file.py:101
 msgid "文件名为空"
@@ -1328,15 +1326,15 @@ msgstr "Member"
 
 #: app/models/team.py:257
 msgid "见习成员"
-msgstr "Trainee Member"
+msgstr "Trainee"
 
 #: app/models/user.py:189
 msgid "令牌格式错误，应形如 Bearer x.x.x"
-msgstr "Token format error, should be like Bearer x.x.x."
+msgstr "Illegal auth token. It should be like Bearer x.x.x."
 
 #: app/models/user.py:204
 msgid "密码已修改，请重新登录"
-msgstr "Password has been changed, please log in again."
+msgstr "Password updated. Please log in again."
 
 #: app/models/user.py:405
 msgid "此用户已有申请，已直接加入"
@@ -1348,37 +1346,35 @@ msgstr "This user is a member of the project team and has been directly added."
 
 #: app/models/user.py:418
 msgid "邀请成功，请等待用户确认"
-msgstr "Invitation successful, please wait for user confirmation."
+msgstr "Invited. Please wait for the user to confirm."
 
 #: app/models/user.py:449
 msgid "加入成功，管理员继承自团队"
-msgstr "Joined successfully, administrator inherited from the team."
+msgstr "Joined successfully as administrator due to team settings."
 
 #: app/models/user.py:462
 msgid "管理员先前邀请了您，已直接加入"
-msgstr ""
-"The administrator previously invited you, and you have been directly "
-"added."
+msgstr "The administrator previously invited you, so you have been directly added."
 
 #: app/models/user.py:469
 msgid "项目不允许申请加入"
-msgstr "The project does not allow requests to join."
+msgstr "The project is not open for joining."
 
 #: app/models/user.py:475
 msgid "加入成功"
-msgstr "Joined successfully."
+msgstr "Successfully joined."
 
 #: app/models/user.py:478
 msgid "申请成功，请等待管理员审核"
-msgstr "Application successful, please wait for administrator review."
+msgstr "Application Sent. Please wait for administrator to review."
 
 #: app/models/v_code.py:304
 msgid "重置您的安全邮箱"
-msgstr "Reset your security email."
+msgstr "Reset your recovery email."
 
 #: app/models/v_code.py:305
 msgid "确认您的安全邮箱"
-msgstr "Confirm your secure email."
+msgstr "Confirm your recovery email."
 
 #: app/models/v_code.py:306
 msgid "重置您的密码"
@@ -1394,7 +1390,7 @@ msgstr "Cannot be empty."
 
 #: app/validators/custom_validate.py:35
 msgid "此项不可选"
-msgstr "This option is not selectable."
+msgstr "Option not available."
 
 #: app/validators/custom_validate.py:76 app/validators/custom_validate.py:79
 #: app/validators/custom_validate.py:109 app/validators/custom_validate.py:124
@@ -1445,5 +1441,8 @@ msgstr "No valid parameters."
 #~ msgstr ""
 
 #~ msgid "此邮箱已存在,您可以直接登录或尝试其他邮箱"
+#~ msgstr ""
+
+#~ msgid "站点支持语言: "
 #~ msgstr ""
 

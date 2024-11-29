@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-06 03:24+0900\n"
+"POT-Creation-Date: 2024-11-30 01:30+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -1380,4 +1380,7 @@ msgstr "没有有效参数"
 
 #~ msgid "见习成员"
 #~ msgstr "见习成员"
+
+#~ msgid "站点支持语言: "
+#~ msgstr ""
 
