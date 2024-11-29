@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 # logger.setLevel(logging.DEBUG)
 
 
-def get_locale() -> Optional[str]:
+def get_request_locale() -> Optional[str]:
     current_user = g.get("current_user")
     req_header = f"{request.method} {request.path}"
     if (
