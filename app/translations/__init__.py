@@ -9,19 +9,22 @@ logger = logging.getLogger(__name__)
 
 def get_locale() -> Optional[str]:
     current_user = g.get("current_user")
+    req_header = f"{request.method} {request.path}"
     if (
         current_user
         and current_user.locale
         and current_user.locale != "auto"
         and current_user.locale in Locale.ids()
     ):
-        # NOTE User.locale is not used
-        logging.debug("locale from user %s", current_user.locale)
+        # NOTE User.locale is not used , so this won't get called
+        logging.debug(
+            "%s set locale=%s from user pref", req_header, current_user.locale
+        )
         return current_user.locale
     # "zh" locale asssets is created from hardcoded strings
     # "en" locale are machine translated
     best_match = request.accept_languages.best_match(["zh", "en"], default="en")
-    logging.debug("locale from req %s", best_match)
+    logging.debug("%s set locale=%s from req", req_header, best_match)
     return best_match
 
 
