@@ -1,5 +1,5 @@
 import logging
-from celery import Celery
+import celery
 from flask import Flask
 from flask_apikit import APIKit
 from flask_babel import Babel
@@ -57,12 +57,18 @@ def init_flask_app(app: Flask):
     oss.init(app.config)  # 文件储存
 
 
-def create_celery(app: Flask) -> Celery:
-    # 通过app配置创建celery实例
-    created = Celery(
+def create_celery(app: Flask) -> celery.Celery:
+    # see https://flask.palletsprojects.com/en/stable/patterns/celery/
+    class FlaskTask(celery.Task):
+        def __call__(self, *args: object, **kwargs: object) -> object:
+            with app.app_context():
+                return self.run(*args, **kwargs)
+
+    created = celery.Celery(
         app.name,
         broker=app.config["CELERY_BROKER_URL"],
         backend=app.config["CELERY_BACKEND_URL"],
+        task_cls=FlaskTask,
         **app.config["CELERY_BACKEND_SETTINGS"],
     )
     created.conf.update({"app_config": app.config})
