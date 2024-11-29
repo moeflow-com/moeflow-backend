@@ -43,7 +43,11 @@ def create_flask_app(app: Flask) -> Flask:
 
 def init_flask_app(app: Flask):
     register_apis(app)
-    babel.init_app(app, locale_selector=get_locale)
+    babel.init_app(
+        app,
+        locale_selector=get_locale,
+        default_locale=app_config["BABEL_DEFAULT_LOCALE"],
+    )
     apikit.init_app(app)
     logger.info(f"----- build id: {app_config['BUILD_ID']}")
     with app.app_context():
