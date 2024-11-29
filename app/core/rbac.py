@@ -7,7 +7,7 @@ import datetime
 import logging
 from app.exceptions import UserNotExistError, CreatorCanNotLeaveError
 
-from flask_babel import gettext, lazy_gettext
+from app.translations import gettext, lazy_gettext
 from mongoengine import (
     BooleanField,
     DateTimeField,

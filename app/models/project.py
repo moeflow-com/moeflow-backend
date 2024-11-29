@@ -310,7 +310,7 @@ class ProjectSet(Document):
         self.delete()
 
     @classmethod
-    def by_id(cls, id):
+    def by_id(cls, id: ObjectId):
         set = cls.objects(id=id).first()
         if set is None:
             raise ProjectSetNotExistError()
