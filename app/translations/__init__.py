@@ -5,7 +5,7 @@ from app.constants.locale import Locale
 import flask_babel
 
 logger = logging.getLogger(__name__)
-# logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 
 def get_request_locale() -> Optional[str]:

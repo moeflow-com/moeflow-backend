@@ -311,10 +311,10 @@ class ProjectSet(Document):
 
     @classmethod
     def by_id(cls, id: ObjectId):
-        set = cls.objects(id=id).first()
-        if set is None:
+        project_set = cls.objects(id=id).first()
+        if project_set is None:
             raise ProjectSetNotExistError()
-        return set
+        return project_set
 
     def to_api(self):
         """
