@@ -37,32 +37,31 @@ def output_team_projects_task(team_id, current_user_id):
     app = Flask(__name__)
     app.config.from_object(celery.conf.app_config)
 
-    with app.app_context():
-        OUTPUT_WAIT_SECONDS = celery.conf.app_config.get("OUTPUT_WAIT_SECONDS", 60 * 5)
-        current_user = User.by_id(current_user_id)
+    OUTPUT_WAIT_SECONDS = celery.conf.app_config.get("OUTPUT_WAIT_SECONDS", 60 * 5)
+    current_user = User.by_id(current_user_id)
 
-        team = Team.by_id(team_id)
-        for project in team.projects(status=ProjectStatus.WORKING):
-            for target in project.targets():
-                # 等待一定时间后允许再次导出
-                last_output = target.outputs().first()
-                if last_output and (
-                    datetime.datetime.utcnow() - last_output.create_time
-                    < datetime.timedelta(seconds=OUTPUT_WAIT_SECONDS)
-                ):
-                    continue
-                # 删除三个导出之前的
-                old_targets = target.outputs().skip(2)
-                Output.delete_real_files(old_targets)
-                old_targets.delete()
-                # 创建新target
-                output = Output.create(
-                    project=project,
-                    target=target,
-                    user=current_user,
-                    type=OutputTypes.ALL,
-                )
-                output_project(str(output.id))
+    team = Team.by_id(team_id)
+    for project in team.projects(status=ProjectStatus.WORKING):
+        for target in project.targets():
+            # 等待一定时间后允许再次导出
+            last_output = target.outputs().first()
+            if last_output and (
+                datetime.datetime.utcnow() - last_output.create_time
+                < datetime.timedelta(seconds=OUTPUT_WAIT_SECONDS)
+            ):
+                continue
+            # 删除三个导出之前的
+            old_targets = target.outputs().skip(2)
+            Output.delete_real_files(old_targets)
+            old_targets.delete()
+            # 创建新target
+            output = Output.create(
+                project=project,
+                target=target,
+                user=current_user,
+                type=OutputTypes.ALL,
+            )
+            output_project(str(output.id))
 
     return f"成功：已创建 Team <{str(team.id)}> 所有项目的导出任务"
 

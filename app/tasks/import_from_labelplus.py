@@ -56,35 +56,32 @@ def import_from_labelplus_task(project_id):
         )
         return f"失败：创建者不存在，Project {project_id}"
     try:
-        with app.app_context():
-            if target and creator:
-                project.update(
-                    import_from_labelplus_percent=0,
-                    import_from_labelplus_status=ImportFromLabelplusStatus.RUNNING,
-                )
-                labelplus_data = load_from_labelplus(project.import_from_labelplus_txt)
-                file_count = len(labelplus_data)
-                for file_index, labelplus_file in enumerate(labelplus_data):
-                    file = project.create_file(labelplus_file["file_name"])
-                    for labelplus_label in labelplus_file["labels"]:
-                        source = file.create_source(
-                            content="",
-                            x=labelplus_label["x"],
-                            y=labelplus_label["y"],
-                            position_type=SourcePositionType.IN
-                            if labelplus_label["position_type"] == SourcePositionType.IN
-                            else SourcePositionType.OUT,
-                        )
-                        source.create_translation(
-                            content=labelplus_label["translation"],
-                            target=target,
-                            user=creator,
-                        )
-                    project.update(
-                        import_from_labelplus_percent=int(
-                            (file_index / file_count) * 100
-                        )
+        if target and creator:
+            project.update(
+                import_from_labelplus_percent=0,
+                import_from_labelplus_status=ImportFromLabelplusStatus.RUNNING,
+            )
+            labelplus_data = load_from_labelplus(project.import_from_labelplus_txt)
+            file_count = len(labelplus_data)
+            for file_index, labelplus_file in enumerate(labelplus_data):
+                file = project.create_file(labelplus_file["file_name"])
+                for labelplus_label in labelplus_file["labels"]:
+                    source = file.create_source(
+                        content="",
+                        x=labelplus_label["x"],
+                        y=labelplus_label["y"],
+                        position_type=SourcePositionType.IN
+                        if labelplus_label["position_type"] == SourcePositionType.IN
+                        else SourcePositionType.OUT,
                     )
+                    source.create_translation(
+                        content=labelplus_label["translation"],
+                        target=target,
+                        user=creator,
+                    )
+                project.update(
+                    import_from_labelplus_percent=int((file_index / file_count) * 100)
+                )
     except Exception:
         logger.exception(Exception)
         project.update(

@@ -313,7 +313,9 @@ class MeTeamListAPI(MoeAPIView):
         p = MoePagination()
         teams = self.current_user.teams(skip=p.skip, limit=p.limit, word=word)
         # 获取团队用户关系
-        relations = TeamUserRelation.objects(group__in=teams, user=self.current_user)
+        relations: list[TeamUserRelation] = TeamUserRelation.objects(
+            group__in=teams, user=self.current_user
+        )
         # 构建字典用于快速匹配
         team_roles_data = {}
         for relation in relations:

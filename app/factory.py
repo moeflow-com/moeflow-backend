@@ -1,5 +1,5 @@
 import logging
-from celery import Celery
+import celery
 from flask import Flask
 from flask_apikit import APIKit
 from flask_babel import Babel
@@ -8,7 +8,7 @@ from app.services.google_storage import GoogleStorage
 import app.config as _app_config
 from app.services.oss import OSS
 from .apis import register_apis
-from app.translations import get_locale
+from app.translations import get_request_locale
 
 from app.models import connect_db
 
@@ -43,22 +43,33 @@ def create_flask_app(app: Flask) -> Flask:
 
 def init_flask_app(app: Flask):
     register_apis(app)
-    babel.init_app(app, locale_selector=get_locale)
+    babel.init_app(
+        app,
+        locale_selector=get_request_locale,
+        default_locale=app_config["BABEL_DEFAULT_LOCALE"],
+    )
     apikit.init_app(app)
     logger.info(f"----- build id: {app_config['BUILD_ID']}")
     with app.app_context():
         logger.debug(
-            "站点支持语言: " + str([str(i) for i in babel.list_translations()])
+            "Server locale translations: "
+            + str([str(i) for i in babel.list_translations()])
         )
     oss.init(app.config)  # 文件储存
 
 
-def create_celery(app: Flask) -> Celery:
-    # 通过app配置创建celery实例
-    created = Celery(
+def create_celery(app: Flask) -> celery.Celery:
+    # see https://flask.palletsprojects.com/en/stable/patterns/celery/
+    class FlaskTask(celery.Task):
+        def __call__(self, *args: object, **kwargs: object) -> object:
+            with app.app_context():
+                return self.run(*args, **kwargs)
+
+    created = celery.Celery(
         app.name,
         broker=app.config["CELERY_BROKER_URL"],
         backend=app.config["CELERY_BACKEND_URL"],
+        task_cls=FlaskTask,
         **app.config["CELERY_BACKEND_SETTINGS"],
     )
     created.conf.update({"app_config": app.config})

@@ -3,7 +3,7 @@ import re
 from typing import List
 
 from flask import current_app
-from flask_babel import lazy_gettext, gettext
+from app.translations import lazy_gettext, gettext
 from mongoengine import (
     CASCADE,
     DENY,
@@ -470,7 +470,7 @@ class Team(GroupMixin, Document):
         # 如果给了 role 则获取用户相关信息（角色等）
         role = None
         if user:
-            role = user.get_role(self)
+            role: TeamRole | None = user.get_role(self)
             if role:
                 role = role.to_api()
         return {

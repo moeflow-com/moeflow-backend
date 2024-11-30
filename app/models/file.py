@@ -1221,8 +1221,8 @@ class Source(Document):
     meta = {"indexes": ["file", "blank", "rank"]}
 
     @classmethod
-    def by_id(cls, id) -> "Source":
-        source = cls.objects(id=id).first()
+    def by_id(cls, id_: str | ObjectId) -> "Source":
+        source = cls.objects(id=id_).first()
         if source is None:
             raise SourceNotExistError
         return source

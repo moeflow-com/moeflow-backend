@@ -310,11 +310,11 @@ class ProjectSet(Document):
         self.delete()
 
     @classmethod
-    def by_id(cls, id):
-        set = cls.objects(id=id).first()
-        if set is None:
+    def by_id(cls, id: ObjectId):
+        project_set = cls.objects(id=id).first()
+        if project_set is None:
             raise ProjectSetNotExistError()
-        return set
+        return project_set
 
     def to_api(self):
         """

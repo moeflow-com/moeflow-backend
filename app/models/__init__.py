@@ -6,7 +6,7 @@ import logging
 from mongoengine import connect
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 
 def connect_db(config):
