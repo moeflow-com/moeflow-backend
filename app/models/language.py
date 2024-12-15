@@ -802,7 +802,9 @@ class Language(Document):
                 sort=sort,
             ).save()
             sort += 1
-        logger.debug(server_gettext("Initialized Language collection with %d languages"), sort)
+        logger.debug(
+            server_gettext("Initialized Language collection with %d languages"), sort
+        )
 
     @classmethod
     def create(
