@@ -20,7 +20,7 @@ lint-fix:
 	venv/bin/ruff --fix
 
 format:
-	venv/bin/ruff format 
+	venv/bin/ruff format
 
 requirements.txt: deps-top.txt recreate-venv
 	venv/bin/pip install -r deps-top.txt
@@ -40,11 +40,11 @@ test_single:
 	venv/bin/pytest tests/api/test_file_api.py
 
 test_logging:
-	#--capture=no  
+	#--capture=no
 	venv/bin/pytest --capture=sys --log-cli-level=DEBUG tests/base/test_logging.py
 
 babel-update-po:
-	venv/bin/pybabel extract -F babel.cfg -k lazy_gettext -o messages.pot app
+	venv/bin/pybabel extract -F babel.cfg -k lazy_gettext -k hardcode_text -o messages.pot app
 	venv/bin/pybabel update -i messages.pot -d app/translations
 
 babel-update-mo: babel-update-po

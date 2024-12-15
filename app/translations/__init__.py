@@ -50,3 +50,9 @@ def lazy_gettext(msgid: str):
     translated = flask_babel.LazyString(lambda: gettext(msgid))
     # logger.debug(f"lazy_get_text({msgid}) -> {translated}")
     return translated
+
+def hardcode_text(msgid: str) -> str:
+    """
+    used to capture hardcoded string as msgid
+    """
+    return msgid

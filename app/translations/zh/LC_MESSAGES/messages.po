@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-30 01:30+0900\n"
+"POT-Creation-Date: 2024-12-15 16:08+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -350,11 +350,11 @@ msgstr "自动"
 msgid "遵循浏览器设置"
 msgstr "遵循浏览器设置"
 
-#: app/constants/locale.py:16
+#: app/constants/locale.py:16 app/models/language.py:58
 msgid "中文（简体）"
 msgstr "中文（简体）"
 
-#: app/constants/locale.py:17
+#: app/constants/locale.py:17 app/models/language.py:66
 msgid "中文（繁体）"
 msgstr "中文（繁体）"
 
@@ -1006,6 +1006,435 @@ msgstr "已被拒绝"
 msgid "已被同意"
 msgstr "已被同意"
 
+#: app/models/language.py:35
+msgid "日语"
+msgstr ""
+
+#: app/models/language.py:43
+msgid "英语"
+msgstr ""
+
+#: app/models/language.py:50
+msgid "韩语"
+msgstr ""
+
+#: app/models/language.py:74
+msgid "南非荷兰语"
+msgstr ""
+
+#: app/models/language.py:81
+msgid "阿尔巴尼亚语"
+msgstr ""
+
+#: app/models/language.py:88
+msgid "阿姆哈拉语"
+msgstr ""
+
+#: app/models/language.py:95
+msgid "阿萨姆语"
+msgstr ""
+
+#: app/models/language.py:102
+msgid "阿拉伯语"
+msgstr ""
+
+#: app/models/language.py:109
+msgid "亚美尼亚语"
+msgstr ""
+
+#: app/models/language.py:116
+msgid "阿塞拜疆语"
+msgstr ""
+
+#: app/models/language.py:123
+msgid "巴斯克语"
+msgstr ""
+
+#: app/models/language.py:130
+msgid "白俄罗斯语"
+msgstr ""
+
+#: app/models/language.py:137
+msgid "孟加拉语"
+msgstr ""
+
+#: app/models/language.py:144
+msgid "波斯尼亚语"
+msgstr ""
+
+#: app/models/language.py:151
+msgid "保加利亚语"
+msgstr ""
+
+#: app/models/language.py:158
+msgid "加泰罗尼亚语"
+msgstr ""
+
+#: app/models/language.py:165
+msgid "宿务语"
+msgstr ""
+
+#: app/models/language.py:172
+msgid "科西嘉语"
+msgstr ""
+
+#: app/models/language.py:179
+msgid "克罗地亚语"
+msgstr ""
+
+#: app/models/language.py:186
+msgid "捷克语"
+msgstr ""
+
+#: app/models/language.py:193
+msgid "丹麦语"
+msgstr ""
+
+#: app/models/language.py:200
+msgid "荷兰语"
+msgstr ""
+
+#: app/models/language.py:207
+msgid "世界语"
+msgstr ""
+
+#: app/models/language.py:214
+msgid "爱沙尼亚语"
+msgstr ""
+
+#: app/models/language.py:221
+msgid "芬兰语"
+msgstr ""
+
+#: app/models/language.py:228
+msgid "法语"
+msgstr ""
+
+#: app/models/language.py:235
+msgid "弗里斯兰语"
+msgstr ""
+
+#: app/models/language.py:242
+msgid "加利西亚语"
+msgstr ""
+
+#: app/models/language.py:249
+msgid "格鲁吉亚语"
+msgstr ""
+
+#: app/models/language.py:256
+msgid "德语"
+msgstr ""
+
+#: app/models/language.py:263
+msgid "希腊语"
+msgstr ""
+
+#: app/models/language.py:271
+msgid "古吉拉特语"
+msgstr ""
+
+#: app/models/language.py:278
+msgid "海地克里奥尔语"
+msgstr ""
+
+#: app/models/language.py:285
+msgid "豪萨语"
+msgstr ""
+
+#: app/models/language.py:292
+msgid "夏威夷语"
+msgstr ""
+
+#: app/models/language.py:299
+msgid "希伯来语"
+msgstr ""
+
+#: app/models/language.py:306
+msgid "印地语"
+msgstr ""
+
+#: app/models/language.py:313
+msgid "苗语"
+msgstr ""
+
+#: app/models/language.py:320
+msgid "匈牙利语"
+msgstr ""
+
+#: app/models/language.py:327
+msgid "冰岛语"
+msgstr ""
+
+#: app/models/language.py:334
+msgid "伊博语"
+msgstr ""
+
+#: app/models/language.py:341
+msgid "印度尼西亚语"
+msgstr ""
+
+#: app/models/language.py:348
+msgid "爱尔兰语"
+msgstr ""
+
+#: app/models/language.py:355
+msgid "意大利语"
+msgstr ""
+
+#: app/models/language.py:362
+msgid "爪哇语"
+msgstr ""
+
+#: app/models/language.py:370
+msgid "卡纳达语"
+msgstr ""
+
+#: app/models/language.py:377
+msgid "哈萨克语"
+msgstr ""
+
+#: app/models/language.py:384
+msgid "高棉语"
+msgstr ""
+
+#: app/models/language.py:392
+msgid "库尔德语"
+msgstr ""
+
+#: app/models/language.py:399
+msgid "吉尔吉斯语"
+msgstr ""
+
+#: app/models/language.py:406
+msgid "老挝语"
+msgstr ""
+
+#: app/models/language.py:414
+msgid "拉丁语"
+msgstr ""
+
+#: app/models/language.py:422
+msgid "拉脱维亚语"
+msgstr ""
+
+#: app/models/language.py:429
+msgid "立陶宛语"
+msgstr ""
+
+#: app/models/language.py:436
+msgid "卢森堡语"
+msgstr ""
+
+#: app/models/language.py:443
+msgid "马其顿语"
+msgstr ""
+
+#: app/models/language.py:450
+msgid "马尔加什语"
+msgstr ""
+
+#: app/models/language.py:457
+msgid "马来语"
+msgstr ""
+
+#: app/models/language.py:464
+msgid "马拉雅拉姆语"
+msgstr ""
+
+#: app/models/language.py:471
+msgid "马耳他语"
+msgstr ""
+
+#: app/models/language.py:478
+msgid "毛利语"
+msgstr ""
+
+#: app/models/language.py:485
+msgid "马拉地语"
+msgstr ""
+
+#: app/models/language.py:492
+msgid "蒙古语"
+msgstr ""
+
+#: app/models/language.py:499
+msgid "缅甸语"
+msgstr ""
+
+#: app/models/language.py:507
+msgid "尼泊尔语"
+msgstr ""
+
+#: app/models/language.py:514
+msgid "挪威语"
+msgstr ""
+
+#: app/models/language.py:521
+msgid "齐切瓦语 (尼扬贾语)"
+msgstr ""
+
+#: app/models/language.py:528
+msgid "普什图语"
+msgstr ""
+
+#: app/models/language.py:535
+msgid "波斯语"
+msgstr ""
+
+#: app/models/language.py:542
+msgid "波兰语"
+msgstr ""
+
+#: app/models/language.py:549
+msgid "葡萄牙语"
+msgstr ""
+
+#: app/models/language.py:556
+msgid "旁遮普语"
+msgstr ""
+
+#: app/models/language.py:563
+msgid "罗马尼亚语"
+msgstr ""
+
+#: app/models/language.py:570
+msgid "俄语"
+msgstr ""
+
+#: app/models/language.py:577
+msgid "萨摩亚语"
+msgstr ""
+
+#: app/models/language.py:584
+msgid "苏格兰盖尔语"
+msgstr ""
+
+#: app/models/language.py:591
+msgid "梵文"
+msgstr ""
+
+#: app/models/language.py:598
+msgid "塞尔维亚语"
+msgstr ""
+
+#: app/models/language.py:605
+msgid "塞索托语"
+msgstr ""
+
+#: app/models/language.py:612
+msgid "绍纳语"
+msgstr ""
+
+#: app/models/language.py:619
+msgid "信德语"
+msgstr ""
+
+#: app/models/language.py:626
+msgid "僧伽罗语"
+msgstr ""
+
+#: app/models/language.py:633
+msgid "斯洛伐克语"
+msgstr ""
+
+#: app/models/language.py:640
+msgid "斯洛文尼亚语"
+msgstr ""
+
+#: app/models/language.py:647
+msgid "索马里语"
+msgstr ""
+
+#: app/models/language.py:654
+msgid "西班牙语"
+msgstr ""
+
+#: app/models/language.py:661
+msgid "巽他语"
+msgstr ""
+
+#: app/models/language.py:668
+msgid "斯瓦希里语"
+msgstr ""
+
+#: app/models/language.py:675
+msgid "瑞典语"
+msgstr ""
+
+#: app/models/language.py:682
+msgid "他加禄语（菲律宾语）"
+msgstr ""
+
+#: app/models/language.py:689
+msgid "塔吉克语"
+msgstr ""
+
+#: app/models/language.py:696
+msgid "泰米尔语"
+msgstr ""
+
+#: app/models/language.py:703
+msgid "泰卢固语"
+msgstr ""
+
+#: app/models/language.py:710
+msgid "泰语"
+msgstr ""
+
+#: app/models/language.py:717
+msgid "土耳其语"
+msgstr ""
+
+#: app/models/language.py:724
+msgid "乌克兰语"
+msgstr ""
+
+#: app/models/language.py:731
+msgid "乌尔都语"
+msgstr ""
+
+#: app/models/language.py:738
+msgid "乌兹别克语"
+msgstr ""
+
+#: app/models/language.py:745
+msgid "越南语"
+msgstr ""
+
+#: app/models/language.py:752
+msgid "威尔士语"
+msgstr ""
+
+#: app/models/language.py:759
+msgid "科萨语"
+msgstr ""
+
+#: app/models/language.py:766
+msgid "意第绪语"
+msgstr ""
+
+#: app/models/language.py:773
+msgid "约鲁巴语"
+msgstr ""
+
+#: app/models/language.py:780
+msgid "祖鲁语"
+msgstr ""
+
+#: app/models/language.py:791
+msgid "Language collection already initialized."
+msgstr ""
+
+#: app/models/language.py:805
+#, python-format
+msgid "Initialized Language collection with %d languages"
+msgstr ""
+
+#: app/models/language.py:900
+msgid "Language can not be deleted"
+msgstr ""
+
 #: app/models/message.py:41
 msgid "非系统消息类型"
 msgstr "非系统消息类型"
@@ -1382,5 +1811,17 @@ msgstr "没有有效参数"
 #~ msgstr "见习成员"
 
 #~ msgid "站点支持语言: "
+#~ msgstr ""
+
+#~ msgid "弗里西亚语"
+#~ msgstr ""
+
+#~ msgid "印尼语"
+#~ msgstr ""
+
+#~ msgid "尼扬扎语（奇切瓦语）"
+#~ msgstr ""
+
+#~ msgid "葡萄牙语（葡萄牙，巴西）"
 #~ msgstr ""
 
