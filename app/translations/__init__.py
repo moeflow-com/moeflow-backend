@@ -3,6 +3,7 @@ from typing import Optional
 from flask import g, request
 from app.constants.locale import Locale
 import flask_babel
+import app.config as _app_config
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -50,3 +51,15 @@ def lazy_gettext(msgid: str):
     translated = flask_babel.LazyString(lambda: gettext(msgid))
     # logger.debug(f"lazy_get_text({msgid}) -> {translated}")
     return translated
+
+
+def hardcode_text(msgid: str) -> str:
+    """
+    used to capture hardcoded string as msgid
+    """
+    return msgid
+
+
+def server_gettext(msgid: str):
+    with flask_babel.force_locale(_app_config.BABEL_DEFAULT_LOCALE):
+        return gettext(msgid)
