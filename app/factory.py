@@ -157,8 +157,7 @@ def init_db(app: Flask):
 
     TeamRole.init_system_roles()
     ProjectRole.init_system_roles()
-    with app.app_context():
-        Language.init_system_languages()
+    Language.init_system_languages()
     SiteSetting.init_site_setting()
     admin_user = create_or_override_default_admin(app)
     create_default_team(admin_user)

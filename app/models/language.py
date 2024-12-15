@@ -2,7 +2,7 @@ import logging
 from mongoengine import Document, BooleanField, StringField, IntField, QuerySet
 
 from app.exceptions.language import LanguageNotExistError
-from app.translations import hardcode_text, gettext
+from app.translations import hardcode_text, gettext, server_gettext
 from typing import List, Any, Dict, TypedDict, Optional
 
 logger = logging.getLogger(__name__)
@@ -788,7 +788,7 @@ class Language(Document):
     def init_system_languages(cls) -> None:
         """初始化语言表"""
         if cls.objects.count() > 0:
-            logger.info(gettext("Language collection already initialized."))
+            logger.info(server_gettext("Language collection already initialized."))
             return
         sort = 0
         for lang in cls.SYSTEM_LANGUAGES_DATA:
@@ -802,7 +802,7 @@ class Language(Document):
                 sort=sort,
             ).save()
             sort += 1
-        logger.debug(gettext("Initialized Language collection with %d languages"), sort)
+        logger.debug(server_gettext("Initialized Language collection with %d languages"), sort)
 
     @classmethod
     def create(
