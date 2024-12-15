@@ -4,6 +4,7 @@ import click
 import logging
 from app import flask_app
 from app.factory import init_db
+from app.scripts.fsck import fsck
 
 logging.basicConfig(
     level=logging.INFO,
@@ -81,6 +82,8 @@ main.add_command(migrate)
 main.add_command(list_translations)
 main.add_command(mit_preprocess_file)
 main.add_command(mit_preprocess_dir)
+main.add_command(fsck)
+
 
 if __name__ == "__main__":
     main()
