@@ -51,6 +51,7 @@ def lazy_gettext(msgid: str):
     # logger.debug(f"lazy_get_text({msgid}) -> {translated}")
     return translated
 
+
 def hardcode_text(msgid: str) -> str:
     """
     used to capture hardcoded string as msgid
