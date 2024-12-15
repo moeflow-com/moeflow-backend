@@ -1,5 +1,7 @@
 PYTEST_COV_ARGS =
 
+BIN_PREFIX ?= venv/bin
+
 FORCE: ;
 
 create-venv:
@@ -44,11 +46,11 @@ test_logging:
 	venv/bin/pytest --capture=sys --log-cli-level=DEBUG tests/base/test_logging.py
 
 babel-update-po:
-	venv/bin/pybabel extract -F babel.cfg -k lazy_gettext -k hardcode_text -o messages.pot app
-	venv/bin/pybabel update -i messages.pot -d app/translations
+	$(BIN_PREFIX)/pybabel extract -F babel.cfg -k lazy_gettext -k hardcode_text -o messages.pot app
+	$(BIN_PREFIX)/pybabel update -i messages.pot -d app/translations
 
 babel-update-mo: babel-update-po
-	venv/bin/pybabel compile -d app/translations
+	$(BIN_PREFIX)/pybabel compile -d app/translations
 
 babel-translate-po:
 	venv/bin/python app/scripts/fill_zh_translations.py

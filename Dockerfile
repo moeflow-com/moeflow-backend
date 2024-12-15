@@ -13,4 +13,4 @@ WORKDIR /app
 
 EXPOSE 5000
 
-RUN make babel-update-mo
+RUN BIN_PREFIX=/usr/local/bin make babel-update-mo
