@@ -47,7 +47,7 @@ class Language(Document):
         },
         {
             "en_name": "Korean",
-            "lo_name": hardcode_text("韩语"),
+            "lo_name": hardcode_text("韩语") or hardcode_text("朝鲜语（韩语）"),
             "code": "ko",
             "g_tra_code": "ko",
             "g_ocr_code": "ko",
@@ -482,7 +482,7 @@ class Language(Document):
         },
         {
             "en_name": "Marathi",
-            "lo_name": hardcode_text("马拉地语"),
+            "lo_name": hardcode_text("马拉地语") or hardcode_text("马拉语"),
             "code": "mr",
             "g_tra_code": "mr",
             "g_ocr_code": "mr",
@@ -518,7 +518,8 @@ class Language(Document):
         },
         {
             "en_name": "Nyanja (Chichewa)",
-            "lo_name": hardcode_text("齐切瓦语 (尼扬贾语)"),
+            "lo_name": hardcode_text("齐切瓦语 (尼扬贾语)")
+            or hardcode_text("齐切瓦语"),
             "code": "ny",
             "g_tra_code": "ny",
             "g_ocr_code": "",
@@ -637,7 +638,7 @@ class Language(Document):
         },
         {
             "en_name": "Slovenian",
-            "lo_name": hardcode_text("斯洛文尼亚语"),
+            "lo_name": hardcode_text("斯洛文尼亚语") or hardcode_text("斯卡洛文语"),
             "code": "sl",
             "g_tra_code": "sl",
             "g_ocr_code": "sl",
@@ -910,7 +911,7 @@ class Language(Document):
             "id": str(self.id),
             "en_name": self.en_name,
             # in non-zh locales gettext(hardcoded_id) should return localized name
-            # otherwise the hardcoded_id is just in zh
+            # otherwise the hardcoded_id is just zh
             "lo_name": gettext(self.lo_name) or self.lo_name,
             "i18n_name": self.i18n_name,
             "no_space": self.no_space,

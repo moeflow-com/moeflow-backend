@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-12-15 16:54+0900\n"
+"POT-Creation-Date: 2024-12-15 18:26+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -1018,6 +1018,10 @@ msgstr ""
 msgid "韩语"
 msgstr ""
 
+#: app/models/language.py:50
+msgid "朝鲜语（韩语）"
+msgstr ""
+
 #: app/models/language.py:74
 msgid "南非荷兰语"
 msgstr ""
@@ -1254,6 +1258,10 @@ msgstr ""
 msgid "马拉地语"
 msgstr ""
 
+#: app/models/language.py:485
+msgid "马拉语"
+msgstr ""
+
 #: app/models/language.py:492
 msgid "蒙古语"
 msgstr ""
@@ -1274,164 +1282,163 @@ msgstr ""
 msgid "齐切瓦语 (尼扬贾语)"
 msgstr ""
 
-#: app/models/language.py:528
+#: app/models/language.py:522
+msgid "齐切瓦语"
+msgstr ""
+
+#: app/models/language.py:529
 msgid "普什图语"
 msgstr ""
 
-#: app/models/language.py:535
+#: app/models/language.py:536
 msgid "波斯语"
 msgstr ""
 
-#: app/models/language.py:542
+#: app/models/language.py:543
 msgid "波兰语"
 msgstr ""
 
-#: app/models/language.py:549
+#: app/models/language.py:550
 msgid "葡萄牙语"
 msgstr ""
 
-#: app/models/language.py:556
+#: app/models/language.py:557
 msgid "旁遮普语"
 msgstr ""
 
-#: app/models/language.py:563
+#: app/models/language.py:564
 msgid "罗马尼亚语"
 msgstr ""
 
-#: app/models/language.py:570
+#: app/models/language.py:571
 msgid "俄语"
 msgstr ""
 
-#: app/models/language.py:577
+#: app/models/language.py:578
 msgid "萨摩亚语"
 msgstr ""
 
-#: app/models/language.py:584
+#: app/models/language.py:585
 msgid "苏格兰盖尔语"
 msgstr ""
 
-#: app/models/language.py:591
+#: app/models/language.py:592
 msgid "梵文"
 msgstr ""
 
-#: app/models/language.py:598
+#: app/models/language.py:599
 msgid "塞尔维亚语"
 msgstr ""
 
-#: app/models/language.py:605
+#: app/models/language.py:606
 msgid "塞索托语"
 msgstr ""
 
-#: app/models/language.py:612
+#: app/models/language.py:613
 msgid "绍纳语"
 msgstr ""
 
-#: app/models/language.py:619
+#: app/models/language.py:620
 msgid "信德语"
 msgstr ""
 
-#: app/models/language.py:626
+#: app/models/language.py:627
 msgid "僧伽罗语"
 msgstr ""
 
-#: app/models/language.py:633
+#: app/models/language.py:634
 msgid "斯洛伐克语"
 msgstr ""
 
-#: app/models/language.py:640
+#: app/models/language.py:641
 msgid "斯洛文尼亚语"
 msgstr ""
 
-#: app/models/language.py:647
+#: app/models/language.py:641
+msgid "斯卡洛文语"
+msgstr ""
+
+#: app/models/language.py:648
 msgid "索马里语"
 msgstr ""
 
-#: app/models/language.py:654
+#: app/models/language.py:655
 msgid "西班牙语"
 msgstr ""
 
-#: app/models/language.py:661
+#: app/models/language.py:662
 msgid "巽他语"
 msgstr ""
 
-#: app/models/language.py:668
+#: app/models/language.py:669
 msgid "斯瓦希里语"
 msgstr ""
 
-#: app/models/language.py:675
+#: app/models/language.py:676
 msgid "瑞典语"
 msgstr ""
 
-#: app/models/language.py:682
+#: app/models/language.py:683
 msgid "他加禄语（菲律宾语）"
 msgstr ""
 
-#: app/models/language.py:689
+#: app/models/language.py:690
 msgid "塔吉克语"
 msgstr ""
 
-#: app/models/language.py:696
+#: app/models/language.py:697
 msgid "泰米尔语"
 msgstr ""
 
-#: app/models/language.py:703
+#: app/models/language.py:704
 msgid "泰卢固语"
 msgstr ""
 
-#: app/models/language.py:710
+#: app/models/language.py:711
 msgid "泰语"
 msgstr ""
 
-#: app/models/language.py:717
+#: app/models/language.py:718
 msgid "土耳其语"
 msgstr ""
 
-#: app/models/language.py:724
+#: app/models/language.py:725
 msgid "乌克兰语"
 msgstr ""
 
-#: app/models/language.py:731
+#: app/models/language.py:732
 msgid "乌尔都语"
 msgstr ""
 
-#: app/models/language.py:738
+#: app/models/language.py:739
 msgid "乌兹别克语"
 msgstr ""
 
-#: app/models/language.py:745
+#: app/models/language.py:746
 msgid "越南语"
 msgstr ""
 
-#: app/models/language.py:752
+#: app/models/language.py:753
 msgid "威尔士语"
 msgstr ""
 
-#: app/models/language.py:759
+#: app/models/language.py:760
 msgid "科萨语"
 msgstr ""
 
-#: app/models/language.py:766
+#: app/models/language.py:767
 msgid "意第绪语"
 msgstr ""
 
-#: app/models/language.py:773
+#: app/models/language.py:774
 msgid "约鲁巴语"
 msgstr ""
 
-#: app/models/language.py:780
+#: app/models/language.py:781
 msgid "祖鲁语"
 msgstr ""
 
-#: app/models/language.py:791
-msgid "Language collection already initialized."
-msgstr ""
-
-#: app/models/language.py:805
-#, python-format
-msgid "Initialized Language collection with %d languages"
-msgstr ""
-
-#: app/models/language.py:900
+#: app/models/language.py:903
 msgid "Language can not be deleted"
 msgstr ""
 
@@ -1823,5 +1830,11 @@ msgstr "没有有效参数"
 #~ msgstr ""
 
 #~ msgid "葡萄牙语（葡萄牙，巴西）"
+#~ msgstr ""
+
+#~ msgid "Language collection already initialized."
+#~ msgstr ""
+
+#~ msgid "Initialized Language collection with %d languages"
 #~ msgstr ""
 
