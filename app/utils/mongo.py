@@ -3,7 +3,11 @@ from typing import TypeVar, List
 T = TypeVar("T")
 
 
-def mongo_order(objects: List[T], order_by, default_order_by) -> List[T]:
+def mongo_order(
+    objects: List[T],
+    order_by: None | list[str] | str,
+    default_order_by: str | list[str],
+) -> List[T]:
     """处理排序"""
     # 设置排序默认值
     if order_by is None or order_by == []:

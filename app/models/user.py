@@ -36,7 +36,7 @@ from app.models.invitation import Invitation, InvitationStatus
 from app.models.message import Message
 from app.models.project import Project, ProjectRole, ProjectUserRelation
 from app.models.site_setting import SiteSetting
-from app.models.team import Team, TeamPermission, TeamUserRelation
+from app.models.team import Team, TeamPermission, TeamRole, TeamUserRelation
 from app.regexs import EMAIL_REGEX, USER_NAME_REGEX
 from app.constants.locale import Locale
 from app.utils.hash import md5
@@ -339,7 +339,7 @@ class User(Document):
         projects = mongo_slice(projects, skip, limit)
         return projects
 
-    def get_project_relation(self, project):
+    def get_project_relation(self, project) -> ProjectUserRelation | None:
         """获取与某个项目的关系"""
         relation = ProjectUserRelation.objects(user=self, group=project).first()
         if relation:
@@ -354,14 +354,18 @@ class User(Document):
             return ProjectUserRelation(user=self, group=project, role=role).save()
 
     # =====加入流程=====
-    def invitations(self, group=None, status=None, skip=None, limit=None):
+    def invitations(
+        self, group=None, status=None, skip=None, limit=None
+    ) -> list[Invitation]:
         """获取对于个人的所有的邀请"""
         invitations = Invitation.get(
             user=self, group=group, status=status, skip=skip, limit=limit
         )
         return invitations
 
-    def applications(self, group=None, status=None, skip=None, limit=None):
+    def applications(
+        self, group=None, status=None, skip=None, limit=None
+    ) -> list[Application]:
         """获取自己发出的所有的申请"""
         applications = Application.get(
             user=self,
@@ -372,7 +376,13 @@ class User(Document):
         )
         return applications
 
-    def invite(self, user, group, role, message=""):
+    def invite(
+        self,
+        user: "User",
+        group: Team | Project,
+        role: ProjectRole | TeamRole,
+        message="",
+    ):
         """邀请某个用户加入某个团体"""
         # 判断团体是否已满员
         if group.is_full():
@@ -478,7 +488,7 @@ class User(Document):
         return {"message": gettext("申请成功，请等待管理员审核")}
 
     # =====自动鉴别部分=====
-    def get_relation(self, group):
+    def get_relation(self, group: Team | Project):
         """返回与目标的关系，返回关系对象或None，以此判断是否加入"""
         if isinstance(group, Team):
             return self.get_team_relation(group)
