@@ -34,3 +34,4 @@ google-cloud-storage==1.33.0
 pipdeptree==2.13.2                # 將pip包 freeze成樹狀txt 方便查看
 ruff
 asgiref==3.7.2
+opendal==0.45.2                   # 多服务的存储后端 # upgrading this requires py3.11+

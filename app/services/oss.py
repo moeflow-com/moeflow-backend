@@ -1,7 +1,7 @@
 """
 对接阿里云OSS储存服务
 """
-
+import io
 from io import BufferedReader, BytesIO, FileIO
 import os
 import re
@@ -11,12 +11,16 @@ import hashlib
 import logging
 from typing import Union
 from urllib import parse
+from typing import List, Union, Optional
 
+import werkzeug
 import oss2
 from oss2 import to_string
 from oss2.exceptions import NoSuchKey
 
 from app.constants.storage import StorageType
+from .file_storage_service import create_opendal_storage_service, OpenDalStorageService
+from .file_storage_abstract import AbstractStorageService
 
 logger = logging.getLogger(__name__)
 
@@ -46,20 +50,27 @@ def aliyun_cdn_url_auth_c(uri, key, exp):
     return "%s%s/%s/%s%s%s" % (scheme, host, hashvalue, hexexp, path, args)
 
 
-class OSS:
+class OSS(AbstractStorageService):
     def __init__(self, config=None):
+        # exists for all storage types
+        self.storage_type = None
+        self.oss_domain: Optional[None] = None  # URL prefix for (asset URL for clients)
+        # only exists for OSS
+        self.auth: Optional[oss2.Auth] = None
+        self.bucket: Optional[oss2.Bucket] = None
+        self.oss_via_cdn: Optional[str] = None
+        self.cdn_url_key: Optional[str] = None
+        # only exists for local storage
+        self.local_storage_path: Optional[str] = None
+        # only exists for OpenDal storage
+        self.delegated_impl: Optional[OpenDalStorageService] = None
         if config:
             self.init(config)
-        else:
-            self.storage_type = None
-            self.auth = None
-            self.bucket = None
-            self.oss_domain = None
-            self.oss_via_cdn = None
-            self.cdn_url_key = None
 
-    def init(self, config):
+    def init(self, config: dict[str, str]):
         """配置初始化"""
+        if self.storage_type:
+            raise Exception("already initialized")
         self.storage_type = config["STORAGE_TYPE"]
         if self.storage_type == StorageType.OSS:
             self.auth = oss2.Auth(
@@ -75,20 +86,23 @@ class OSS:
             self.oss_domain = config["STORAGE_DOMAIN"]
             self.oss_via_cdn = config["OSS_VIA_CDN"]
             self.cdn_url_key = config["CDN_URL_KEY_A"]
-        else:
+        elif self.storage_type == StorageType.LOCAL_STORAGE:
             from app import STORAGE_PATH
-
             self.oss_domain = config["STORAGE_DOMAIN"]
-            self.STORAGE_PATH = STORAGE_PATH
+            self.local_storage_path = STORAGE_PATH
+        elif self.storage_type == StorageType.OPENDAL:
+            self.delegated_impl = create_opendal_storage_service(config)
+        else:
+            raise NotImplemented('unsupported STORAGE_TYPE: {0}'.format(self.storage_type))
 
     def upload(
         self,
         path: str,
         filename: str,
-        file: Union[str, BufferedReader, FileIO],
+        file: Union[str, io.BufferedReader, FileIO , werkzeug.wrappers.request.FileStorage ],
         headers=None,
         progress_callback=None,
-    ):
+    ) -> None:
         """上传文件"""
         if self.storage_type == StorageType.OSS:
             return self.bucket.put_object(
@@ -97,22 +111,24 @@ class OSS:
                 headers=headers,
                 progress_callback=progress_callback,
             )
-        else:
-            folder_path = os.path.join(self.STORAGE_PATH, path)
+        elif self.storage_type == StorageType.LOCAL_STORAGE:
+            folder_path = os.path.join(self.local_storage_path, path)
             os.makedirs(folder_path, exist_ok=True)
-            if isinstance(file, BufferedReader):
+            if isinstance(file, io.BufferedReader):
                 with open(os.path.join(folder_path, filename), "wb") as saved_file:
                     saved_file.write(file.read())
             elif isinstance(file, str):
                 with open(os.path.join(folder_path, filename), "w") as saved_file:
                     saved_file.write(file)
-            else:
-                file.save(
-                    os.path.join(folder_path, filename)
-                )  # XXX: what's the type of file here?
-        logging.debug("saved file : %s / %s", folder_path, filename)
+            elif isinstance(file, werkzeug.wrappers.request.FileStorage):
+                file.save(os.path.join(folder_path, filename))
+            logging.debug("saved file : %s / %s", folder_path, filename)
+        elif self.storage_type == StorageType.OPENDAL:
+            self.delegated_impl.upload(path, filename, file, headers, progress_callback)
+        else:
+            raise Exception("unsupported STORAGE_TYPE")
 
-    def download(self, path, filename: str, /, *, local_path=None):
+    def download(self, path: str, filename: str, /, *, local_path: Optional[str] = None) -> Optional[io.BytesIO]:
         """下载文件"""
         # 如果提供local_path，则下载到本地
         if self.storage_type == StorageType.OSS:
@@ -120,8 +136,8 @@ class OSS:
                 self.bucket.get_object_to_file(path + filename, local_path)
             else:
                 return self.bucket.get_object(path + filename)
-        else:
-            folder_path = os.path.join(self.STORAGE_PATH, path)
+        elif self.storage_type == StorageType.LOCAL_STORAGE:
+            folder_path = os.path.join(self.local_storage_path, path)
             file_path = os.path.join(folder_path, filename)
             if local_path:
                 if self.is_exist(folder_path, filename):
@@ -130,13 +146,17 @@ class OSS:
                     raise NoSuchKey(status=404, headers={}, body={}, details={})
             else:
                 with open(file_path, "rb") as file:
-                    return BytesIO(file.read())
+                    return io.BytesIO(file.read())
+        elif self.storage_type == StorageType.OPENDAL:
+            return self.delegated_impl.download(path, filename, local_path=local_path)
+        else:
+            raise Exception("unsupported STORAGE_TYPE")
 
-    def is_exist(self, path, filename, process_name=None):
+    def is_exist(self, path: str, filename: str, process_name: Optional[str] = None) -> bool:
         """检查文件是否存在"""
         if self.storage_type == StorageType.OSS:
             return self.bucket.object_exists(path + filename)
-        else:
+        elif self.storage_type == StorageType.LOCAL_STORAGE:
             if os.path.isabs(path):
                 return os.path.isfile(
                     os.path.join(
@@ -148,14 +168,18 @@ class OSS:
             else:
                 return os.path.isfile(
                     os.path.join(
-                        self.STORAGE_PATH,
+                        self.local_storage_path,
                         path,
                         (process_name + "-" if process_name is not None else "")
                         + filename,
                     )
                 )
+        elif self.storage_type == StorageType.OPENDAL:
+            return self.delegated_impl.is_exist(path, filename, process_name)
+        else:
+            raise Exception("unsupported STORAGE_TYPE")
 
-    def delete(self, path, filename: Union[str, list[str]]):
+    def delete(self, path: str, filename: Union[List[str], str]):
         """（批量）删除文件"""
         if self.storage_type == StorageType.OSS:
             # 如果给予列表，则批量删除
@@ -168,8 +192,8 @@ class OSS:
             else:
                 result = self.bucket.delete_object(path + filename)
             return result
-        else:
-            folder_path = os.path.join(self.STORAGE_PATH, path)
+        elif self.storage_type == StorageType.LOCAL_STORAGE:
+            folder_path = os.path.join(self.local_storage_path, path)
             # 如果给予列表，则批量删除
             if isinstance(filename, list):
                 for name in filename:
@@ -178,18 +202,22 @@ class OSS:
             else:
                 if self.is_exist(folder_path, filename):
                     os.remove(os.path.join(folder_path, filename))
+        elif self.storage_type == StorageType.OPENDAL:
+            self.delegated_impl.delete(path, filename)
+        else:
+            raise Exception("unsupported STORAGE_TYPE")
 
-    def rmdir(self, path):
+    def rmdir(self, path: Union[str, List[str]]):
         """（批量）删除文件夹，仅本地储存"""
         if self.storage_type == StorageType.LOCAL_STORAGE:
             # 如果给予列表，则批量删除
             if isinstance(path, list):
                 for p in path:
-                    folder_path = os.path.join(self.STORAGE_PATH, p)
+                    folder_path = os.path.join(self.local_storage_path, p)
                     if os.path.isdir(folder_path) and len(os.listdir(folder_path)) == 0:
                         os.rmdir(folder_path)
             else:
-                folder_path = os.path.join(self.STORAGE_PATH, path)
+                folder_path = os.path.join(self.local_storage_path, path)
                 if os.path.isdir(folder_path) and len(os.listdir(folder_path)) == 0:
                     os.rmdir(folder_path)
 
@@ -199,8 +227,12 @@ class OSS:
                 return self._sign_cdn_url(*args, **kwargs)
             else:
                 return self._sign_oss_url(*args, **kwargs)
-        else:
+        elif self.storage_type == StorageType.LOCAL_STORAGE:
             return self._sign_local_url(*args, **kwargs)
+        elif self.storage_type == StorageType.OPENDAL:
+            return self.delegated_impl.sign_url(*args, **kwargs)
+        else:
+            raise Exception("unsupported STORAGE_TYPE")
 
     def _sign_local_url(
         self,
