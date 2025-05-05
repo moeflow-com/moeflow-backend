@@ -5,7 +5,7 @@ python-dotenv==1.0.1
 Flask==2.2.5
 # Jinja2==3.0.3
 itsdangerous==2.0.1               # MUST NOT upgrade this, we still use TimedJSONWebSignatureSerializer
-# werkzeug==2.0.2
+Werkzeug==3.0.6                   # MUST NOT upgrade this, our flask version requires it
 flask-apikit==0.0.7
 gunicorn==20.0.4                  # 生产环境服务器
 pytest==8.2.1                     # 测试框架
