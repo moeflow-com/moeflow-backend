@@ -1,12 +1,21 @@
 import logging
 from typing import Optional
-from flask import g, request
+from flask import g, request, has_request_context
 from app.constants.locale import Locale
 import flask_babel
 import app.config as _app_config
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
+
+
+def get_locale() -> Optional[str]:
+    if has_request_context():
+        # true within a request
+        return get_request_locale()
+
+    # true in job worker
+    return None
 
 
 def get_request_locale() -> Optional[str]:
