@@ -5,7 +5,7 @@ python-dotenv==1.0.1
 Flask==2.2.5
 # Jinja2==3.0.3
 itsdangerous==2.0.1               # MUST NOT upgrade this, we still use TimedJSONWebSignatureSerializer
-# werkzeug==2.0.2
+Werkzeug==3.0.6                   # MUST NOT upgrade this, our flask version requires it
 flask-apikit==0.0.7
 gunicorn==20.0.4                  # 生产环境服务器
 pytest==8.2.1                     # 测试框架
@@ -18,7 +18,7 @@ pytest-md==0.2.0
 flask-babel==4.0.0                # i18n
 mongoengine==0.20.0               # Mongo数据库
 mongomock==4.1.2
-Pillow==8.4.0
+Pillow==9.5.0                     # MUST NOT upgrade this, v10 requires code change
 marshmallow==3.0.0b20             # 字段验证 (flask-apikit需要)
 requests==2.22.0                  # HTTP请求
 oss2==2.7.0                       # 阿里云OSS

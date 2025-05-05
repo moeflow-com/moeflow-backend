@@ -176,7 +176,7 @@ class RoleMixin:
             for role in cls.system_role_data:
                 exist_role = cls.objects(system_code=role["system_code"]).first()
                 if exist_role is None:
-                    logger.info(f' - 创建 {role["name"]}')
+                    logger.info(f" - 创建 {role['name']}")
                     cls(
                         _name=role["name"],
                         permissions=role["permissions"],

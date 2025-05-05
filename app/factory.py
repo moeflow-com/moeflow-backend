@@ -8,7 +8,7 @@ from app.services.google_storage import GoogleStorage
 import app.config as _app_config
 from app.services.oss import OSS
 from .apis import register_apis
-from app.translations import get_request_locale
+import app.translations as app_translations
 
 from app.models import connect_db
 
@@ -45,7 +45,7 @@ def init_flask_app(app: Flask):
     register_apis(app)
     babel.init_app(
         app,
-        locale_selector=get_request_locale,
+        locale_selector=app_translations.get_locale,
         default_locale=app_config["BABEL_DEFAULT_LOCALE"],
     )
     apikit.init_app(app)

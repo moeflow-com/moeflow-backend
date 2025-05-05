@@ -2,10 +2,12 @@ PYTEST_COV_ARGS =
 
 BIN_PREFIX ?= venv/bin
 
+PYTHON_BIN = python3.11
+
 FORCE: ;
 
 create-venv:
-	python3.11 -mvenv venv
+	$(PYTHON_BIN) -mvenv venv
 
 deps:
 	venv/bin/pip install -r requirements.txt
@@ -24,10 +26,13 @@ lint-fix:
 format:
 	venv/bin/ruff format
 
-requirements.txt: deps-top.txt recreate-venv
-	venv/bin/pip install -r deps-top.txt
+requirements.txt: deps-top.txt
+	rm -rf venv-rebuild-deps
+	$(PYTHON_BIN) -mvenv venv-rebuild-deps
+	venv-rebuild-deps/bin/pip install -r deps-top.txt
 	echo '# GENERATED: run make requirements.txt to recreate lock file' > requirements.txt
-	venv/bin/pipdeptree --freeze >> requirements.txt
+	venv-rebuild-deps/bin/pipdeptree --freeze >> requirements.txt
+	rm -rf venv-rebuild-deps
 
 test: test_all
 
