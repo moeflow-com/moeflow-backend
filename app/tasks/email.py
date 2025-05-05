@@ -43,9 +43,9 @@ def email_task(
     msg = MIMEMultipart("alternative")
     msg["Subject"] = Header(subject).encode()
     msg["From"] = "%s <%s>" % (Header(from_username).encode(), from_address)
-    msg["To"] = (
-        to_address  # 收件人地址或是地址列表，支持多个收件人，最多30个 ['***', '***']
-    )
+    msg[
+        "To"
+    ] = to_address  # 收件人地址或是地址列表，支持多个收件人，最多30个 ['***', '***']
     msg["Reply-to"] = reply_address  # 自定义的回复地址
     msg["Message-id"] = email.utils.make_msgid()
     msg["Date"] = email.utils.formatdate()
