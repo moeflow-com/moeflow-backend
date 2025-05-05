@@ -332,7 +332,7 @@ def google_vision(image_file: BinaryIO):
         if "error" in response:
             # OCR服务器报错
             raise Exception(
-                f'OCR 服务器报错：{response["error"]}，imageUrl: {gs_vision_tmp_image_url}'
+                f"OCR 服务器报错：{response['error']}，imageUrl: {gs_vision_tmp_image_url}"
             )
         if len(response.get("fullTextAnnotation", {}).get("pages", [])) == 0:
             ocr_data = {"blocks": []}
@@ -528,7 +528,7 @@ def merge_and_ocr(parsing_images, /, *, parse_alone=False):
                 ocr_connection_error_times += 1
                 logger.error(f"OCR 出错，重试第 {ocr_connection_error_times} 次")
         else:
-            logger.error(f"OCR 出错超过 {ocr_connection_error_times-1} 次，停止尝试")
+            logger.error(f"OCR 出错超过 {ocr_connection_error_times - 1} 次，停止尝试")
             for merging_image in merging_images:
                 merging_image.update(
                     parse_status=ParseStatus.PARSE_FAILED,
