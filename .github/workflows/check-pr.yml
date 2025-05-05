@@ -6,7 +6,7 @@ on:
 
 jobs:
   static-check:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
     - uses: actions/checkout@v4
@@ -19,7 +19,7 @@ jobs:
     - run: ruff format --diff .
 
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@v4
     - uses: hoverkraft-tech/compose-action@v2.0.1
