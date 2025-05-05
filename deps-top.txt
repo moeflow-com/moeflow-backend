@@ -18,7 +18,7 @@ pytest-md==0.2.0
 flask-babel==4.0.0                # i18n
 mongoengine==0.20.0               # Mongo数据库
 mongomock==4.1.2
-Pillow==10.4.0
+Pillow==9.5.0                     # MUST NOT upgrade this, v10 requires code change
 marshmallow==3.0.0b20             # 字段验证 (flask-apikit需要)
 requests==2.22.0                  # HTTP请求
 oss2==2.7.0                       # 阿里云OSS
