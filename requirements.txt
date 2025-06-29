@@ -97,6 +97,7 @@ mongoengine==0.20.0
 mongomock==4.1.2
   packaging==25.0
   sentinels==1.0.0
+opendal==0.45.2
 oss2==2.7.0
   aliyun-python-sdk-core-v3==2.13.3
     jmespath==0.10.0
